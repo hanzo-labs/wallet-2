@@ -19,10 +19,12 @@ module.exports = withStylus({
     ]
   },
   webpack: (config, options) => {
+    let wbf = withBabelMinify({
+      comments: false
+    })
+
     config.plugins.push(
-      new withBabelMinify({
-        comments: false
-      })
+      wbf
     )
     return config
   }

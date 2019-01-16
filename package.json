@@ -25,6 +25,8 @@
     "react-dom": "16.7.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-decorators": "^7.1.0",
     "@zeit/next-stylus": "1.0.1",
     "autoprefixer": "9.4.5",
     "css-mqpacker": "7.0.0",

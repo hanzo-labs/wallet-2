@@ -8,6 +8,6 @@ task('build', 'Build the project into a static page', () => {
 })
 
 task('watch', 'Start local watch server', () => {
-  exec('next')
+  exec('next -p 1987')
 })
 
