@@ -18,6 +18,7 @@
   "homepage": "https://github.com/hanzoai/wallet-2#readme",
   "dependencies": {
     "akasha": "0.1.10",
+    "broken": "0.1.13",
     "mobx": "5.8.0",
     "mobx-react": "5.4.3",
     "next": "7.0.2",
