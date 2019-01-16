@@ -25,8 +25,8 @@
     "react-dom": "16.7.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/plugin-proposal-decorators": "^7.1.0",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/plugin-proposal-decorators": "^7.2.3",
     "@zeit/next-stylus": "1.0.1",
     "autoprefixer": "9.4.5",
     "css-mqpacker": "7.0.0",
@@ -41,6 +41,6 @@
     "sake-publish": "^0.1.17",
     "sake-version": "^0.1.19",
     "stylus": "0.54.5",
-    "webpack": "^4.19.1"
+    "webpack": "^4.28.4"
   }
 }
