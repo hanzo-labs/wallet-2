@@ -17,18 +17,21 @@
   },
   "homepage": "https://github.com/hanzoai/wallet-2#readme",
   "dependencies": {
+    "akasha": "0.1.10",
     "mobx": "5.8.0",
     "mobx-react": "5.4.3",
     "next": "7.0.2",
     "nextjs": "0.0.3",
     "react": "16.7.0",
-    "react-dom": "16.7.0"
+    "react-dom": "16.7.0",
+    "referential": "0.5.23"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.2.3",
     "@babel/plugin-proposal-decorators": "^7.2.3",
     "@zeit/next-stylus": "1.0.1",
     "autoprefixer": "9.4.5",
+    "babel-plugin-transform-react-pug": "7.0.0",
     "css-mqpacker": "7.0.0",
     "next-babel-minify": "1.0.0",
     "postcss-discard-comments": "4.0.1",
@@ -40,7 +43,6 @@
     "sake-outdated": "^0.4.4",
     "sake-publish": "^0.1.17",
     "sake-version": "^0.1.19",
-    "stylus": "0.54.5",
-    "webpack": "^4.28.4"
+    "stylus": "0.54.5"
   }
 }
