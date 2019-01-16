@@ -1,0 +1,44 @@
+{
+  "name": "wallet-2",
+  "version": "1.0.0",
+  "description": "2.0 Wallet Demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hanzoai/wallet-2.git"
+  },
+  "author": "Hanzo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hanzoai/wallet-2/issues"
+  },
+  "homepage": "https://github.com/hanzoai/wallet-2#readme",
+  "dependencies": {
+    "mobx": "5.8.0",
+    "mobx-react": "5.4.3",
+    "next": "7.0.2",
+    "nextjs": "0.0.3",
+    "react": "16.7.0",
+    "react-dom": "16.7.0"
+  },
+  "devDependencies": {
+    "@zeit/next-stylus": "1.0.1",
+    "autoprefixer": "9.4.5",
+    "css-mqpacker": "7.0.0",
+    "next-babel-minify": "1.0.0",
+    "postcss-discard-comments": "4.0.1",
+    "poststylus": "1.0.0",
+    "rucksack-css": "1.0.2",
+    "rupture": "0.7.1",
+    "sake-bundle": "^0.6.14",
+    "sake-cli": "^0.7.2",
+    "sake-outdated": "^0.4.4",
+    "sake-publish": "^0.1.17",
+    "sake-version": "^0.1.19",
+    "stylus": "0.54.5",
+    "webpack": "^4.19.1"
+  }
+}
