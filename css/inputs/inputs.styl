@@ -15,7 +15,7 @@
   left: 0
   top: 1.25em
   position: absolute
-  transition: all ($themeTransitionTime * 0.5) linear
+  transition: all ($themeTransitionTime * 0.5) ease-in-out
   pointer-events: none
   line-height: 1em
   font-weight: normal
@@ -24,9 +24,11 @@
   transition: none
 
 .valid.valid
-  border-color: $themeGoodColor
+  input
+    border-color: $themeGoodColor
 .invalid.invalid
-  border-color: $themeErrorColor
+  input
+    border-color: $themeErrorColor
 
 .valid ~ .label
   color: $themeGoodColor
@@ -83,7 +85,7 @@ input[type=password]
   border-color: $themeBorderColor
   border-width: $themeInputBorderWidth
   border-radius: 0
-  transition: border-color $themeTransitionTime ease-in-out, color $themeTransitionTime ease-in-out
+  transition: border-color ($themeTransitionTime * 0.5) ease-in-out, color ($themeTransitionTime * 0.5) ease-in-out
 
 &.input.input.input
   textarea
