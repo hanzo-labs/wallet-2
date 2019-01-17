@@ -26,7 +26,7 @@ export default class Input extends Control {
         .input-container(
           className=classnames({
             invalid: this.getErrorMessage(),
-            valid: this.valid,
+            valid: this.state.valid,
             labeled: props.label
           })
         )
