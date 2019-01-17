@@ -1,12 +1,13 @@
 const withBabelMinify  = require('next-babel-minify')
 
 const withStylus   = require('@zeit/next-stylus')
+const withCSS      = require('@zeit/next-css')
 const postcss      = require('poststylus')
 const autoprefixer = require('autoprefixer')
 const comments     = require('postcss-discard-comments')
 const rupture      = require('rupture')
 
-module.exports = withStylus({
+module.exports = withCSS(withStylus({
   stylusLoaderOptions: {
     use: [
       rupture(),
@@ -28,7 +29,7 @@ module.exports = withStylus({
     )
     return config
   }
-})
+}))
 
 // module.exports = withCss({
 //   webpack(config, options) {

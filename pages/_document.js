@@ -12,9 +12,9 @@ export default class MyDocument extends Document {
       )
         Head
           title BoilerPlate
-          meta(charset='utf-8')
+          meta(charSet='utf-8')
           meta(
-            http-equiv='x-ua-compatible'
+            httpEquiv='x-ua-compatible'
             content='ie=edge'
           )
           meta(

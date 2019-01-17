@@ -4,11 +4,11 @@ import classnames from 'classnames'
 export default class Input extends Control {
   static defaultProps = {
     type: 'text',
-    autocomplete: 'on',
-    autofocus: undefined,
+    autoComplete: 'new-password',
+    autoFocus: undefined,
     disabled: undefined,
     maxlength: undefined,
-    readonly: undefined,
+    readOnly: undefined,
     placeholder: '',
     label: '',
     instructions: ''
@@ -37,17 +37,19 @@ export default class Input extends Control {
             onChange=this.change
             onBlur=this.change
             defaultValue=this.getText()
-            autoComplete=props.autocomplete
-            autoFocus=props.autofocus
+            autoComplete=props.autoComplete
+            data-lpignore='true'
+            autoFocus=props.autoFocus
             disabled=props.disabled
             maxlength=props.maxlength
-            readOnly=props.readonly
+            readOnly=props.readOnly
             placeholder=props.placeholder
           )
         if props.label
           .label(
             className=classnames({
-              active: this.getText() || props.placeholder
+              active: this.getText() || props.placeholder,
+              'no-transition': !this.state.appIsMounted
             })
           )
             = props.label

@@ -1,5 +1,4 @@
 import React from 'react'
-import mutate from '../../src/util/mutate'
 
 import isPromise from '../../src/util/isPromise'
 import toPromise from '../../src/util/toPromise'
@@ -25,7 +24,8 @@ export default class Control extends React.Component {
     this.state = {
       value: props.value || props.defaultValue,
       valid: false,
-      errorMessage: ''
+      errorMessage: '',
+      appIsMounted: false
     }
 
     if (props.value != props.defaultValue) {
@@ -33,6 +33,12 @@ export default class Control extends React.Component {
     }
 
     this.inputRef = React.createRef()
+  }
+
+  componentDidMount() {
+    requestAnimationFrame(() => {
+      this.setState({ appIsMounted: true })
+    });
   }
 
   getId() {
@@ -60,11 +66,12 @@ export default class Control extends React.Component {
     return this.state.errorMessage || ''
   }
 
-  error(e) {
-    this.setState(mutate(this.state, {
+  error(value, e) {
+    this.setState({
       errorMessage: e,
+      value: value,
       valid: false
-    }), () => {
+    }, () => {
       if (this.props.scrollToError) {
         this.inputRef.current.scrollIntoView()
         this.inputRef.current.focus()
@@ -78,11 +85,12 @@ export default class Control extends React.Component {
     })
   }
 
+  // Note, its atleast 2 characters (max savings unbounded) shorter to abuse ES6 automatic this binding syntax with => than adding explicit binds
   change = (event) => {
-    this.setState(mutate(this.state, {
+    this.setState({
       errorMessage: '',
       valid: false
-    }))
+    })
     this._change(this.getValue(event))
   }
 
@@ -90,16 +98,16 @@ export default class Control extends React.Component {
     Promise.all(this.runMiddleware(value)).then(() => {
       this.changed(value)
     }).catch((e) => {
-      this.error(e.message)
+      this.error(value, e.message)
     })
   }
 
   changed(value) {
-    this.props.data.set('name', value)
-    this.setState(mutate(this.state, {
+    this.props.data.set(this.props.name, value)
+    this.setState({
       value: value,
       valid: true
-    }))
+    })
   }
 
   render() {

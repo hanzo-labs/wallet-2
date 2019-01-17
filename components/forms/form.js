@@ -1,10 +1,14 @@
 import React from 'react'
 import ref from 'referential'
-import mutate from '../../src/util/mutate'
 import toPromise from '../../src/util/toPromise'
 import Emitter from '../../src/util/emitter'
 
 export class InputData {
+  static defaultProps = {
+    data: ref({}),
+    autoComplete: 'off'
+  }
+
   constructor({ type, name, defaultValue, data, scrollToError, middleware }) {
     // Data context for storing control values outside of the state
     this.type = type || undefined
@@ -66,17 +70,17 @@ export default class Form extends React.Component {
   }
 
   submit = () => {
-    this.setState(mutate(this.state, {
+    this.setState({
       submitted: true
-    }))
+    })
 
     return this.runMiddleware()
       .then(this._submit)
       .catch((err) => {
-        this.setState(mutate(this.state, {
+        this.setState(this.state, {
           errorMessage: err,
           submitted: false
-        }))
+        })
       })
   }
 
@@ -86,7 +90,7 @@ export default class Form extends React.Component {
 
   render() {
     return pug`
-      form(onSubmit=this.submit)
+      form(autoComplete=this.props.autoComplete onClick=this.submit)
         = props.children`
   }
 }

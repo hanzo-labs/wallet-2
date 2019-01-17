@@ -1,13 +1,36 @@
 import React from 'react'
 import ref from 'referential'
+import akasha from './akasha'
 
-export var RefContext = React.createContext()
+export let RefContext = React.createContext()
+export let data = null
+export let getData = () => {
+  return data
+}
 
 export class RefProvider extends React.Component {
   constructor(props) {
     super(props)
 
-    this.data = props.data || ref({users:{hi:'HIII'}})
+    data = props.data
+    if (!data && typeof window != undefined) {
+      data = ref(akasha.get('_data'))
+    }
+
+    this.state = {appIsMounted: false};
+
+    data.on('set', () => {
+      if (window) {
+        akasha.set('_data', data.get())
+      }
+      this.forceUpdate()
+    })
+  }
+
+  componentDidMount() {
+    requestAnimationFrame(() => {
+      this.setState({ appIsMounted: true });
+    });
   }
 
   render() {
@@ -19,13 +42,13 @@ export class RefProvider extends React.Component {
       }
     }
 
-    newProps.data = this.data
+    newProps.data = data
     // console.log('RefProvider', newProps.children)
 
     const childrenWithProps = React.Children.map(this.props.children, child =>
       React.cloneElement(child, { ...newProps })
     );
 
-    return <>{childrenWithProps}</>
+    return <>{this.state.appIsMounted && childrenWithProps}</>
   }
 }

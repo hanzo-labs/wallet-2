@@ -4,7 +4,7 @@ import { watch } from '../src/referential/watch'
 import '../styles.styl'
 import LoginForm from '../components/forms/loginForm'
 
-@watch('users')
+@watch('indexPage')
 class Index extends React.Component {
   constructor(props) {
     super(props)

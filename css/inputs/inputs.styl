@@ -1,0 +1,198 @@
+&
+  color: $themeTextColor
+  position: relative
+
+&.input.input
+.input.input
+  width: 100%
+  display: table
+  margin-top: $themeElementPadding
+
+  .labeled
+    margin-top: .75em
+
+.label
+  left: 0
+  top: 1.25em
+  position: absolute
+  transition: all ($themeTransitionTime * 0.5) linear
+  pointer-events: none
+  line-height: 1em
+  font-weight: normal
+
+.no-transition
+  transition: none
+
+.valid.valid
+  border-color: $themeGoodColor
+.invalid.invalid
+  border-color: $themeErrorColor
+
+.valid ~ .label
+  color: $themeGoodColor
+.invalid ~ .label
+  color: $themeErrorColor
+
+.error
+.helper
+  margin-top: ($themeElementPadding * 0.5)
+  font-size: .75em
+  line-height: 1em
+  width: 100%
+
+.error
+  color: $themeErrorColor
+
+.input-container:focus ~ .label
+.input-container:hover ~ .label
+.label.active
+  top: 0
+  font-size: .75em
+  line-height: 1em
+
+*:disabled
+.disabled
+  opacity: 0.5
+  pointer-events: none
+
+input
+  outline: none
+  border: 0
+  padding: 0
+  background: transparent
+
+  &:-moz-placeholder
+    color: $themeTextColor
+
+  &::-moz-placeholder
+    color: $themeTextColor
+
+  &:-ms-input-placeholder
+    color: $themeTextColor
+
+  &::-webkit-input-placeholder
+    color: $themeTextColor
+
+  &::placeholder
+    color: $themeTextColor
+
+input[type=text]
+input[type=password]
+  height: $themeElementHeight
+  border-bottom: $themeInputBorderWidth solid
+  border-color: $themeBorderColor
+  border-width: $themeInputBorderWidth
+  border-radius: 0
+  transition: border-color $themeTransitionTime ease-in-out, color $themeTransitionTime ease-in-out
+
+&.input.input.input
+  textarea
+    margin-top: 1rem
+    margin-bottom: -.5rem
+    padding: .25rem
+
+textarea
+  outline: none
+  height: $themeElementHeight * 3
+  border: $themeInputBorderWidth solid $themeBorderColor
+  border-radius: $themeBorderRadius
+
+input[type=text]
+input[type=password]
+textarea
+  width: 100%
+  font-size: 1em
+
+.select-indicator
+  display: none
+
+select
+  width: 100%
+  background: none
+  border: 0
+  border-bottom: $themeInputBorderWidth solid
+  border-color: $themeBorderColor
+  border-width: $themeInputBorderWidth
+  border-radius: 0
+  line-height: $themeElementHeight
+  height: $themeElementHeight
+  font-size: 1em
+  appearance: none
+  outline: none
+
+  &:-moz-focusring
+    color: transparent;
+    text-shadow: 0 0 0 #000
+
+  &::-ms-expand
+    display: none /* hide the default arrow in ie10 and ie11 */
+
+  & ~ .select-indicator
+    position: absolute
+    top: $themeElementHeight * .5
+    right: .375em
+    font-size: .75em
+    transform: translateY(-50%)
+    pointer-events: none
+    display: block
+
+  &.labeled
+    .select-indicator
+      top: $themeElementHeight * 0.875
+
+  &:disabled ~ .select-indicator
+    opacity: .5
+
+// outlined boxes
+&.outlined
+  input[type=text]
+  input[type=password]
+  select
+    border: $themeInputBorderWidth solid
+    border-radius: $themeBorderRadius
+
+// copy
+.copy-text
+  position: absolute
+  right: 0
+  top: 50%
+  transform: translateY(-50%)
+
+.copy-text
+  position: absolute
+  right: 0
+  top: $themeElementHeight * .5
+  transform: translateY(-50%)
+
+.labeled
+  .copy-text
+    top: $themeElementHeight * .875
+
+// currency
+.currency-container
+  display: flex
+
+.currency-amount
+  padding-right: $themeElementPadding * .25
+
+.right-aligned
+  text-align: right
+
+.currency-code
+  display: flex
+  justify-content: flex-end
+  flex-direction: column
+
+  .currency-code-text
+    height: $themeElementHeight
+    line-height: $themeElementHeight
+    border-bottom: $themeInputBorderWidth solid
+    border-color: $themeBorderColor
+    border-width: $themeInputBorderWidth
+    transition: border-color $themeTransitionTime ease-in-out, color $themeTransitionTime ease-in-out
+
+.valid ~ .currency-code .currency-code-text
+  border-color: $themeGoodColor
+.invalid ~ .currency-code .currency-code-text
+  border-color: $themeErrorColor
+

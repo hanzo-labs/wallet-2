@@ -1,5 +1,6 @@
 import Form, { InputData } from './form'
 import Input from '../controls/input'
+import { watch } from '../../src/referential/watch'
 
 import isRequired from '../../src/control-middlewares/isRequired'
 import isEmail from '../../src/control-middlewares/isEmail'
@@ -25,11 +26,12 @@ export default class LoginForm extends Form {
 
   _submit() {
     return new Promise((resolve) => { resolve(true) })
+    this.props.data.password = ''
   }
 
   render() {
     return pug`
-      form(onClick=this.submit)
+      form(autoComplete=this.props.autoComplete onClick=this.submit)
         Input(
           ...this.inputs.email
           label='Email'

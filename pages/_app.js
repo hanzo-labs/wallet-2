@@ -3,6 +3,8 @@ import App, { Container } from 'next/app'
 import { RefProvider } from '../src/referential/provider'
 import Header from '../components/layout/header'
 import Footer from '../components/layout/footer'
+import 'reeeset/src/reeeset.css'
+import '../styles.styl'
 
 export default class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {

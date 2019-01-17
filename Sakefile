@@ -3,11 +3,15 @@ use('sake-outdated')
 use('sake-publish')
 use('sake-version')
 
-task('build', 'Build the project into a static page', () => {
+task('fix-mjs', 'fix webpack MJS bug', () => {
+  exec('cp node_modules/akasha/lib/akasha.mjs  src/referential/akasha.js')
+})
+
+task('build', 'Build the project into a static page', ['fix-mjs'], () => {
   exec('next build && next export')
 })
 
-task('watch', 'Start local watch server', () => {
+task('watch', 'Start local watch server', ['fix-mjs'], () => {
   exec('next -p 1987')
 })
 
