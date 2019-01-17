@@ -31,7 +31,7 @@ class Index extends React.Component {
 
     return pug`
       main
-        LoginForm`
+        LoginForm(data=this.props.data)`
   }
 }
 

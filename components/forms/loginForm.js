@@ -1,4 +1,5 @@
 import Form, { InputData } from './form'
+import ref from 'referential'
 import Input from '../controls/input'
 import { watch } from '../../src/referential/watch'
 
@@ -6,6 +7,7 @@ import isRequired from '../../src/control-middlewares/isRequired'
 import isEmail from '../../src/control-middlewares/isEmail'
 import isPassword from '../../src/control-middlewares/isPassword'
 
+@watch('loginForm')
 export default class LoginForm extends Form {
   constructor(props) {
     super(props)
@@ -18,7 +20,7 @@ export default class LoginForm extends Form {
       }),
       password: new InputData({
         name: 'password',
-        data: props.data,
+        data: ref({}),
         middleware: [isRequired, isPassword]
       })
     }
