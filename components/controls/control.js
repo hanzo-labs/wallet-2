@@ -1,8 +1,6 @@
 import React from 'react'
 import mutate from '../../src/util/mutate'
-import ref from 'referential'
 
-import Promise from 'broken'
 import isPromise from '../../src/util/isPromise'
 import toPromise from '../../src/util/toPromise'
 
@@ -12,50 +10,33 @@ import valueOrCall from '../../src/util/valueOrCall'
 let controlId = 0
 
 export default class Control extends React.Component {
-  // Control Type
-  type: ''
-
-  // Control Name
-  name: ''
-
+  // Props should be
   constructor(props) {
     super(props)
 
     // Unique ID for referencing the control
-    props.controlId = controlId++
-    props.type = props.type || this.type
-    props.name = props.name || this.name
-    // Data context for storing control values outside of the state
-    props.data = props.data || ref({})
-    // Does the control scroll to the error?
-    props.scrollToError = props.scrollToError || true
-    // List of predicate middleware
-    // in the form of (name, oldValue, newValue) => {}
-    // where name is the name of the control
-    //       oldValue is the old value of the control
-    //       newValue is the new value of the control
-    props.middleware = props.middleware || []
-
-    props.middleware = props.middleware.map(m => {
-      if (m.isPromise) {
-        return m
-      }
-
-      p = toPromise(m)
-      return p
-    })
+    this.controlId = controlId++
+    if (props.emitter) {
+      props.emitter.on('form:runMiddleware', ()=> {
+        return this.runMiddleware(this.props.value)
+      })
+    }
 
     this.state = {
-      value: props.value || '',
+      value: props.value || props.defaultValue,
+      valid: false,
       errorMessage: ''
+    }
+
+    if (props.value != props.defaultValue) {
+      this._change(props.value)
     }
 
     this.inputRef = React.createRef()
   }
 
   getId() {
-    let { type, controlId } = this.props
-    return type + '-' + controlId
+    return this.props.type + '-' + controlId
   }
 
   getName() {
@@ -71,9 +52,18 @@ export default class Control extends React.Component {
     return undefined
   }
 
+  getText() {
+    return this.state.value
+  }
+
+  getErrorMessage() {
+    return this.state.errorMessage || ''
+  }
+
   error(e) {
     this.setState(mutate(this.state, {
-      errorMessage: e
+      errorMessage: e,
+      valid: false
     }), () => {
       if (this.props.scrollToError) {
         this.inputRef.current.scrollIntoView()
@@ -82,42 +72,45 @@ export default class Control extends React.Component {
     })
   }
 
-  change(event) {
+  runMiddleware(value) {
+    return this.props.middleware.map(m => {
+      return m(this.state.value, value, this.name)
+    })
+  }
+
+  change = (event) => {
     this.setState(mutate(this.state, {
-      errorMessage: ''
+      errorMessage: '',
+      valid: false
     }))
     this._change(this.getValue(event))
   }
 
   _change(value) {
-    ps = props.middleware.map(m => {
-      return m(this.name, this.state.value, value)
-    })
-
-    Promise.all(ps).then(() => {
+    Promise.all(this.runMiddleware(value)).then(() => {
       this.changed(value)
     }).catch((e) => {
-      this.error(e)
+      this.error(e.message)
     })
   }
 
   changed(value) {
     this.props.data.set('name', value)
     this.setState(mutate(this.state, {
-      value: value
-    })
+      value: value,
+      valid: true
+    }))
   }
 
   render() {
     let { value, errorMessage }  = this.state
 
     return pug`
-      div.input(ref=this.inputRef)
+      .input(ref=this.inputRef)
         .value
           = 'Value: ' + value
         if errorMessage
           .error
-            = 'Error: ' + errorMessage
-    `
+            = 'Error: ' + errorMessage`
   }
 }

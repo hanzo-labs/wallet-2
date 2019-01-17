@@ -1,3 +1,5 @@
-export default var isPromise = (maybePromise)=> {
+let isPromise = (maybePromise)=> {
   return maybePromise.then && maybePromise.catch
 }
+
+export default isPromise

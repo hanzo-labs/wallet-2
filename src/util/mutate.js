@@ -9,7 +9,7 @@ if (typeof Object.assign != 'function') {
 
       var to = Object(target)
 
-      for (var index = 1 index < arguments.length index++) {
+      for (var index = 1; index < arguments.length; index++) {
         var nextSource = arguments[index]
 
         if (nextSource != null) { // Skip over if undefined or null
@@ -28,6 +28,8 @@ if (typeof Object.assign != 'function') {
   })
 }
 
-export default var mutate = (o, n) => {
+let mutate = (o, n) => {
   return Object.assign({}, o, n)
 }
+
+export default mutate

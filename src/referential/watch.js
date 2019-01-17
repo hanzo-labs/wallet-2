@@ -7,7 +7,7 @@ export var watch = (key) => {
       constructor(props) {
         super(props)
 
-        console.log('Watch', props.data)
+        // console.log('Watch', props.data)
 
         let newRef = props.data.refer(key)
         let akashaKey = '_' + key
@@ -39,7 +39,7 @@ export var watch = (key) => {
         }
 
         newProps.data = props.data.refer(key)
-        console.log('data1', newProps.data)
+        // console.log('data1', newProps.data)
 
         return <WrappedComponent {...newProps} />
       }

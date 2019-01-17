@@ -2,6 +2,7 @@ import React from 'react'
 import Router from 'next/router'
 import { watch } from '../src/referential/watch'
 import '../styles.styl'
+import LoginForm from '../components/forms/loginForm'
 
 @watch('users')
 class Index extends React.Component {
@@ -26,12 +27,11 @@ class Index extends React.Component {
       store.eos.getCrossWorldsAccount()
     }
 
-    console.log('index', this.props.data)
+    // console.log('index', this.props.data)
 
     return pug`
-      div
-        = this.props.data.get('hi')
-    `
+      main
+        LoginForm`
   }
 }
 

@@ -20,7 +20,7 @@ export class RefProvider extends React.Component {
     }
 
     newProps.data = this.data
-    console.log('RefProvider', newProps.children)
+    // console.log('RefProvider', newProps.children)
 
     const childrenWithProps = React.Children.map(this.props.children, child =>
       React.cloneElement(child, { ...newProps })

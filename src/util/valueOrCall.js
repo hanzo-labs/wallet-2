@@ -1,8 +1,10 @@
-export default var valueOrCall = (valueOrFunc) {
+let valueOrCall = (valueOrFunc) => {
   if(typeof valueOrFunc == 'function') {
     return valueOrFunc()
   }
 
   return valueOrFunc
 }
+
+export default valueOrCall
 
