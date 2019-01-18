@@ -1,0 +1,42 @@
+#index
+  .login
+    max-width: 600px
+    padding: 0
+
+    .inputs
+      margin-bottom: .5rem
+      margin-top: 4rem
+
+    .checkbox
+      margin: 1rem auto 1rem
+      width: 100%
+
+      .checkbox-container
+        flex-direction: column
+
+    .input
+      background-color: $backgroundLightDarkColor
+
+      &:nth-child(1)
+        border-top-left-radius: 2px
+        border-top-right-radius: 2px
+
+      &:nth-child(2)
+        border-bottom-left-radius: 2px
+        border-bottom-right-radius: 2px
+        box-shadow: 0 20px 20px 0 rgba(0,0,0,0.2)
+
+    .input-container
+      &:after
+        content: ''
+        position: absolute
+        left: 0
+        top: 0
+        width: 2px
+        height: 100%
+        background-color: $goodColor
+        transition: background-color ($transitionTime) ease-in-out
+
+      &:not(.valid):after
+        background-color: $errorColor
+

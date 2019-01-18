@@ -2,6 +2,7 @@ import React from 'react'
 import ref from 'referential'
 import toPromise from '../../src/util/toPromise'
 import Emitter from '../../src/util/emitter'
+import classnames from 'classnames'
 
 export class InputData {
   static defaultProps = {
@@ -17,6 +18,7 @@ export class InputData {
     // Data Context
     this.data = data || ref({})
     // Default starting value used to override null data values
+    this.defaultValue = defaultValue
     this.value = this.data.get(this.name) || defaultValue || undefined
     if (this.value != this.data.get(this.name)) {
       this.data.set(this.name, this.value)
@@ -42,6 +44,14 @@ export class InputData {
 
     this.emitter = new Emitter()
   }
+
+  val(v) {
+    return this.emitter.trigger('input:value', v)[0]
+  }
+
+  value(v) {
+    return val(v)
+  }
 }
 
 export default class Form extends React.Component {
@@ -53,32 +63,82 @@ export default class Form extends React.Component {
 
     this.state = {
       errorMessage: '',
+      validating: false,
+      loading: false,
       submitted: false
     }
   }
 
-  runMiddleware() {
-    let ps = []
-
-    for (let k in this.inputs) {
-      ps.push(this.inputs[k].emitter.trigger('form:runMiddleware'))
-    }
-
-    ps = [].concat.apply([], ps)
-
-    return Promise.all(ps)
-  }
-
-  submit = () => {
+  runMiddleware(rethrow) {
     this.setState({
-      submitted: true
+      errorMessage: '',
+      validating: true,
     })
 
-    return this.runMiddleware()
-      .then(this._submit)
+    let inputs = []
+
+    for (let k in this.inputs) {
+      inputs.push(this.inputs[k])
+    }
+
+    let ps = inputs.map(i => {
+      return i.emitter.trigger('form:submit')
+    })
+
+    return Promise.all([].concat.apply([], ps))
+      .then(() => {
+        this.setState({
+          validating: false,
+        })
+      }).catch((err) => {
+        let err2
+        if (err) {
+           err2 = new Error('Form Error: ' + err.message)
+        }
+
+        this.setState({
+          validating: false,
+          errorMessage: err2.message
+        })
+
+        if (rethrow) {
+          throw err2
+        }
+      })
+  }
+
+  getErrorMessage() {
+    return this.state.errorMessage || ''
+  }
+
+  submit = (e) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+
+    if (this.state.submitted) {
+      return
+    }
+
+    this.setState({
+      loading: true,
+      submitted: false
+    })
+
+    return this.runMiddleware(true)
+      .then(() => {
+        return this._submit().then(() => {
+          this.setState({
+            loading: false,
+            submitted: true
+          })
+        })
+      })
       .catch((err) => {
-        this.setState(this.state, {
-          errorMessage: err,
+        this.setState({
+          errorMessage: err.message,
+          loading: false,
           submitted: false
         })
       })
@@ -90,7 +150,19 @@ export default class Form extends React.Component {
 
   render() {
     return pug`
-      form(autoComplete=this.props.autoComplete onClick=this.submit)
-        = props.children`
+      form(
+        autoComplete=this.props.autoComplete
+        onSubmit=this.submit
+        className=classnames({
+          validating: this.state.validating,
+          loading: this.state.loading,
+          submitted: this.state.submitted,
+        })
+      )
+        if this.state.loading || this.state.validating
+          .progress
+            .indeterminate
+        = props.children
+    `
   }
 }

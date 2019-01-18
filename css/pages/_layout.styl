@@ -1,0 +1,51 @@
+.columns
+  & > *
+    margin-left: $spacing
+    margin-right: $spacing
+
+  & > :first-child
+    margin-left: 0 !important
+
+  & > :last-child
+    margin-right: 0 !important
+
+html
+  background-color: $backgroundDarkColor
+
+hero, .hero.hero
+  min-height: 100vh
+  height: auto
+  padding-top: 10vh
+  align-items: flex-start
+
+  & > *
+    text-align: center
+
+  &:after
+    content: ''
+    display: block
+    position: absolute
+    bottom: 0
+    left: 0
+    height: 20vh
+    width: 100vw
+    background-image: url('/static/img/cubes-dark.svg')
+    z-index: -1
+
+.register
+.login
+.profile
+  background-color: transparent
+  color: $white
+  padding-top: 0
+  padding-bottom: 0
+
+  +below($pageWidth)
+    padding-left: 1rem
+    padding-right: 1rem
+
+  box-shadow: none
+
+  .card-header
+    background-color: transparent
+

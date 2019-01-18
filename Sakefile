@@ -4,7 +4,8 @@ use('sake-publish')
 use('sake-version')
 
 task('fix-mjs', 'fix webpack MJS bug', () => {
-  exec('cp node_modules/akasha/lib/akasha.mjs  src/referential/akasha.js')
+  // exec('cp node_modules/akasha/lib/akasha.mjs  src/referential/akasha.js')
+  // exec('cp node_modules/hanzo.js/lib/hanzo.mjs  src/hanzo/hanzo.js')
 })
 
 task('build', 'Build the project into a static page', ['fix-mjs'], () => {

@@ -1,11 +1,19 @@
 &
   display: block
 
+.checkbox-container
+  display: flex
+  flex-direction: row
+  line-height: 2rem
+  align-items: center
+
 label
-  padding-top: 2px
   line-height: 1.2rem
   display: inline-block
   color: $themeTextColor
+
+.label
+  margin: 0 .25rem
 
 /* Base for label styling */
 [type="checkbox"]:not(:checked),
@@ -16,7 +24,6 @@ label
 [type="checkbox"]:not(:checked) + label,
 [type="checkbox"]:checked + label {
   position: relative
-  text-indent: 25px
   cursor: pointer
 }
 
@@ -24,13 +31,15 @@ label
 [type="checkbox"]:not(:checked) + label:before,
 [type="checkbox"]:checked + label:before {
   content: ''
-  position: absolute
+  position: relative
   left:0
-  top: 2px
-  width: 17px
-  height: 17px
+  top: 0
+  padding: .5rem
   border: 1px solid $themeBorderColor
   border-radius: $themeBorderRadius
+  display: inline-block
+  vertical-align: middle
+  transition: all .2s
 }
 /* checked mark aspect */
 [type="checkbox"]:not(:checked) + label:after,
@@ -43,7 +52,6 @@ label
   line-height: 0.8
   color: $themeGoodColor
   transition: all .2s
-  text-indent: 0
 }
 /* checked mark aspect changes */
 [type="checkbox"]:not(:checked) + label:after {
@@ -70,12 +78,12 @@ label
 /* accessibility */
 [type="checkbox"]:checked:focus + label:before,
 [type="checkbox"]:not(:checked):focus + label:before {
-  border: 1px dotted $themeTextColor
+  border-color: $themeTextColor
 }
 
 /* hover style just for information */
 label:hover:before {
-  border: 1px solid $themeGoodColor !important
+  border-color: $themeGoodColor !important
 }
 
 .error

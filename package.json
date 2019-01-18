@@ -20,6 +20,7 @@
     "@zeit/next-css": "1.0.1",
     "akasha": "0.1.13",
     "classnames": "2.2.6",
+    "coin.js": "1.0.26",
     "es6-event-emitter": "1.10.2",
     "next": "7.0.2",
     "nextjs": "0.0.3",

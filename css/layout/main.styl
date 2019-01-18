@@ -1,0 +1,41 @@
+// START Hero
+
+hero
+.hero
+  height: 105vh
+  min-height: $sectionMinHeight
+  padding-top: 20vh
+  padding-bottom: 15vh
+
+  +below($tabletWidth)
+    height: auto
+
+  +below($phoneWidth)
+    min-height: auto
+    padding-top: 10vh
+    padding-bottom: 10vh
+
+// END Hero
+
+// START Section
+
+// section
+// .section
+//   padding-top: 10vh
+//   padding-bottom: 15vh
+
+// END Section
+
+// START Full
+
+.full
+  height: 105vh
+  min-height: $sectionMinHeight
+
+  +below($tabletWidth)
+    height: auto
+
+  +below($phoneWidth)
+    min-height: auto
+
+// END Full

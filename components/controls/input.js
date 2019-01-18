@@ -36,7 +36,7 @@ export default class Input extends Control {
             type=props.type
             onChange=this.change
             onBlur=this.change
-            defaultValue=this.getText()
+            value=this.getText()
             autoComplete=props.autoComplete
             data-lpignore='true'
             autoFocus=props.autoFocus
@@ -58,6 +58,7 @@ export default class Input extends Control {
             = this.getErrorMessage()
         if props.instructions && !this.getErrorMessage()
           .helper
-            = props.instructions`
+            = props.instructions
+    `
   }
 }

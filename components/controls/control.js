@@ -1,8 +1,5 @@
 import React from 'react'
 
-import isPromise from '../../src/util/isPromise'
-import toPromise from '../../src/util/toPromise'
-
 import valueOrCall from '../../src/util/valueOrCall'
 
 // Base control class
@@ -16,8 +13,22 @@ export default class Control extends React.Component {
     // Unique ID for referencing the control
     this.controlId = controlId++
     if (props.emitter) {
-      props.emitter.on('form:runMiddleware', ()=> {
-        return this.runMiddleware(this.props.value)
+      props.emitter.on('form:submit', () => {
+        return this._change(this.state.value, true)
+      })
+
+      props.emitter.on('input:value', (v) => {
+        if (v != null) {
+          this.props.data.set(this.props.name, v)
+          this.setState({
+            value: v
+          })
+
+          if (v != this.props.defaultValue) {
+            this._change(v)
+          }
+        }
+        return this.props.data.get(this.props.name)
       })
     }
 
@@ -80,9 +91,9 @@ export default class Control extends React.Component {
   }
 
   runMiddleware(value) {
-    return this.props.middleware.map(m => {
+    return Promise.all(this.props.middleware.map(m => {
       return m(this.state.value, value, this.name)
-    })
+    }))
   }
 
   // Note, its atleast 2 characters (max savings unbounded) shorter to abuse ES6 automatic this binding syntax with => than adding explicit binds
@@ -94,12 +105,16 @@ export default class Control extends React.Component {
     this._change(this.getValue(event))
   }
 
-  _change(value) {
-    Promise.all(this.runMiddleware(value)).then(() => {
-      this.changed(value)
-    }).catch((e) => {
-      this.error(value, e.message)
-    })
+  _change(value, rethrow) {
+    return this.runMiddleware(value)
+      .then(() => {
+        this.changed(value)
+      }).catch((err) => {
+        this.error(value, err.message)
+        if (rethrow) {
+          throw err
+        }
+      })
   }
 
   changed(value) {

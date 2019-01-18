@@ -11,10 +11,10 @@ export default class MyEmitter extends Emitter {
     let results = []
 
     if(typeof listeners !== 'undefined') {
-      results = listeners.reduce((results, v, k) => {
-        results.push(v.cb.apply(this, args))
-
+      results = listeners.map((v) => {
         if(v.once) onceListeners.unshift(k)
+
+        return v.cb.apply(this, args)
       })
 
       onceListeners.forEach((v, k) => {

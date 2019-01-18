@@ -8,6 +8,8 @@ import LoginForm from '../components/forms/loginForm'
 class Index extends React.Component {
   constructor(props) {
     super(props)
+
+    // if (props.data.)
   }
 
   componentDidMount() {
@@ -30,8 +32,14 @@ class Index extends React.Component {
     // console.log('index', this.props.data)
 
     return pug`
-      main
-        LoginForm(data=this.props.data)`
+      main#index.hero
+        .content.columns
+          .card.login
+            .card-header.rows
+              h2 Login
+              .link(href='#') Create your account
+            .card-body
+              LoginForm(data=this.props.data)`
   }
 }
 

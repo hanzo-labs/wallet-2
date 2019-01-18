@@ -1,0 +1,19 @@
+header
+footer
+main > *
+  width: 100vw
+  +above($pageWidth + 1)
+    padding-left: 'calc((100% - %s) / 2)' % $pageWidth
+    padding-right: 'calc((100% - %s) / 2)' % $pageWidth
+  +below($pageWidth)
+    padding-left $spacing * 4
+    padding-right $spacing * 4
+
+main > *
+  position: relative
+  display: block
+
+main
+  display: table
+  width: 100vw
+  overflow: hidden

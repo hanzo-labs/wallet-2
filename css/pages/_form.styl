@@ -1,0 +1,165 @@
+.input.input.input.input.input:not(button)
+  padding: .5em 1em
+  margin: 0
+  background-color: transparent
+
+  &:not(:last-child)
+    border-bottom: 1px solid $borderDarkColor
+
+  input
+  textarea
+    border: 0
+    color: $white
+    background-color: transparent
+
+    &:-moz-placeholder
+      color: $placeholderColor
+
+    &::-moz-placeholder
+      color: $placeholderColor
+
+    &:-ms-input-placeholder
+      color: $placeholderColor
+
+    &::-webkit-input-placeholder
+      color: $placeholderColor
+
+    &::placeholder
+      color: $placeholderColor
+
+  select
+    color: $white
+    border-bottom: 0
+
+    & ~ .select-indicator
+      color: $white
+      top: 50%
+      right: 1rem
+
+  &.required
+    .input-container
+      &:after
+        content: ''
+        position: absolute
+        left: 0
+        top: 0
+        width: 1px
+        height: 100%
+        background-color: $goodColor
+        transition: background-color ($transitionTime) ease-in-out
+
+      &:not(.valid):after
+        background-color: $errorColor
+
+  .error
+    right: 1rem
+    top: 50%
+    transform: translateY(-50%)
+    margin-top: 0
+    position: absolute
+    text-align: right
+    display: block
+    width: auto
+
+  .mini
+    position: absolute
+    right: 1rem
+    bottom: .5rem
+    display: block
+    width: auto
+
+  .currency-code:after
+    content: 'NAV'
+    font-size: 2.5rem
+    display: block
+    position: absolute
+    right: 1rem
+    top: 50%
+    transform: translateY(-50%)
+    color: $white
+
+.error
+  color: $errorColor !important
+
+.button-group
+  display: flex
+  flex-direction: row
+
+  button
+  .button
+    border-radius: 0 !important
+
+    & + button
+    & + .button
+      border-left-color: transparent !important
+
+    &:first-child
+      border-top-left-radius: 2px !important
+      border-bottom-left-radius: 2px !important
+
+    &:last-child
+      border-top-right-radius: 2px !important
+      border-bottom-right-radius: 2px !important
+
+button
+.button
+  border-radius: 2px !important
+  border: 1px solid $buttonBorderColor !important
+  top: 0 !important
+  box-shadow: none !important
+  background: transparent !important
+  font-weight: 300
+  letter-spacing: .175rem
+  line-height: 2rem
+  width: 100%
+
+  &:hover:not(:disabled)
+  &:focus:not(:disabled)
+    border-color: $highlightDarkColor !important
+
+.checkbox.checkbox.checkbox
+  display: table
+
+  input
+    display: none
+
+  .label
+    color: $textDarkColor
+
+  label
+    position: relative
+    display: inline-block
+
+    &:before
+      content:''
+      -webkit-appearance: none
+      background-color: transparent
+      border: 3px solid $checkboxBorderColor
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05)
+      padding: 10px
+      display: inline-block
+      position: relative
+      vertical-align: middle
+      cursor: pointer
+      margin-right: 5px
+      border-radius: 2px
+
+    &:after
+      font-size: 25px
+
+  .checked + label:before
+    border-color: $checkboxCheckedBackgroundColor
+    background-color: $checkboxCheckedBackgroundColor
+
+  .checked + label:after
+    content: ''
+    display: block
+    position: absolute
+    top: 4px
+    left: 10px
+    width: 6px
+    height: 14px
+    border: solid $checkboxCheckedForegroundColor
+    border-width: 0 2px 2px 0
+    transform: rotate(45deg)
+

@@ -1,6 +1,6 @@
 import React from 'react'
 import ref from 'referential'
-import akasha from './akasha'
+import akasha from '../mjs-fix/akasha'
 
 export let RefContext = React.createContext()
 export let data = null
