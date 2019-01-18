@@ -58,9 +58,6 @@ export default class LoginForm extends Form {
           submitted: this.state.submitted,
         })
       )
-        if this.state.loading || this.state.validating
-          .progress
-            .indeterminate
         Input(
           ...this.inputs.email
           placeholder='Email'
@@ -79,6 +76,9 @@ export default class LoginForm extends Form {
             = this.getErrorMessage()
         button.button(type='submit')
           | Login
+        if this.state.loading || this.state.validating
+          .progress
+            .indeterminate
     `
   }
 }
