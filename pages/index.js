@@ -9,14 +9,18 @@ class Index extends React.Component {
   constructor(props) {
     super(props)
 
-    let emitter = this.emitter = new Emitter()
+    this.emitter = new Emitter()
 
-    emitter.on('login:success', res => {
+    this.emitter.on('login:success', res => {
       this.props.rootData.set('account.token', res.token)
       this.props.rootData.set('vault.identity', res.identity)
 
       Router.push('/account')
     })
+  }
+
+  componentWillUnmount() {
+    this.props.emitter.off('login:success')
   }
 
   render() {

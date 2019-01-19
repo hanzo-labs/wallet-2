@@ -24,4 +24,32 @@ export default class MyEmitter extends Emitter {
 
     return results
   }
+
+  off(event, cb){
+    if(typeof this.events[event] === 'undefined'){
+      throw new Error(`Event not found - the event you provided is: ${event}`)
+    }
+
+    const listeners = this.events[event]
+
+    if (!cb) {
+      delete this.events[event]
+      this.eventLength--
+      return this
+    }
+
+    listeners.forEach((v, i) => {
+      if(v.cb === cb) {
+        listeners.splice(i, 1)
+      }
+    })
+
+    if(listeners.length === 0){
+      delete this.events[event]
+
+      this.eventLength--
+    }
+
+    return this
+  }
 }

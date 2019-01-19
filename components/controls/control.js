@@ -51,6 +51,11 @@ export default class Control extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    this.props.emitter.off('form:submit')
+    this.props.emitter.off('input:value')
+  }
+
   getId() {
     return this.props.type + '-' + controlId
   }
@@ -92,7 +97,7 @@ export default class Control extends React.Component {
   runMiddleware(value) {
     // need to replace with actual middleware stack
     return Promise.all(this.props.middleware.map(m => {
-      return m(this.state.value, value, this.name)
+      return m(value, this.state.value, this.props.name)
     }))
   }
 

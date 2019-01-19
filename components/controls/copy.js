@@ -28,6 +28,10 @@ export default class Copy extends Input {
     })
   }
 
+  componentWillUnmount() {
+    this.props.emitter.off('copy:copy')
+  }
+
   copy() {
     let text = this.getText()
 
