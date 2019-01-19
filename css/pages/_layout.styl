@@ -11,16 +11,20 @@
 
 html
   background-color: $backgroundDarkColor
+  color: $white
 
 hero, .hero.hero
   min-height: 100vh
   height: auto
-  padding-top: 10vh
+  padding: 0
   align-items: flex-start
+  position: relative
+  padding-bottom: 15vh
 
   & > *
     text-align: center
 
+body > :nth-child(1)
   &:after
     content: ''
     display: block
@@ -31,6 +35,22 @@ hero, .hero.hero
     width: 100vw
     background-image: url('/static/img/cubes-dark.svg')
     z-index: -1
+
+.content
+  position: relative
+
+.card
+  background-color: transparent
+
+  &.transparent
+    box-shadow: none
+
+    .card-header
+      background-color: transparent
+
+    .card-body
+      padding-left: 0
+      padding-right: 0
 
 .register
 .login
@@ -43,13 +63,3 @@ hero, .hero.hero
   +below($pageWidth)
     padding-left: 1rem
     padding-right: 1rem
-
-  box-shadow: none
-
-  .card-header
-    background-color: transparent
-
-  .card-body
-    padding-left: 0
-    padding-right: 0
-

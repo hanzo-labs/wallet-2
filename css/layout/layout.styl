@@ -1,6 +1,7 @@
 header
 footer
 main > *
+.loader
   width: 100vw
   +above($pageWidth + 1)
     padding-left: 'calc((100% - %s) / 2)' % $pageWidth
@@ -10,10 +11,12 @@ main > *
     padding-right $spacing * 4
 
 main > *
+.loader > *
   position: relative
   display: block
 
 main
+.loader
   display: table
   width: 100vw
   overflow: hidden

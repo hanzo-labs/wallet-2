@@ -12,25 +12,24 @@ export default class Control extends React.Component {
 
     // Unique ID for referencing the control
     this.controlId = controlId++
-    if (props.emitter) {
-      props.emitter.on('form:submit', () => {
-        return this._change(this.state.value, true)
-      })
 
-      props.emitter.on('input:value', (v) => {
-        if (v != null) {
-          this.props.data.set(this.props.name, v)
-          this.setState({
-            value: v
-          })
+    props.emitter.on('form:submit', () => {
+      return this._change(this.state.value, true)
+    })
 
-          if (v != this.props.defaultValue) {
-            this._change(v)
-          }
+    props.emitter.on('input:value', (v) => {
+      if (v != null) {
+        this.props.data.set(this.props.name, v)
+        this.setState({
+          value: v
+        })
+
+        if (v != this.props.defaultValue) {
+          this._change(v)
         }
-        return this.props.data.get(this.props.name)
-      })
-    }
+      }
+      return this.props.data.get(this.props.name)
+    })
 
     this.state = {
       value: props.value || props.defaultValue,
@@ -63,10 +62,10 @@ export default class Control extends React.Component {
   getValue(event) {
     let val = event.target.value
     if (val != null) {
-      return val.trim()
+      return val
     }
 
-    return undefined
+    return ''
   }
 
   getText() {
@@ -91,6 +90,7 @@ export default class Control extends React.Component {
   }
 
   runMiddleware(value) {
+    // need to replace with actual middleware stack
     return Promise.all(this.props.middleware.map(m => {
       return m(this.state.value, value, this.name)
     }))
@@ -106,7 +106,14 @@ export default class Control extends React.Component {
   }
 
   _change(value, rethrow) {
-    return this.runMiddleware(value)
+    // trim the value we run the middleware on
+    let valueTrimmed = value
+
+    if (typeof valueTrimmed == 'string') {
+      valueTrimmed = value.trim()
+    }
+
+    return this.runMiddleware(valueTrimmed)
       .then(() => {
         this.changed(value)
       }).catch((err) => {
@@ -118,7 +125,14 @@ export default class Control extends React.Component {
   }
 
   changed(value) {
-    this.props.data.set(this.props.name, value)
+    // we also store the trimmed value
+    let valueTrimmed = value
+
+    if (typeof valueTrimmed == 'string') {
+      valueTrimmed = value.trim()
+    }
+
+    this.props.data.set(this.props.name, valueTrimmed)
     this.setState({
       value: value,
       valid: true

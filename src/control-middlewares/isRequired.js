@@ -1,4 +1,4 @@
-let isRequired = (name, value) => {
+let isRequired = (value) => {
   if (value && value != '') {
     return value
   }

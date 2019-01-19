@@ -1,7 +1,7 @@
 import React from 'react'
 import { getData } from './provider'
 
-export var watch = (key) => {
+export let watch = (key) => {
   return (WrappedComponent) => {
     class WatchedComponent extends React.Component {
       render() {
@@ -19,6 +19,8 @@ export var watch = (key) => {
         } else {
           newProps.data = getData().refer(key)
         }
+
+        newProps.rootData = props.data
 
         return <WrappedComponent {...newProps} />
       }

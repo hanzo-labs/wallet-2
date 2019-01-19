@@ -3,9 +3,11 @@ import App, { Container } from 'next/app'
 import { RefProvider } from '../src/referential/provider'
 import Header from '../components/layout/header'
 import Footer from '../components/layout/footer'
+import Loader, { loadable } from '../components/app/loader'
 import 'reeeset/src/reeeset.css'
 import '../styles.styl'
 
+@loadable
 export default class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {}
@@ -20,7 +22,7 @@ export default class MyApp extends App {
   render () {
     const { Component, pageProps } = this.props
 
-    // console.log('App', pageProps)
+    this.props.stopLoading()
 
     return pug`
       Container
@@ -28,6 +30,7 @@ export default class MyApp extends App {
           Header
           Component
           Footer
+          Loader
     `
   }
 

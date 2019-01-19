@@ -3,8 +3,11 @@ import Input from '../controls/input'
 import Checkbox from '../controls/checkbox'
 
 import ref from 'referential'
-import Api from '../../src/hanzo/api'
 import classnames from 'classnames'
+import * as ethers from 'ethers'
+import Api from '../../src/hanzo/api'
+import Emitter from '../../src/emitter'
+
 import { watch } from '../../src/referential/watch'
 import { HANZO_KEY, HANZO_ENDPOINT } from '../../src/settings.js'
 
@@ -25,7 +28,6 @@ export default class LoginForm extends Form {
       }),
       password: new InputData({
         name: 'password',
-        data: ref({}),
         middleware: [isRequired, isPassword]
       }),
       rememberMe: new InputData({
@@ -34,6 +36,8 @@ export default class LoginForm extends Form {
         defaultValue: false
       })
     }
+
+    this.emitter = props.emitter || new Emitter()
   }
 
   _submit() {
@@ -42,8 +46,17 @@ export default class LoginForm extends Form {
     return api.client.account.login({
       email: this.inputs.email.val(),
       password: this.inputs.password.val(),
-    }).then(() => {
+    }).then((res) => {
+      let p = this.inputs.password.val()
+
       this.inputs.password.val(this.inputs.password.val().replace(/./g, '•'))
+
+      let i = this.inputs.email.val() + p
+
+      this.emitter.trigger('login:success', {
+        identity: ethers.utils.sha256(ethers.utils.toUtf8Bytes(i)),
+        token: res.token,
+      })
     })
   }
 
@@ -75,7 +88,7 @@ export default class LoginForm extends Form {
           .error
             = this.getErrorMessage()
         button.button(type='submit')
-          | Login
+          | LOGIN
         if this.state.loading || this.state.validating
           .progress
             .indeterminate

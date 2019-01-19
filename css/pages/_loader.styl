@@ -1,0 +1,23 @@
+.app-loader
+  background-color: $dashMenuDarkColor
+  color: $white
+
+  &.loading
+    position:fixed
+    top: 0
+    left: 0
+    width: 100vw
+    height: 100vh
+    opacity: 1
+    transition: opacity ($transitionTime) ease-in-out
+    z-index: 1000
+
+    .content
+      max-width: 300px
+      text-align: center
+
+    .app-loader-message
+      margin-bottom: .5rem
+
+  &.unloading
+    opacity: 0

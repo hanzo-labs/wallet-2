@@ -8,6 +8,8 @@ export let getData = () => {
   return data
 }
 
+let lock = false
+
 export class RefProvider extends React.Component {
   constructor(props) {
     super(props)
@@ -23,7 +25,17 @@ export class RefProvider extends React.Component {
       if (window) {
         akasha.set('_data', data.get())
       }
-      this.forceUpdate()
+
+      if (lock) {
+        return
+      }
+
+      lock = true
+
+      requestAnimationFrame(() => {
+        lock = false
+        this.forceUpdate()
+      })
     })
   }
 

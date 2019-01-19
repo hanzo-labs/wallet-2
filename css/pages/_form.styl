@@ -11,6 +11,7 @@
     border: 0
     color: $white
     background-color: transparent
+    resize: none
 
     &:-moz-placeholder
       color: $placeholderColor
@@ -110,7 +111,7 @@ button
   background: transparent !important
   font-weight: 300
   letter-spacing: .175rem
-  line-height: 2rem
+  line-height: 2.5rem
   width: 100%
 
   &:hover:not(:disabled)
@@ -146,6 +147,8 @@ button
 
     &:after
       font-size: 25px
+      width: 20px
+      text-align: center
 
   .checked + label:before
     border-color: $checkboxCheckedBackgroundColor

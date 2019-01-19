@@ -1,7 +1,7 @@
 import React from 'react'
 import ref from 'referential'
 import toPromise from '../../src/util/toPromise'
-import Emitter from '../../src/util/emitter'
+import Emitter from '../../src/emitter'
 import classnames from 'classnames'
 
 export class InputData {
@@ -10,7 +10,7 @@ export class InputData {
     autoComplete: 'off'
   }
 
-  constructor({ type, name, defaultValue, data, scrollToError, middleware }) {
+  constructor({ type, name, value, defaultValue, data, scrollToError, middleware }) {
     // Data context for storing control values outside of the state
     this.type = type || undefined
     // Name of field in data context
@@ -19,7 +19,7 @@ export class InputData {
     this.data = data || ref({})
     // Default starting value used to override null data values
     this.defaultValue = defaultValue
-    this.value = this.data.get(this.name) || defaultValue || undefined
+    this.value = this.data.get(this.name) || value || defaultValue || undefined
     if (this.value != this.data.get(this.name)) {
       this.data.set(this.name, this.value)
     }
@@ -128,11 +128,19 @@ export default class Form extends React.Component {
 
     return this.runMiddleware(true)
       .then(() => {
-        return this._submit().then(() => {
-          this.setState({
-            loading: false,
-            submitted: true
+        let ret = this._submit()
+        if (ret && ret.then) {
+          return ret.then(() => {
+            this.setState({
+              loading: false,
+              submitted: true
+            })
           })
+        }
+
+        this.setState({
+          loading: false,
+          submitted: true
         })
       })
       .catch((err) => {
@@ -163,6 +171,10 @@ export default class Form extends React.Component {
           .progress
             .indeterminate
         = props.children
+        if this.getErrorMessage()
+          .error
+            = this.getErrorMessage()
+
     `
   }
 }

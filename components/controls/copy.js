@@ -1,26 +1,68 @@
-import Control from './control'
+import Input from './input'
 import classnames from 'classnames'
 
-export default class Input extends Control {
+export default class Copy extends Input {
   static defaultProps = {
     type: 'text',
     autoComplete: 'new-password',
     autoFocus: undefined,
-    disabled: undefined,
+    disabled: true,
     maxlength: undefined,
     readOnly: undefined,
     placeholder: '',
     label: '',
     instructions: '',
     wrap: '',
-    spellCheck: '',
+    spellcheck: '',
     rows: undefined,
     cols: undefined,
-    showErrors: true,
   }
 
   constructor(props) {
     super(props)
+
+    this.state.copied = false
+
+    props.emitter.on('copy:copy', () => {
+      this.copy()
+    })
+  }
+
+  copy() {
+    let text = this.getText()
+
+    let textArea = document.createElement('textarea')
+    textArea.contentEditable = true
+    textArea.readOnly = false
+    textArea.style.position = 'fixed'
+    textArea.style.top = 0
+    textArea.style.left = 0
+    textArea.style.width = '2em'
+    textArea.style.height = '2em'
+    textArea.style.padding = 0
+    textArea.style.border = 'none'
+    textArea.style.outline = 'none'
+    textArea.style.boxShadow = 'none'
+    textArea.style.background = 'transparent'
+    textArea.value = text
+    document.body.appendChild(textArea)
+    textArea.select()
+
+    try {
+      let range = document.createRange()
+      let s = window.getSelection()
+      s.removeAllRanges()
+      s.addRange(range)
+      textArea.setSelectionRange(0, 999999)
+
+      let successful = document.execCommand('copy')
+      msg = successful ? 'successful' : 'unsuccessful'
+      console.log('Copying text command was ' + msg)
+    } catch (err) {
+      console.log('Oops, unable to copy')
+    }
+
+    document.body.removeChild(textArea)
   }
 
   render() {
@@ -32,7 +74,8 @@ export default class Input extends Control {
           className=classnames({
             invalid: this.getErrorMessage(),
             valid: this.state.valid,
-            labeled: props.label
+            labeled: props.label,
+            copied: this.state.copied,
           })
         )
           if !props.rows

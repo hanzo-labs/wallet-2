@@ -1,4 +1,4 @@
-let isPassword = (name, value) => {
+let isPassword = (value) => {
   if (!value) {
     throw new Error('Required')
   }
