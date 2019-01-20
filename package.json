@@ -19,17 +19,19 @@
   "dependencies": {
     "@zeit/next-css": "1.0.1",
     "akasha": "0.1.13",
+    "bip39": "2.5.0",
     "classnames": "2.2.6",
     "coin.js": "1.0.26",
     "eosjs-ecc": "4.0.4",
     "es6-event-emitter": "1.10.2",
     "ethers": "4.0.21",
+    "hdkey": "1.1.0",
     "next": "7.0.2",
     "nextjs": "0.0.3",
     "react": "16.7.0",
     "react-dom": "16.7.0",
     "reeeset": "0.0.8",
-    "referential": "0.5.23",
+    "referential": "0.5.25",
     "wif": "2.0.6"
   },
   "devDependencies": {

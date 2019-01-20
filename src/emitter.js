@@ -11,7 +11,7 @@ export default class MyEmitter extends Emitter {
     let results = []
 
     if(typeof listeners !== 'undefined') {
-      results = listeners.map((v) => {
+      results = listeners.map((v, k) => {
         if(v.once) onceListeners.unshift(k)
 
         return v.cb.apply(this, args)

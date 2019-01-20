@@ -60,7 +60,7 @@ export default class Copy extends Input {
       textArea.setSelectionRange(0, 999999)
 
       let successful = document.execCommand('copy')
-      msg = successful ? 'successful' : 'unsuccessful'
+      let msg = successful ? 'successful' : 'unsuccessful'
       console.log('Copying text command was ' + msg)
     } catch (err) {
       console.log('Oops, unable to copy')

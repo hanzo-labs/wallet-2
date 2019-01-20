@@ -1,40 +1,49 @@
 import React from 'react'
-import { getData } from './provider'
+import { RefContext } from './provider'
 
 export let watch = (key) => {
   return (WrappedComponent) => {
-    class WatchedComponent extends React.Component {
+    return class WatchedComponent extends React.Component {
       constructor(props) {
         super(props)
-
-        if (props.data) {
-          this.data = props.data.refer(key)
-        } else {
-          this.data = getData().refer(key)
-        }
       }
 
       componentWillUnmount() {
-        this.data.destroy()
+        if (this.data) {
+          this.data.destroy()
+        }
       }
 
       render() {
         let props = this.props
-        let newProps = {}
+        let newProps = Object.assign({}, props)
 
-        for (let key in props) {
-          if (this.props.hasOwnProperty(key)) {
-            newProps[key] = props[key]
-          }
-        }
+        return <RefContext.Consumer>
+            { ({ data }) => {
+              // prioritize props.data over context data field
+              let contextData = data
+              if (props.data) {
+                contextData = props.data
+              }
 
-        newProps.rootData = props.data
-        newProps.data = this.data
+              // avoid duplication
+              if (!this.data) {
+                // key essentially namespaces the data, either namespace the
+                // context free one from the Ref context or a contexualized one
+                // from props
+                if (key) {
+                  if (props.data) {
+                    contextData = this.data = props.data.ref(key)
+                  } else {
+                    contextData = this.data = data.ref(key)
+                  }
+                }
+              }
 
-        return <WrappedComponent {...newProps} />
+              return <WrappedComponent {...newProps} rootData={ data } data={ contextData } />
+            }}
+          </RefContext.Consumer>
       }
     }
-
-    return WatchedComponent
   }
 }

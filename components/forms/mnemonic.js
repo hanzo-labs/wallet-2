@@ -74,7 +74,7 @@ export default class MnemonicForm extends Form {
   }
 
   _submit = () => {
-    this.emitter.trigger('mnemonic:finish')
+    this.emitter.trigger('mnemonic:finish', this.mnemonic)
   }
 
   render() {
@@ -119,6 +119,7 @@ export default class MnemonicForm extends Form {
                   ...this.inputs.mnemonicConfirm
                   rows=2
                   showErrors=false
+                  placeholder='Enter your recovery code here.'
                 )
                 if this.getErrorMessage()
                   .error

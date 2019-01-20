@@ -1,6 +1,6 @@
 import React from 'react'
 import App, { Container } from 'next/app'
-import { RefProvider } from '../src/referential/provider'
+import RefProvider from '../src/referential/provider'
 import Header from '../components/layout/header'
 import Footer from '../components/layout/footer'
 import Loader, { loadable } from '../components/app/loader'

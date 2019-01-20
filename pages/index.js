@@ -3,6 +3,7 @@ import Router from 'next/router'
 import { watch } from '../src/referential/watch'
 import LoginForm from '../components/forms/login'
 import Emitter from '../src/emitter'
+import { setIdentity } from '../src/wallet'
 
 @watch('indexPage')
 class Index extends React.Component {
@@ -13,14 +14,14 @@ class Index extends React.Component {
 
     this.emitter.on('login:success', res => {
       this.props.rootData.set('account.token', res.token)
-      this.props.rootData.set('vault.identity', res.identity)
+      setIdentity(res.identity)
 
       Router.push('/account')
     })
   }
 
   componentWillUnmount() {
-    this.props.emitter.off('login:success')
+    this.emitter.off('login:success')
   }
 
   render() {

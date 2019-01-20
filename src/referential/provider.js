@@ -2,28 +2,29 @@ import React from 'react'
 import ref from 'referential'
 import akasha from '../mjs-fix/akasha'
 
-export let RefContext = React.createContext()
-export let data = null
-export let getData = () => {
-  return data
-}
+export let RefContext = React.createContext(ref({}))
 
 let lock = false
 
-export class RefProvider extends React.Component {
+export default class RefProvider extends React.Component {
   constructor(props) {
     super(props)
 
-    data = props.data
+    let data = props.data
     if (!data && typeof window != undefined) {
-      data = ref(akasha.get('_data'))
+      data = akasha.get('_data')
     }
 
-    this.state = {appIsMounted: false};
+    this.state = {
+      value: {
+        data: ref(data)
+      },
+      appIsMounted: false
+    };
 
-    data.on('set', () => {
-      if (window) {
-        akasha.set('_data', data.get())
+    this.state.value.data.on('set', () => {
+      if (typeof window != undefined) {
+        akasha.set('_data', this.state.value.data.get())
       }
 
       if (lock) {
@@ -34,7 +35,11 @@ export class RefProvider extends React.Component {
 
       requestAnimationFrame(() => {
         lock = false
-        this.forceUpdate()
+        this.setState({
+          value: {
+            data: this.state.value.data
+          }
+        })
       })
     })
   }
@@ -46,21 +51,15 @@ export class RefProvider extends React.Component {
   }
 
   render() {
-    let newProps = {}
+    let newProps = Object.assign({}, this.props)
 
-    for (let key in this.props) {
-      if (this.props.hasOwnProperty(key)) {
-        newProps[key] = this.props[key]
-      }
-    }
-
-    newProps.data = data
-    // console.log('RefProvider', newProps.children)
-
-    const childrenWithProps = React.Children.map(this.props.children, child =>
-      React.cloneElement(child, { ...newProps })
-    );
-
-    return <>{this.state.appIsMounted && childrenWithProps}</>
+    return <RefContext.Provider value={ this.state.value }>
+        { this.state.appIsMounted ? (
+            this.props.children
+          ) : (
+            <div />
+          )
+        }
+      </RefContext.Provider>
   }
 }
