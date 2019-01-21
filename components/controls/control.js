@@ -14,10 +14,12 @@ export default function control(ControlComponent) {
       // Unique ID for referencing the control
       this.controlId = controlId++
 
+      props.emitter.off('form:submit')
       props.emitter.on('form:submit', () => {
         return this._change(this.state.value, true)
       })
 
+      props.emitter.off('input:value')
       props.emitter.on('input:value', (v) => {
         if (v != null) {
           this.props.data.set(this.props.name, v)

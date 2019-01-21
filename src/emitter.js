@@ -27,7 +27,7 @@ export default class MyEmitter extends Emitter {
 
   off(event, cb){
     if(typeof this.events[event] === 'undefined'){
-      throw new Error(`Event not found - the event you provided is: ${event}`)
+      return this
     }
 
     const listeners = this.events[event]
