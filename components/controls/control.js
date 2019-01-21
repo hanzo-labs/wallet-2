@@ -1,6 +1,7 @@
 import React from 'react'
 
 import valueOrCall from '../../src/util/valueOrCall'
+import classnames from 'classnames'
 
 // Base control class
 let controlId = 0
@@ -14,12 +15,12 @@ export default function control(ControlComponent) {
       // Unique ID for referencing the control
       this.controlId = controlId++
 
-      props.emitter.unique('form:submit', () => {
+      props.emitter.unique('control:submit', () => {
         return this._change(this.state.value, true)
       })
 
       // emitter.off to force any duplicate unmounted inputs out of scope
-      props.emitter.unique('input:value', (v) => {
+      props.emitter.unique('control:value', (v) => {
         if (v != null) {
           this.props.data.set(this.props.name, v)
           this.setState({
@@ -55,8 +56,8 @@ export default function control(ControlComponent) {
 
     componentWillUnmount() {
       // These are unbound on the form level
-      // this.props.emitter.off('form:submit')
-      // this.props.emitter.off('input:value')
+      // this.props.emitter.off('control:submit')
+      // this.props.emitter.off('control:value')
     }
 
     getId() {
@@ -169,7 +170,11 @@ export default function control(ControlComponent) {
     }
 
     render() {
-      let { value, errorMessage }  = this.state
+      let {
+        value,
+        valid,
+        errorMessage,
+      }  = this.state
 
       let props = Object.assign({}, this.props, {
         id: this.getId(),
@@ -180,12 +185,18 @@ export default function control(ControlComponent) {
       delete props.value
 
       return pug`
-        .control(ref=this.inputRef)
+        .control(
+          ref=this.inputRef
+          className=classnames({
+            valid: valid,
+            invalid: !!errorMessage,
+          })
+        )
           ControlComponent(
             ...props
-            value=this.state.value
-            valid=this.state.valid
-            errorMessage=this.state.errorMessage
+            value=value
+            valid=valid
+            errorMessage=errorMessage
           )
         `
     }

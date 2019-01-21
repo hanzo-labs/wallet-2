@@ -46,7 +46,7 @@ export class InputData {
   }
 
   val(v) {
-    return this.emitter.trigger('input:value', v)[0]
+    return this.emitter.trigger('control:value', v)[0]
   }
 
   value(v) {
@@ -71,8 +71,8 @@ export default class Form extends React.Component {
 
   componentWillUnmount() {
     for (let k in this.inputs) {
-      this.inputs[k].emitter.off('form:submit')
-      this.inputs[k].emitter.off('input:value')
+      this.inputs[k].emitter.off('control:submit')
+      this.inputs[k].emitter.off('control:value')
     }
   }
 
@@ -89,7 +89,7 @@ export default class Form extends React.Component {
     }
 
     let ps = inputs.map(i => {
-      return i.emitter.trigger('form:submit')
+      return i.emitter.trigger('control:submit')
     })
 
     return Promise.all([].concat.apply([], ps))

@@ -35,6 +35,7 @@ export default class Input extends React.Component{
   render() {
     let {
       data,
+      rootData,
       emitter,
       showErrors,
       scrollToError,

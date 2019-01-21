@@ -34,10 +34,6 @@ export default class Copy extends React.Component{
     })
   }
 
-  componentWillUnmount() {
-    this.props.emitter.off('copy:copy')
-  }
-
   copy() {
     let text = this.props.value
 
