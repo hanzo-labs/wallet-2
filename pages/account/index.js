@@ -1,14 +1,14 @@
 import React from 'react'
 import Router from 'next/router'
 import Emitter from '../../src/emitter'
-import { watch } from '../../src/referential/watch'
+import { watch } from '../../src/referential/provider'
 import { loadable } from '../../components/app/loader'
-import MnemonicForm from '../../components/forms/mnemonic'
 import Api from '../../src/hanzo/api'
 import {
   getIdentity,
   removeIdentity,
-  setEncodedPrivateKeyFromMnemonic,
+  getEncodedPrivateKey,
+  canDecodePrivateKey,
   generateNthEthereumKeys,
   generateNthEOSKeys,
 } from '../../src/wallet'
@@ -21,31 +21,29 @@ class Account extends React.Component {
     super(props)
 
     this.state = {
-      loading: true,
-      mnemonicLoaded: false,
+      ethKey: '',
+      eosKey: '',
     }
 
-    this.emitter = new Emitter()
-
-    this.emitter.once('mnemonic:finish', (mnemonic) => {
-      this.setMnemonic(mnemonic)
-    })
+    if (!getEncodedPrivateKey() || !canDecodePrivateKey()) {
+      this.generateMnemonic()
+      return
+    }
 
     // Load profile from Hanzo
     let api = new Api( HANZO_KEY, HANZO_ENDPOINT )
 
     if (!this.props.rootData.get('account.id')) {
-      this.props.startLoading('Synchronizing Account...')
+      this.props.startLoading('Setting Up Account...')
+      this.loading = true
     }
 
     api.client.account.get()
       .then((res) => {
         this.props.rootData.set('account', res)
-        this.props.stopLoading()
-
-        this.setState({
-          loading: false,
-        })
+        if (this.loading) {
+          this.props.stopLoading()
+        }
 
       }).catch((err) => {
         console.log('Error on account.get', err)
@@ -53,15 +51,9 @@ class Account extends React.Component {
       })
   }
 
-  componentWillUnmount() {
-    this.emitter.off('mnemonic:finish')
-  }
-
-  setMnemonic(mnemonic) {
-    setEncodedPrivateKeyFromMnemonic(mnemonic)
-
-    this.setState({
-      mnemonicLoaded: true,
+  generateMnemonic() {
+    requestAnimationFrame(() => {
+      Router.push('/account/mnemonic')
     })
   }
 
@@ -92,7 +84,6 @@ class Account extends React.Component {
         let [eosKey] = generateNthEOSKeys(1)
         requestAnimationFrame(() => {
           this.setState({
-            mnemonicLoaded: true,
             ethKey: ethKey,
             eosKey: eosKey,
           })
@@ -104,10 +95,6 @@ class Account extends React.Component {
     return pug`
       main#account-index.hero.columns
         .content.columns
-          if !this.state.mnemonicLoaded
-            MnemonicForm(emitter=this.emitter)
-          else
-            MnemonicForm(emitter=this.emitter)
       `
   }
 }

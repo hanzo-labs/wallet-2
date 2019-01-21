@@ -1,6 +1,6 @@
 import React from 'react'
 import Router from 'next/router'
-import { watch } from '../src/referential/watch'
+import { watch } from '../src/referential/provider'
 import LoginForm from '../components/forms/login'
 import Emitter from '../src/emitter'
 import { setIdentity } from '../src/wallet'

@@ -1,5 +1,5 @@
 import Form, { InputData } from './form'
-import Input from '../controls/mui-text'
+import Input from '../controls/input'
 import Checkbox from '../controls/checkbox'
 
 import ref from 'referential'
@@ -8,7 +8,7 @@ import * as ethers from 'ethers'
 import Api from '../../src/hanzo/api'
 import Emitter from '../../src/emitter'
 
-import { watch } from '../../src/referential/watch'
+import { watch } from '../../src/referential/provider'
 import { HANZO_KEY, HANZO_ENDPOINT } from '../../src/settings.js'
 
 import isRequired from '../../src/control-middlewares/isRequired'

@@ -23,11 +23,43 @@ export let removeIdentity = () => {
 }
 
 export let setEncodedPrivateKey = (pk) => {
-  akasha.set('wallet.primarykey', pk)
+  return akasha.set('wallet.primarykey', pk)
 }
 
-export let getEncodedPrivateKey = (pk) => {
-  akasha.get('wallet.primarykey')
+export let getEncodedPrivateKey = () => {
+  return akasha.get('wallet.primarykey')
+}
+
+export let canDecodePrivateKey = () => {
+  try {
+    let id = akasha.get('wallet.identity')
+
+    if (!id) {
+      throw new Error('identity must be set to create private keys')
+    }
+
+    let key = ethers.utils.arrayify(id)
+
+    let pkEncoded = akasha.get('wallet.primarykey')
+
+    if (!pkEncoded) {
+      throw new Error('primary key must exist to create private keys')
+    }
+
+    let encryptedBytes = aes.utils.hex.toBytes(pkEncoded)
+
+    // The counter mode of operation maintains internal state, so to
+    // decrypt a new instance must be instantiated.
+    let aesCtr = new aes.ModeOfOperation.ctr(key, new aes.Counter(5))
+    let decryptedBytes = aesCtr.decrypt(encryptedBytes)
+
+    // Convert our bytes back into text
+    let pk = aes.utils.utf8.fromBytes(decryptedBytes)
+  } catch (e) {
+    return false
+  }
+
+  return true
 }
 
 export let setEncodedPrivateKeyFromMnemonic = (mnemonic) => {
@@ -161,6 +193,7 @@ export let requiresWalletUnlocked = (WrappedComponent) => {
     constructor(props) {
       super(props)
     }
+
 
     render() {
 
