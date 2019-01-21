@@ -69,6 +69,13 @@ export default class Form extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    for (let k in this.inputs) {
+      this.inputs[k].emitter.off('form:submit')
+      this.inputs[k].emitter.off('input:value')
+    }
+  }
+
   runMiddleware(rethrow) {
     this.setState({
       errorMessage: '',

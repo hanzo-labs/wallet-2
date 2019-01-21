@@ -1,13 +1,16 @@
-import Control from './control'
+import React from 'react'
+
+import control from './control'
 import classnames from 'classnames'
 
-export default class Input extends Control {
+@control
+export default class Input extends React.Component{
   static defaultProps = {
     type: 'text',
     autoComplete: 'new-password',
     autoFocus: undefined,
     disabled: undefined,
-    maxlength: undefined,
+    maxLength: undefined,
     readOnly: undefined,
     placeholder: '',
     label: '',
@@ -23,68 +26,57 @@ export default class Input extends Control {
     super(props)
   }
 
+  componentDidMount() {
+    requestAnimationFrame(() => {
+      this.setState({ appIsMounted: true })
+    });
+  }
+
   render() {
-    let props = this.props
+    let {
+      data,
+      emitter,
+      showErrors,
+      scrollToError,
+      value,
+      defaultValue,
+      valid,
+      errorMessage,
+      middleware,
+      instructions,
+      label,
+      ...props
+    } = this.props
+
+    value = value || defaultValue || ""
 
     return pug`
-      .input(ref=this.inputRef)
+      .input
         .input-container(
           className=classnames({
-            invalid: this.getErrorMessage(),
-            valid: this.state.valid,
-            labeled: props.label
+            invalid: !!errorMessage,
+            valid: valid,
+            labeled: label
           })
         )
           if !props.rows
-            input(
-              id=this.getId()
-              name=this.getName()
-              type=props.type
-              onChange=this.change
-              onBlur=this.change
-              value=this.getText()
-              autoComplete=props.autoComplete
-              data-lpignore='true'
-              autoFocus=props.autoFocus
-              disabled=props.disabled
-              maxlength=props.maxlength
-              readOnly=props.readOnly
-              placeholder=props.placeholder
-            )
+            input(...props value=value)
           else
-            textarea(
-              id=this.getId()
-              name=this.getName()
-              type=props.type
-              onChange=this.change
-              onBlur=this.change
-              value=this.getText()
-              autoComplete=props.autoComplete
-              data-lpignore='true'
-              autoFocus=props.autoFocus
-              disabled=props.disabled
-              maxlength=props.maxlength
-              readOnly=props.readOnly
-              placeholder=props.placeholder
-              wrap=props.wrap
-              spellCheck=props.spellCheck
-              rows=props.rows
-              cols=props.cols
-            )
-        if props.label
+            textarea(...props value=value)
+        if !!label
           .label(
             className=classnames({
-              active: this.getText() || props.placeholder,
+              active: value || props.placeholder,
               'no-transition': !this.state.appIsMounted
             })
           )
-            = props.label
-        if this.getErrorMessage() && props.showErrors
+            = label
+        if !!errorMessage && showErrors
           .error
-            = this.getErrorMessage()
-        if props.instructions && !this.getErrorMessage()
+            = errorMessage
+        if !!instructions && !errorMessage
           .helper
-            = props.instructions
+            = instructions
     `
   }
 }

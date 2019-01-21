@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/hanzoai/wallet-2#readme",
   "dependencies": {
+    "@material-ui/core": "3.9.0",
     "@zeit/next-css": "1.0.1",
     "akasha": "0.1.13",
     "bip39": "2.5.0",

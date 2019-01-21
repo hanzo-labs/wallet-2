@@ -1,13 +1,16 @@
-import Control from './control'
+import React from 'react'
+
+import control from './control'
 import classnames from 'classnames'
 
-export default class Checkbox extends Control {
+@control
+export default class Checkbox extends React.Component{
   static defaultProps = {
     type: 'checkbox',
     autoComplete: 'new-password',
     autoFocus: undefined,
     disabled: undefined,
-    maxlength: undefined,
+    maxLength: undefined,
     readOnly: undefined,
     placeholder: '',
     label: '',
@@ -23,37 +26,44 @@ export default class Checkbox extends Control {
   }
 
   render() {
-    let props = this.props
+    let {
+      data,
+      emitter,
+      showErrors,
+      scrollToError,
+      value,
+      defaultValue,
+      valid,
+      errorMessage,
+      middleware,
+      instructions,
+      label,
+      ...props
+    } = this.props
+
+    value = value || defaultValue
 
     return pug`
-      .checkbox(ref=this.inputRef)
+      .checkbox
         .checkbox-container(
           className=classnames({
-            invalid: this.getErrorMessage(),
-            valid: this.state.valid,
-            labeled: props.label,
-            checked: !!this.state.value
+            invalid: !!errorMessage,
+            valid: valid,
+            labeled: label,
+            checked: !!value,
           })
         )
-          input(
-            id=this.getId()
-            name=this.getName()
-            type='checkbox'
-            onClick=this.change
-            onChange=this.change
-            onBlur=this.change
-            checked=!!this.state.value
-          )
-          label(for=this.getId())
-          if props.label
+          input(...props)
+          label(for=props.id)
+          if !!label
             .label.active
-              = props.label
-        if this.getErrorMessage()
+              = label
+        if !!errorMessage
           .error
-            = this.getErrorMessage()
-        if props.instructions && !this.getErrorMessage()
+            = errorMessage
+        if !!instructions && !errorMessage
           .helper
-            = props.instructions
+            = instructions
       `
   }
 }

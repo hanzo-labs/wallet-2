@@ -1,5 +1,5 @@
 import Form, { InputData } from './form'
-import Input from '../controls/input'
+import Input from '../controls/mui-text'
 import Checkbox from '../controls/checkbox'
 
 import ref from 'referential'
