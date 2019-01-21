@@ -25,6 +25,12 @@ export default class MyEmitter extends Emitter {
     return results
   }
 
+  // clear events and then bind new event
+  unique(...args){
+    this.off(args[0])
+    return this.on(...args)
+  }
+
   off(event, cb){
     if(typeof this.events[event] === 'undefined'){
       return this
