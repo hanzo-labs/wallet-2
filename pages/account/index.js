@@ -92,7 +92,7 @@ class Account extends React.Component {
     }
 
     return pug`
-      main#account-index
+      main#account-index.account
         .content
           h5
             ='Hello, ' + props.rootData.get('account.firstName')

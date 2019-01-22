@@ -2,6 +2,7 @@ import React from 'react'
 
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
+import Router from 'next/router'
 import Link from '../link'
 
 import { withStyles } from '@material-ui/core/styles'
@@ -23,8 +24,8 @@ class Footer extends React.Component {
             Toolbar(className=classes.noPadding)
               div(className=classes.flex1)
                 Link(
-                  href='/account/purchase'
-                  color='textPrimary'
+                  href='/account/deposit'
+                  color= Router.route == '/account/deposit' ? 'secondary' : 'textPrimary'
                   underline='none'
                 )
                   ArrowUpward
@@ -32,7 +33,7 @@ class Footer extends React.Component {
               div(className=classes.flex1)
                 Link(
                   href='/account/send'
-                  color='textPrimary'
+                  color= Router.route == '/account/send' ? 'secondary' : 'textPrimary'
                   underline='none'
                 )
                   Send(className=classes.rotated)
@@ -40,7 +41,7 @@ class Footer extends React.Component {
               div(className=classes.flex1)
                 Link(
                   href='/account/redeem'
-                  color='textPrimary'
+                  color= Router.route == '/account/redeem' ? 'secondary' : 'textPrimary'
                   underline='none'
                 )
                   ArrowDownward

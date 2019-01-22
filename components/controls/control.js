@@ -36,8 +36,13 @@ export default function control(ControlComponent) {
         })
       }
 
+      let value = props.value
+      if (value == null) {
+        value == props.defaultValue
+      }
+
       this.state = {
-        value: props.value || props.defaultValue,
+        value: value,
         valid: false,
         errorMessage: '',
         appIsMounted: false
@@ -70,13 +75,18 @@ export default function control(ControlComponent) {
       return valueOrCall(this.props.name || '').replace(/\\./g, '-')
     }
 
-    getValue(event) {
-      let val = event.target.value
-      if (val != null) {
-        return val
+    getValue(eventOrValue) {
+      if (eventOrValue == null) {
+        return ''
       }
 
-      return ''
+      if (!eventOrValue.target) {
+        return eventOrValue
+      }
+
+      let val = eventOrValue.target.value
+
+      return val || ''
     }
 
     getErrorMessage() {

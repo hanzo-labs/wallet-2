@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent'
 
 export default class TokenCard extends React.Component {
   render() {
-    let {classes, ...props} = this.props
+    let props = this.props
 
     return pug `
       Card.token-card

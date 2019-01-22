@@ -104,7 +104,7 @@ class Header extends React.Component {
                 onClick=this.handleMenu
                 color='inherit'
               )
-                AccountCircle
+                AccountCircle(style={ fontSize: 36 })
               Menu(
                 id='menu-appbar'
                 anchorEl=this.state.anchorEl

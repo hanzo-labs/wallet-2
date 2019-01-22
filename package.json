@@ -33,6 +33,7 @@
     "nextjs": "0.0.3",
     "react": "16.7.0",
     "react-dom": "16.7.0",
+    "react-load-script": "0.0.6",
     "reeeset": "0.0.8",
     "referential": "0.5.25",
     "wif": "2.0.6"
