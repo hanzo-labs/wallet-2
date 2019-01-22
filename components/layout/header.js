@@ -83,7 +83,7 @@ class Header extends React.Component {
             position='fixed'
             color="default"
           )
-            Toolbar
+            Toolbar(className=classes.noPadding)
               Link(href='/')
                 img(className=classes.logoImg src='/static/img/logo.svg')
               div(className=classes.grow)
@@ -130,6 +130,9 @@ const styles = (theme) => {
     root: {
       background: 'transparent',
       boxShadow: 'none',
+    },
+    noPadding: {
+      padding: 0,
     },
     grow: {
       flexGrow: 1,

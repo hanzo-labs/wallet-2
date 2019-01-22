@@ -20,7 +20,7 @@ class Footer extends React.Component {
     return pug`
         if accountLoaded
           footer
-            Toolbar
+            Toolbar(className=classes.noPadding)
               div(className=classes.flex1)
                 Link(
                   href='/account/purchase'
@@ -55,6 +55,9 @@ const styles = (theme) => {
       flex: 1,
       textAlign: 'center',
       padding: 2 * theme.spacing.unit,
+    },
+    noPadding: {
+      padding: 0,
     },
     rotated: {
       transform: 'rotate(-45deg)',
