@@ -1,13 +1,28 @@
 import React from 'react'
 import App, { Container } from 'next/app'
+import Router from 'next/router'
 import RefProvider from '../src/referential/provider'
 import Header from '../components/layout/header'
 import Footer from '../components/layout/footer'
-import Loader, { loadable } from '../components/app/loader'
+import Loader, { startLoading, stopLoading } from '../components/app/loader'
 import 'reeeset/src/reeeset.css'
 import '../styles.styl'
 
-@loadable
+import blue from '@material-ui/core/colors/blue'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+
+const theme = createMuiTheme({
+  palette: {
+    type: 'dark',
+    primary: {
+      main: blue[500],
+    },
+    secondary: {
+      main: 'rgba(29,226,160,0.7)',
+    },
+  },
+})
+
 export default class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {}
@@ -19,18 +34,22 @@ export default class MyApp extends App {
     return { pageProps }
   }
 
+  componentDidMount() {
+    stopLoading()
+  }
+
   render () {
     const { Component, pageProps } = this.props
 
-    this.props.stopLoading()
 
     return pug`
       Container
-        RefProvider
-          Header
-          Component
-          Footer
-          Loader
+        MuiThemeProvider(theme=theme)
+          RefProvider
+            Header
+            Component
+            Footer
+            Loader
     `
   }
 
@@ -40,3 +59,15 @@ export default class MyApp extends App {
     super.componentDidCatch(error, errorInfo)
   }
 }
+
+Router.events.on('routeChangeStart', () => {
+  startLoading(' ')
+})
+
+Router.events.on('routeChangeComplete', () => {
+  stopLoading()
+})
+
+Router.events.on('routeChangeError', () => {
+  stopLoading()
+})

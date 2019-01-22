@@ -5,6 +5,12 @@ import LoginForm from '../components/forms/login'
 import Emitter from '../src/emitter'
 import { setIdentity } from '../src/wallet'
 
+import Link from '../components/link'
+import {
+  getIdentity,
+  getEncodedPrivateKey,
+} from '../src/wallet'
+
 @watch('indexPage')
 class Index extends React.Component {
   constructor(props) {
@@ -16,8 +22,22 @@ class Index extends React.Component {
       this.props.rootData.set('account.token', res.token)
       setIdentity(res.identity)
 
-      Router.push('/account')
+      this.login()
     })
+
+    this.hasIdentity = !!getIdentity()
+
+    if (this.hasIdentity) {
+      this.login()
+    }
+  }
+
+  login() {
+    if (!!getEncodedPrivateKey()) {
+      Router.push('/account')
+    } else {
+      Router.push('/account/mnemonic')
+    }
   }
 
   componentWillUnmount() {
@@ -26,17 +46,22 @@ class Index extends React.Component {
 
   render() {
     return pug`
-      main#index.hero.columns
-        .content.columns
-          .card.login.transparent
-            .card-header.rows
-              h2 Login
-              .link(href='#') Create your account
-            .card-body
-              LoginForm(
-                data=this.props.data
-                emitter=this.emitter
-              )
+      if !this.hasIdentity
+        main#index.hero.columns
+          .content.columns
+            .card.login.transparent
+              .card-header.rows
+                h2 Login
+                Link(
+                  href='/signup',
+                  underline='hover'
+                )
+                  | Create your account
+              .card-body
+                LoginForm(
+                  data=this.props.data
+                  emitter=this.emitter
+                )
     `
   }
 }

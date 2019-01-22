@@ -7,7 +7,8 @@ import classnames from 'classnames'
 export class InputData {
   static defaultProps = {
     data: ref({}),
-    autoComplete: 'off'
+    autoComplete: 'off',
+    showControlErrors: false,
   }
 
   constructor({ type, name, value, defaultValue, data, scrollToError, middleware }) {
@@ -98,18 +99,13 @@ export default class Form extends React.Component {
           validating: false,
         })
       }).catch((err) => {
-        let err2
-        if (err) {
-           err2 = new Error('Form Error: ' + err.message)
-        }
-
         this.setState({
           validating: false,
-          errorMessage: err2.message
+          errorMessage: this.props.showControlErrors ? err.message : ''
         })
 
         if (rethrow) {
-          throw err2
+          throw err
         }
       })
   }
@@ -133,8 +129,10 @@ export default class Form extends React.Component {
       submitted: false
     })
 
+    let is_submitError = false
     return this.runMiddleware(true)
       .then(() => {
+        is_submitError = true
         let ret = this._submit()
         if (ret && ret.then) {
           return ret.then(() => {
@@ -152,7 +150,7 @@ export default class Form extends React.Component {
       })
       .catch((err) => {
         this.setState({
-          errorMessage: err.message,
+          errorMessage: is_submitError ? err.message : '',
           loading: false,
           submitted: false
         })

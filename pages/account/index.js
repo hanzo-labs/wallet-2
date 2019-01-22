@@ -1,6 +1,7 @@
 import React from 'react'
 import Router from 'next/router'
 import Emitter from '../../src/emitter'
+import MuiText from '../../components/controls/mui-text'
 import { watch } from '../../src/referential/provider'
 import { loadable } from '../../components/app/loader'
 import Api from '../../src/hanzo/api'
@@ -34,7 +35,7 @@ class Account extends React.Component {
     let api = new Api( HANZO_KEY, HANZO_ENDPOINT )
 
     if (!this.props.rootData.get('account.id')) {
-      this.props.startLoading('Setting Up Account...')
+      this.props.startLoading(' ')
       this.loading = true
     }
 
@@ -52,17 +53,13 @@ class Account extends React.Component {
   }
 
   generateMnemonic() {
-    requestAnimationFrame(() => {
-      Router.push('/account/mnemonic')
-    })
+    Router.push('/account/mnemonic')
   }
 
   logout() {
-    requestAnimationFrame(() => {
-      this.props.rootData.ref('account').clear()
-      removeIdentity()
-      Router.push('/')
-    })
+    this.props.rootData.ref('account').clear()
+    removeIdentity()
+    Router.push('/')
   }
 
   render() {
@@ -93,8 +90,9 @@ class Account extends React.Component {
     }
 
     return pug`
-      main#account-index.hero.columns
+      main#account-index.hero
         .content.columns
+          MuiText(label='What', name='123', variant='filled')
       `
   }
 }

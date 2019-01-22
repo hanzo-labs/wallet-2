@@ -45,9 +45,8 @@ export default class RefProvider extends React.Component {
   }
 
   componentDidMount() {
-    requestAnimationFrame(() => {
-      this.setState({ appIsMounted: true });
-    });
+    console.log('Provider Mounted')
+    this.setState({ appIsMounted: true });
   }
 
   render() {

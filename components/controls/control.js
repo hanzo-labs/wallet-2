@@ -15,24 +15,26 @@ export default function control(ControlComponent) {
       // Unique ID for referencing the control
       this.controlId = controlId++
 
-      props.emitter.unique('control:submit', () => {
-        return this._change(this.state.value, true)
-      })
+      if (props.emitter && this.props.data) {
+        props.emitter.unique('control:submit', () => {
+          return this._change(this.state.value, true)
+        })
 
-      // emitter.off to force any duplicate unmounted inputs out of scope
-      props.emitter.unique('control:value', (v) => {
-        if (v != null) {
-          this.props.data.set(this.props.name, v)
-          this.setState({
-            value: v
-          })
+        // emitter.off to force any duplicate unmounted inputs out of scope
+        props.emitter.unique('control:value', (v) => {
+          if (v != null) {
+            this.props.data.set(this.props.name, v)
+            this.setState({
+              value: v
+            })
 
-          if (v != this.props.defaultValue) {
-            this._change(v)
+            if (v != this.props.defaultValue) {
+              this._change(v)
+            }
           }
-        }
-        return this.props.data.get(this.props.name)
-      })
+          return this.props.data.get(this.props.name)
+        })
+      }
 
       this.state = {
         value: props.value || props.defaultValue,
@@ -65,7 +67,7 @@ export default function control(ControlComponent) {
     }
 
     getName() {
-      return valueOrCall(this.props.name).replace(/\\./g, '-')
+      return valueOrCall(this.props.name || '').replace(/\\./g, '-')
     }
 
     getValue(event) {
@@ -96,7 +98,7 @@ export default function control(ControlComponent) {
 
     runMiddleware(value) {
       // need to replace with actual middleware stack
-      let [p, ...middleware] = this.props.middleware
+      let [p, ...middleware] = this.props.middleware || []
 
       if (!p) {
         return new Promise((resolve) => {
@@ -162,7 +164,10 @@ export default function control(ControlComponent) {
         valueTrimmed = value.trim()
       }
 
-      this.props.data.set(this.props.name, valueTrimmed)
+      if (this.props.data) {
+        this.props.data.set(this.props.name, valueTrimmed)
+      }
+
       this.setState({
         value: value,
         valid: true,

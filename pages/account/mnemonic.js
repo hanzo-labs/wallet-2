@@ -42,11 +42,9 @@ class Account extends React.Component {
   }
 
   logout() {
-    requestAnimationFrame(() => {
-      this.props.rootData.ref('account').clear()
-      removeIdentity()
-      Router.push('/')
-    })
+    this.props.rootData.ref('account').clear()
+    removeIdentity()
+    Router.push('/')
   }
 
   render() {

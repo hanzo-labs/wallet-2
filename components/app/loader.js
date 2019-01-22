@@ -95,8 +95,6 @@ export default class Loader extends React.Component {
           .content
             h4.app-loader-message
               = this.state.msg || 'Loading...'
-            .progress
-              .indeterminate
       `
   }
 }
