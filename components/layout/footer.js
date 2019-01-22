@@ -24,7 +24,7 @@ class Footer extends React.Component {
               div(className=classes.flex1)
                 Link(
                   href='/account/purchase'
-                  color='default'
+                  color='textPrimary'
                   underline='none'
                 )
                   ArrowUpward
@@ -32,7 +32,7 @@ class Footer extends React.Component {
               div(className=classes.flex1)
                 Link(
                   href='/account/send'
-                  color='default'
+                  color='textPrimary'
                   underline='none'
                 )
                   Send(className=classes.rotated)
@@ -40,7 +40,7 @@ class Footer extends React.Component {
               div(className=classes.flex1)
                 Link(
                   href='/account/redeem'
-                  color='default'
+                  color='textPrimary'
                   underline='none'
                 )
                   ArrowDownward

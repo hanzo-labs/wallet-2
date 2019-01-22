@@ -11,7 +11,7 @@ export default class MyDocument extends Document {
         dir='ltr'
       )
         Head
-          title BoilerPlate
+          title Hanzo Wallet
           meta(charSet='utf-8')
           meta(
             httpEquiv='x-ua-compatible'

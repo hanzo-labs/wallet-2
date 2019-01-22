@@ -7,19 +7,33 @@ import * as ecc from 'eosjs-ecc'
 import * as bip39 from 'bip39'
 import * as hdkey from 'hdkey'
 
+let id = ''
+
 // Persistent Wallet
 export let setIdentity = (identity) => {
-  akasha.set('wallet.identity', identity)
+  if (typeof window != 'undefined' && window.sessionStorage) {
+    sessionStorage.setItem('wallet.identity', identity)
+  } else {
+    id = identity
+  }
 
   return identity
 }
 
 export let getIdentity = () => {
-  return akasha.get('wallet.identity')
+  if (typeof window != 'undefined' && window.sessionStorage) {
+    return sessionStorage.getItem('wallet.identity')
+  } else {
+    return id
+  }
 }
 
 export let removeIdentity = () => {
-  return akasha.remove('wallet.identity')
+  if (typeof window != 'undefined' && window.sessionStorage) {
+    sessionStorage.removeItem('wallet.identity')
+  } else {
+    id = null
+  }
 }
 
 export let setEncodedPrivateKey = (pk) => {
@@ -32,7 +46,7 @@ export let getEncodedPrivateKey = () => {
 
 export let canDecodePrivateKey = () => {
   try {
-    let id = akasha.get('wallet.identity')
+    let id = getIdentity()
 
     if (!id) {
       throw new Error('identity must be set to create private keys')
@@ -63,7 +77,7 @@ export let canDecodePrivateKey = () => {
 }
 
 export let setEncodedPrivateKeyFromMnemonic = (mnemonic) => {
-  let id = akasha.get('wallet.identity')
+  let id = getIdentity()
 
   if (!id) {
     throw new Error('identity must be set to create private keys')
@@ -95,7 +109,7 @@ export let generateNthEthereumKeys = (ns) => {
     throw new Error('argument[0] ns should be an integer or array of integers')
   }
 
-  let id = akasha.get('wallet.identity')
+  let id = getIdentity()
 
   if (!id) {
     throw new Error('identity must be set to create private keys')
@@ -145,7 +159,7 @@ export let generateNthEOSKeys = (ns) => {
     throw new Error('argument[0] ns should be an integer or array of integers')
   }
 
-  let id = akasha.get('wallet.identity')
+  let id = getIdentity()
 
   if (!id) {
     throw new Error('identity must be set to create private keys')

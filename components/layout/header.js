@@ -2,7 +2,6 @@ import React from 'react'
 
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -69,7 +68,7 @@ class Header extends React.Component {
 
     let options = currencies.map((option) => {
         return pug`
-          MenuItem(value=option.value)
+          MenuItem(key=option.value value=option.value)
             =option.label
         `
       })
