@@ -2,6 +2,8 @@ import React from 'react'
 import Router from 'next/router'
 import Emitter from '../../src/emitter'
 import MuiText from '../../components/controls/mui-text'
+import TokenCard from '../../components/token-card'
+
 import { watch } from '../../src/referential/provider'
 import { loadable } from '../../components/app/loader'
 import Api from '../../src/hanzo/api'
@@ -111,6 +113,13 @@ class Account extends React.Component {
                   img(src='/static/img/eos-logo-blue.png')
                 p $600.75
           br
+          .columns.justify-flex-start
+            TokenCard(
+              symbol='UST'
+              count='1600.75'
+              name='US Treasuries Token'
+              value='$1600.75'
+            )
       `
   }
 }

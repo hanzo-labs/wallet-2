@@ -188,6 +188,14 @@ export let generateNthEOSKeys = (ns) => {
   return eosKeys
 }
 
+export let getEthBalance = () => {
+
+}
+
+export let getEosBalance = () => {
+
+}
+
 export let requiresWalletUnlocked = (WrappedComponent) => {
   class RequiresWalletUnlocked extends React.Component {
     constructor(props) {
