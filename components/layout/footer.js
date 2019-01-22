@@ -6,6 +6,9 @@ import Link from '../link'
 
 import { withStyles } from '@material-ui/core/styles'
 import { watch } from '../../src/referential/provider'
+import Send from '@material-ui/icons/Send'
+import ArrowUpward from '@material-ui/icons/ArrowUpward'
+import ArrowDownward from '@material-ui/icons/ArrowDownward'
 
 @watch('footer')
 class Footer extends React.Component {
@@ -19,14 +22,29 @@ class Footer extends React.Component {
           footer
             Toolbar
               div(className=classes.flex1)
-                Link(href='/')
-                  img(className=classes.logoImg src='/static/img/logo.svg')
+                Link(
+                  href='/account/purchase'
+                  color='default'
+                  underline='none'
+                )
+                  ArrowUpward
+                  .command Purchase
               div(className=classes.flex1)
-                Link(href='/')
-                  img(className=classes.logoImg src='/static/img/logo.svg')
+                Link(
+                  href='/account/send'
+                  color='default'
+                  underline='none'
+                )
+                  Send(className=classes.rotated)
+                  .command Send
               div(className=classes.flex1)
-                Link(href='/')
-                  img(className=classes.logoImg src='/static/img/logo.svg')
+                Link(
+                  href='/account/redeem'
+                  color='default'
+                  underline='none'
+                )
+                  ArrowDownward
+                  .command Redeem
     `
   }
 }
@@ -37,7 +55,10 @@ const styles = (theme) => {
       flex: 1,
       textAlign: 'center',
       padding: 2 * theme.spacing.unit,
-    }
+    },
+    rotated: {
+      transform: 'rotate(-45deg)',
+    },
   }
 }
 
