@@ -1,14 +1,14 @@
 import React from 'react'
 
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Link from '@material-ui/core/Link';
-import MuiText from '../controls/mui-text';
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import AccountCircle from '@material-ui/icons/AccountCircle'
+import Link from '../link'
+import MuiText from '../controls/mui-text'
 import Router from 'next/router'
 
 import { withStyles } from '@material-ui/core/styles'
@@ -87,7 +87,7 @@ class Header extends React.Component {
             color="default"
           )
             Toolbar
-              Link(className=classes.logo)
+              Link(href='/')
                 img(className=classes.logoImg src='/static/img/logo.svg')
               div(className=classes.grow)
               MuiText(
@@ -131,16 +131,14 @@ class Header extends React.Component {
 const styles = (theme) => {
   return {
     root: {
-      background: '#272B3F',
+      background: 'transparent',
+      boxShadow: 'none',
     },
     grow: {
       flexGrow: 1,
     },
-    logo: {
-      marginRight: 20,
-    },
     logoImg: {
-      maxHeight: 32,
+      maxHeight: 36,
     },
     textField: {
       marginLeft: theme.spacing.unit,
@@ -152,4 +150,4 @@ const styles = (theme) => {
   }
 }
 
-export default withStyles(styles)(Header);
+export default withStyles(styles)(Header)

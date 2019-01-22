@@ -23,6 +23,9 @@ hero, .hero.hero
   & > *
     text-align: center
 
+header
+  background-color: $dashMenuDarkColor
+
 body
   & > :nth-child(1)
     position: relative
@@ -38,6 +41,13 @@ body
       width: 100vw
       background-image: url('/static/img/cubes-dark.svg')
       z-index: 1
+
+footer
+  background-color: $dashFooterDarkColor
+  position: fixed
+  bottom: 0
+  left: 0
+  z-index: 10
 
 .content
   position: relative
