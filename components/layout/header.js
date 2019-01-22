@@ -69,11 +69,8 @@ class Header extends React.Component {
 
     let options = currencies.map((option) => {
         return pug`
-          option(
-            key=option.value
-            value=option.value
-          )
-            = option.label
+          MenuItem(value=option.value)
+            =option.label
         `
       })
 
@@ -92,9 +89,9 @@ class Header extends React.Component {
               div(className=classes.grow)
               MuiText(
                 select
+                value='usd'
                 className=classes.textField
                 SelectProps={
-                  native: true,
                   MenuProps: {
                     className: classes.menu,
                   },

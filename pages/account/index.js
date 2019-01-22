@@ -90,9 +90,27 @@ class Account extends React.Component {
     }
 
     return pug`
-      main#account-index.hero
-        .content.columns
-          MuiText(label='What', name='123', variant='filled')
+      main#account-index
+        .content
+          h5
+            ='Hello, ' + props.rootData.get('account.firstName')
+          h5 Here’s what your tokens have been doing.
+          h5 Check your identify verification status.
+          br
+          small PORTFOLIO BALANCE:
+          h1 2,825.40
+          .simple-balances.columns.justify-flex-start
+            .simple-balance
+              .columns
+                .simple-balance-logo
+                  img(src='/static/img/eth-logo-blue.svg')
+                p $1,000
+            .simple-balance
+              .columns
+                .simple-balance-logo
+                  img(src='/static/img/eos-logo-blue.png')
+                p $600.75
+          br
       `
   }
 }

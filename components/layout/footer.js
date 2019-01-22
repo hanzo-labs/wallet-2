@@ -58,6 +58,8 @@ const styles = (theme) => {
     },
     rotated: {
       transform: 'rotate(-45deg)',
+      position: 'relative',
+      left: '3px',
     },
   }
 }
