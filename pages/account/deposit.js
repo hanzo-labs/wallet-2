@@ -1,47 +1,50 @@
 import React from 'react'
 import Router from 'next/router'
+import PickBank from '../../components/forms/pick-bank'
+import PickToken from '../../components/forms/pick-token'
+import PickAddress from '../../components/forms/pick-address'
 import Emitter from '../../src/emitter'
-import MuiListPicker from '../../components/controls/mui-list-picker'
-import TokenCard from '../../components/token-card'
-import ArrowUpward from '@material-ui/icons/ArrowUpward'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import AccountBalance from '@material-ui/icons/AccountBalance'
-import AddCircleOutlined from '@material-ui/icons/AddCircleOutlined'
-import Button from '@material-ui/core/Button'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
 
-import { withStyles } from '@material-ui/core/styles'
 import { watch } from '../../src/referential/provider'
 import { loadable } from '../../components/app/loader'
-import Api from '../../src/hanzo/api'
 import {
-  getIdentity,
-  removeIdentity,
   getEncodedPrivateKey,
   canDecodePrivateKey,
-  generateNthEthereumKeys,
-  generateNthEOSKeys,
 } from '../../src/wallet'
-import { HANZO_KEY, HANZO_ENDPOINT } from '../../src/settings.js'
-
-const styles = theme => ({
-  noMargin: {
-    margin: 0,
-  },
-})
 
 @watch('depositPage')
 @loadable
-class Account extends React.Component {
+export default class Account extends React.Component {
   constructor(props) {
     super(props)
 
     if (!getEncodedPrivateKey() || !canDecodePrivateKey()) {
       this.logout()
+    }
+
+    this.emitter = new Emitter()
+
+    this.emitter.on('pick-bank:submit', (bank) => {
+      this.setState({ bank })
+    })
+
+    this.emitter.on('pick-token:submit', (token) => {
+      this.setState({ token })
+    })
+
+    this.emitter.on('pick-address:submit', (address) => {
+      this.setState({ address })
+    })
+
+    this.emitter.on('pick-amount:submit', (amount) => {
+      this.setState({ amount })
+    })
+
+    this.state = {
+      bank: null,
+      token: null,
+      address: null,
+      amount: null,
     }
   }
 
@@ -60,40 +63,12 @@ class Account extends React.Component {
   render() {
     let { classes } = this.props
 
-    let bankOptions = [
-      {
-        value: 0,
-        label: 'First Demo Bank',
-        subLabel: 'Account ending in 1234',
-        icon: AccountBalance,
-      },
-    ]
-
     return pug`
       main#account-deposit.account
         .content
-          .content-header
-            ArrowUpward(style={ fontSize: 100 })
-            h2 Select a Bank Account
-            br
-          Card.list-picker-wrapper
-            CardMedia
-              MuiListPicker(options=bankOptions value=0)
-                ListItem(
-                  button
-                )
-                  ListItemIcon(className=classes.noMargin)
-                    AddCircleOutlined(style={ fontSize: 36 })
-                  ListItemText
-                    | Add a Bank Account
-          br
-          .content-footer.columns
-            .button
-              | BACK
-            .button
-              | CONFIRM BANK
+          PickBank(data=this.props.data emitter=this.emitter)
+          PickToken(data=this.props.data emitter=this.emitter)
+          PickAddress(data=this.props.data emitter=this.emitter)
       `
   }
 }
-
-export default withStyles(styles)(Account)

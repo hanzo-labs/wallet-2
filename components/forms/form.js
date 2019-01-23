@@ -20,7 +20,13 @@ export class InputData {
     this.data = data || ref({})
     // Default starting value used to override null data values
     this.defaultValue = defaultValue
-    this.value = this.data.get(this.name) || value || defaultValue || undefined
+    this.value = this.data.get(this.name)
+    if (this.value == null) {
+      this.value = value
+    }
+    if (this.value == null) {
+      this.value = defaultValue
+    }
     if (this.value != this.data.get(this.name)) {
       this.data.set(this.name, this.value)
     }
@@ -48,10 +54,6 @@ export class InputData {
 
   val(v) {
     return this.emitter.trigger('control:value', v)[0]
-  }
-
-  value(v) {
-    return val(v)
   }
 }
 

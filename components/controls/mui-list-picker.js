@@ -33,36 +33,49 @@ class MuiListPicker extends React.Component {
     this.state = { value: props.value }
   }
   render() {
-    let { options, classes, ...props} = this.props
+    let { options, classes, showErrors, errorMessage, ...props} = this.props
     let state = this.state
 
     options = options || []
 
-    let items = options.map((option) => {
-      let Icon = option.icon
+    let items = []
 
-      return pug`
-        ListItem(
-          button
-          classes={ selected: classes.selected }
-          selected=( props.value === option.value )
-          onClick=() => { props.onChange(option.value) }
-        )
-          if option.icon
-            ListItemIcon(className=classes.noMargin)
-              Icon(style={ fontSize: 36 })
-          ListItemText(primary=option.label className=classes.listItemText)
-          if props.value === option.value
-            ListItemIcon
-              CheckCircleOutlined(style={ fontSize: 36 })
-      `
-    })
+    for (let k in options) {
+      ((key) => {
+        let option = options[key]
+        let Icon = option.icon
+
+        items.push(pug`
+          ListItem(
+            button
+            classes={ selected: classes.selected }
+            selected=( props.value === key )
+            onClick=() => { props.onChange(key) }
+            key=key
+          )
+            if option.icon
+              ListItemIcon(className=classes.noMargin)
+                Icon(style={ fontSize: 36 })
+            ListItemText(
+              primary=(option.primary || option.label)
+              secondary=(option.secondary || option.subLabel)
+              className=classes.listItemText
+            )
+            if props.value === key
+              ListItemIcon
+                CheckCircleOutlined(style={ fontSize: 36 })
+        `)
+      })(k)
+    }
 
     return pug`
       .list-picker(className=classes.root)
         List
           = items
           = props.children
+        if !!errorMessage && showErrors
+          .error
+            = errorMessage
     `
   }
 }
