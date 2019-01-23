@@ -39,10 +39,16 @@ export default class MUIText extends React.Component{
 
     value = value || defaultValue || ""
 
+    let helper = instructions
+
+    if(showErrors && errorMessage) {
+      helper = errorMessage
+    }
+
     return pug`TextField(
       ...props
       value=value
-      helperText=errorMessage || instructions
+      helperText=helper
       error=!!errorMessage
     )`
   }

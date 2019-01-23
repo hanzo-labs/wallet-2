@@ -58,6 +58,10 @@ export class InputData {
 }
 
 export default class Form extends React.Component {
+  static defaultProps = {
+    showErrors: false,
+  }
+
   constructor(props) {
     super(props)
 
@@ -152,7 +156,7 @@ export default class Form extends React.Component {
       })
       .catch((err) => {
         this.setState({
-          errorMessage: is_submitError ? err.message : '',
+          errorMessage: (this.props.showErrors || is_submitError) ? err.message : '',
           loading: false,
           submitted: false
         })

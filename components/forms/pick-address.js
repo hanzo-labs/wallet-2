@@ -8,9 +8,6 @@ import CardContent from '@material-ui/core/CardContent'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import Button from '@material-ui/core/Button'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
 
 import { withStyles } from '@material-ui/core/styles'
 import { watch } from '../../src/referential/provider'
@@ -20,16 +17,10 @@ import {
 } from '../../src/wallet'
 import classnames from 'classnames'
 
-const styles = theme => ({
-  noMargin: {
-    margin: 0,
-  },
-})
-
 let addressOptions = {}
 
 @watch('pickAddress')
-class PickAddress extends Form {
+export default class PickAddress extends Form {
   constructor(props) {
     super(props)
 
@@ -73,8 +64,6 @@ class PickAddress extends Form {
   }
 
   render() {
-    let { classes } = this.props
-
     return pug`
       form(
         autoComplete=this.props.autoComplete
@@ -107,5 +96,3 @@ class PickAddress extends Form {
       `
   }
 }
-
-export default withStyles(styles)(PickAddress)

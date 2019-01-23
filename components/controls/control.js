@@ -156,8 +156,8 @@ export default function control(ControlComponent) {
       }
 
       return this.runMiddleware(valueTrimmed)
-        .then(() => {
-          this.changed(value)
+        .then((newValue) => {
+          this.changed(newValue)
         }).catch((err) => {
           this.error(value, err.message)
           if (rethrow) {

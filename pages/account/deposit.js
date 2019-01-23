@@ -3,6 +3,7 @@ import Router from 'next/router'
 import PickBank from '../../components/forms/pick-bank'
 import PickToken from '../../components/forms/pick-token'
 import PickAddress from '../../components/forms/pick-address'
+import PickAmount from '../../components/forms/pick-amount'
 import Emitter from '../../src/emitter'
 
 import { watch } from '../../src/referential/provider'
@@ -117,6 +118,8 @@ export default class Account extends React.Component {
             PickToken(data=this.props.data emitter=this.emitter)
           if step == 3
             PickAddress(data=this.props.data emitter=this.emitter)
+          if step == 4
+            PickAmount(data=this.props.data emitter=this.emitter)
       `
   }
 }

@@ -31,18 +31,33 @@
   z-index: 2
   position: relative
 
-  .picker-header
-  .picker-footer
-    text-align: center
+  .picker
+    .picker-header
+    .picker-footer
+      text-align: center
 
-    .button
-      &:first-child
-        flex: 0
-        border-top-right-radius: 0 !important
-        border-bottom-right-radius: 0 !important
-        margin-right: 0
-      &:last-child
-        border-top-left-radius: 0 !important
-        border-bottom-left-radius: 0 !important
-        margin-left: 0
-        flex-grow: 1
+      .button
+        &:first-child
+          flex: 0
+          border-top-right-radius: 0 !important
+          border-bottom-right-radius: 0 !important
+          margin-right: 0
+        &:last-child
+          border-top-left-radius: 0 !important
+          border-bottom-left-radius: 0 !important
+          margin-left: 0
+          flex-grow: 1
+
+    .control
+      input
+        font-size: 2rem
+        text-align: center
+        line-height: 3rem
+
+      .adornment p
+        font-size: 2rem
+        color: $white
+        margin-right: 1rem
+
+    .right
+      text-align: right

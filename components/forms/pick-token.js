@@ -9,19 +9,10 @@ import CardActionArea from '@material-ui/core/CardActionArea'
 import MonetizationOnOutlined from '@material-ui/icons/MonetizationOnOutlined'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import Button from '@material-ui/core/Button'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
 
 import { withStyles } from '@material-ui/core/styles'
 import { watch } from '../../src/referential/provider'
 import classnames from 'classnames'
-
-const styles = theme => ({
-  noMargin: {
-    margin: 0,
-  },
-})
 
 let tokenOptions = {
   '0': {
@@ -32,7 +23,7 @@ let tokenOptions = {
 }
 
 @watch('pickToken')
-class PickToken extends Form {
+export default class PickToken extends Form {
   constructor(props) {
     super(props)
 
@@ -63,8 +54,6 @@ class PickToken extends Form {
   }
 
   render() {
-    let { classes } = this.props
-
     return pug`
       form(
         autoComplete=this.props.autoComplete
@@ -97,5 +86,3 @@ class PickToken extends Form {
       `
   }
 }
-
-export default withStyles(styles)(PickToken)
