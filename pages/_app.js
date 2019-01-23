@@ -8,8 +8,12 @@ import Loader, { startLoading, stopLoading } from '../components/app/loader'
 import 'reeeset/src/reeeset.css'
 import '../styles.styl'
 
+import ERC20 from '../src/token-erc20'
+
 import blue from '@material-ui/core/colors/blue'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+
+new ERC20()
 
 const theme = createMuiTheme({
   palette: {
