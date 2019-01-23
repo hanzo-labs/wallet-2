@@ -33,13 +33,27 @@ class Account extends React.Component {
       return
     }
 
-    // Load profile from Hanzo
-    let api = new Api( HANZO_KEY, HANZO_ENDPOINT )
-
     if (!this.props.rootData.get('account.id')) {
       this.props.startLoading(' ')
       this.loading = true
     }
+
+    this.loadAccount()
+  }
+
+  generateMnemonic() {
+    Router.push('/account/mnemonic')
+  }
+
+  logout() {
+    this.props.rootData.ref('account').clear()
+    removeIdentity()
+    Router.push('/')
+  }
+
+  loadAccount() {
+    // Load profile from Hanzo
+    let api = new Api( HANZO_KEY, HANZO_ENDPOINT )
 
     api.client.account.get()
       .then((res) => {
@@ -54,24 +68,17 @@ class Account extends React.Component {
       })
   }
 
-  generateMnemonic() {
-    Router.push('/account/mnemonic')
-  }
-
-  logout() {
-    this.props.rootData.ref('account').clear()
-    removeIdentity()
-    Router.push('/')
-  }
-
   render() {
     let props = this.props
     let id = props.rootData.get('account.id')
-    let token = props.rootData.get('account.token')
     let identity = getIdentity()
 
-    // logout and clear sensitive data if token or identity is missing
-    if ((!token && !id) || !identity) {
+    if (!id) {
+      this.loadAccount()
+    }
+
+    // logout and clear sensitive data if identity is missing
+    if (!identity) {
       this.logout()
       return <div />
     }

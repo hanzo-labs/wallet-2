@@ -84,7 +84,9 @@ export let watch = (key) => {
             { ({ data }) => {
               // prioritize props.data over context data field
               let contextData = data
-              if (props.data) {
+              if (this.data) {
+                contextData = this.data
+              } else if (props.data) {
                 contextData = props.data
               }
 

@@ -25,19 +25,48 @@ export default class Account extends React.Component {
     this.emitter = new Emitter()
 
     this.emitter.on('pick-bank:submit', (bank) => {
-      this.setState({ bank })
+      this.setState({
+        bank: bank,
+        step: 2,
+      })
     })
 
     this.emitter.on('pick-token:submit', (token) => {
-      this.setState({ token })
+      this.setState({
+        token:token,
+        step: 3,
+      })
     })
 
     this.emitter.on('pick-address:submit', (address) => {
-      this.setState({ address })
+      this.setState({
+        address: address,
+        step: 4,
+      })
     })
 
     this.emitter.on('pick-amount:submit', (amount) => {
-      this.setState({ amount })
+      this.setState({
+        amount: amount,
+      })
+
+      this.purchase()
+    })
+
+    this.emitter.on('pick-bank:back', () => {
+      this.back()
+    })
+
+    this.emitter.on('pick-token:back', () => {
+      this.back()
+    })
+
+    this.emitter.on('pick-address:back', () => {
+      this.back()
+    })
+
+    this.emitter.on('pick-amount:back', () => {
+      this.back()
     })
 
     this.state = {
@@ -45,7 +74,24 @@ export default class Account extends React.Component {
       token: null,
       address: null,
       amount: null,
+      step: 1,
     }
+  }
+
+  componentWillUnmount() {
+    this.emitter.off('pick-bank:submit')
+    this.emitter.off('pick-bank:back')
+    this.emitter.off('pick-token:submit')
+    this.emitter.off('pick-token:back')
+    this.emitter.off('pick-address:submit')
+    this.emitter.off('pick-address:back')
+  }
+
+  back() {
+    if (this.state.step == 1) {
+      Router.push('/')
+    }
+    this.setState({ step: this.state.step - 1 })
   }
 
   logout() {
@@ -54,21 +100,23 @@ export default class Account extends React.Component {
     Router.push('/')
   }
 
-  handleOnExit = () => {
-  }
+  purchase() {
 
-  handleOnSuccess = () => {
   }
 
   render() {
     let { classes } = this.props
+    let { step } = this.state
 
     return pug`
       main#account-deposit.account
         .content
-          PickBank(data=this.props.data emitter=this.emitter)
-          PickToken(data=this.props.data emitter=this.emitter)
-          PickAddress(data=this.props.data emitter=this.emitter)
+          if step == 1
+            PickBank(data=this.props.data emitter=this.emitter)
+          if step == 2
+            PickToken(data=this.props.data emitter=this.emitter)
+          if step == 3
+            PickAddress(data=this.props.data emitter=this.emitter)
       `
   }
 }

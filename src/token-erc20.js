@@ -1,3 +1,1 @@
-export default class ERC20 {
-
-}
+export default class ERC20 {}

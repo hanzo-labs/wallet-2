@@ -33,21 +33,6 @@ class PickAddress extends Form {
   constructor(props) {
     super(props)
 
-    this.inputs = {
-      address: new InputData({
-        name: 'address',
-        data: props.data,
-        value: '0',
-        middleware: [(v) => {
-          if (addressOptions[v]) {
-            return v
-          }
-
-          throw Error('No address selected.')
-        }],
-      }),
-    }
-
     let [ethAddress] = generateNthEthereumKeys(1)
     let [eosAddress] = generateNthEOSKeys(1)
 
@@ -59,6 +44,21 @@ class PickAddress extends Form {
     addressOptions[eosAddress.publicKey] = {
       label: eosAddress.publicKey,
       secondary: '10000.00 ($10000.00)',
+    }
+
+    this.inputs = {
+      address: new InputData({
+        name: 'address',
+        data: props.data,
+        value: ethAddress.publicKey,
+        middleware: [(v) => {
+          if (addressOptions[v]) {
+            return v
+          }
+
+          throw Error('No address selected.')
+        }],
+      }),
     }
 
     this.emitter = props.emitter
