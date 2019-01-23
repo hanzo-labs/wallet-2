@@ -2,7 +2,6 @@ import Form, { InputData } from './form'
 import Emitter from '../../src/emitter'
 import MuiText from '../../components/controls/mui-text'
 import TokenCard from '../../components/token-card'
-import ArrowUpward from '@material-ui/icons/ArrowUpward'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -85,8 +84,7 @@ class PickAmount extends Form {
       )
         .picker
           .picker-header
-            ArrowUpward(style={ fontSize: 100 })
-            h2 Select a Amount Account
+            h2 Select an Amount
             br
           Card.list-picker-wrapper
             MuiText(

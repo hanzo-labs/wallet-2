@@ -2,7 +2,6 @@ import Form, { InputData } from './form'
 import Emitter from '../../src/emitter'
 import MuiListPicker from '../../components/controls/mui-list-picker'
 import TokenCard from '../../components/token-card'
-import ArrowUpward from '@material-ui/icons/ArrowUpward'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -66,7 +65,6 @@ export default class PickToken extends Form {
       )
         .picker
           .picker-header
-            ArrowUpward(style={ fontSize: 100 })
             h2 Select a Token
             br
           Card.list-picker-wrapper

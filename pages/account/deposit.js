@@ -4,6 +4,7 @@ import PickBank from '../../components/forms/pick-bank'
 import PickToken from '../../components/forms/pick-token'
 import PickAddress from '../../components/forms/pick-address'
 import PickAmount from '../../components/forms/pick-amount'
+import ArrowUpward from '@material-ui/icons/ArrowUpward'
 import Emitter from '../../src/emitter'
 
 import { watch } from '../../src/referential/provider'
@@ -49,9 +50,8 @@ export default class Account extends React.Component {
     this.emitter.on('pick-amount:submit', (amount) => {
       this.setState({
         amount: amount,
+        step: 5,
       })
-
-      this.purchase()
     })
 
     this.emitter.on('pick-bank:back', () => {
@@ -86,6 +86,8 @@ export default class Account extends React.Component {
     this.emitter.off('pick-token:back')
     this.emitter.off('pick-address:submit')
     this.emitter.off('pick-address:back')
+    this.emitter.off('pick-amount:submit')
+    this.emitter.off('pick-amount:back')
   }
 
   back() {
@@ -101,8 +103,8 @@ export default class Account extends React.Component {
     Router.push('/')
   }
 
-  purchase() {
-
+  purchase = () => {
+    Router.push('/')
   }
 
   render() {
@@ -112,6 +114,9 @@ export default class Account extends React.Component {
     return pug`
       main#account-deposit.account
         .content
+          if step != 5
+            .icon
+              ArrowUpward(style={ fontSize: 100 })
           if step == 1
             PickBank(data=this.props.data emitter=this.emitter)
           if step == 2
@@ -120,6 +125,14 @@ export default class Account extends React.Component {
             PickAddress(data=this.props.data emitter=this.emitter)
           if step == 4
             PickAmount(data=this.props.data emitter=this.emitter)
+          if step == 5
+            .confirmation
+              img(src='/static/img/big-check.svg')
+              br
+              h3.action-instruction Your transaction is being processed.
+              br
+              .button(onClick=this.purchase)
+                | CONTINUE
       `
   }
 }
