@@ -1,15 +1,20 @@
 import React from 'react'
 
 import control from './control'
-import MuiText from './mui-text'
+import { BaseMUIText } from './mui-text'
 import { InlineDatePicker } from 'material-ui-pickers'
 import { MuiPickersContextConsumer } from 'material-ui-pickers'
 
+import { defaultFormat, renderUIDate, renderJSONDate } from '../../src/util/date'
+import moment from 'moment-timezone'
+
 @control
-export default class MUIDatePicker extends MuiText{
+export default class MUIDatePicker extends BaseMUIText{
   change = (e) => {
     if (this.props.onChange) {
-      this.props.onChange(e)
+      let v = renderJSONDate(e)
+
+      this.props.onChange(v)
     }
   }
 
@@ -31,7 +36,7 @@ export default class MUIDatePicker extends MuiText{
 
     props.onChange = this.change
 
-    value = value || defaultValue || ""
+    value = value || defaultValue || moment()
 
     let helper = instructions
 
@@ -43,11 +48,11 @@ export default class MUIDatePicker extends MuiText{
       { (utils) => {
         return <InlineDatePicker
           { ...props }
+          value={ moment(value) }
           keyboard
           utils={ utils }
-          defaultValue={ value }
           onChange={ this.change }
-          format={ 'MM/DD/YYYY' }
+          format={ defaultFormat() }
           mask={ [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] }
         />
       } }

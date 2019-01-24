@@ -3,6 +3,8 @@ import Emitter from '../../src/emitter'
 import MuiText from '../../components/controls/mui-text'
 import MuiPhone from '../../components/controls/mui-phone'
 import MuiDatePicker from '../../components/controls/mui-date-picker'
+import MuiCountry from '../../components/controls/mui-country'
+import MuiState from '../../components/controls/mui-state'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
@@ -12,6 +14,13 @@ import classnames from 'classnames'
 
 import isRequired from '../../src/control-middlewares/isRequired'
 import isPhone from '../../src/control-middlewares/isPhone'
+
+let genderOpts = {
+  male: 'Male',
+  female: 'Female',
+  other: 'Other',
+  unspecified: 'Unspecified',
+}
 
 @watch('kycForm')
 export default class KYCForm extends Form {
@@ -38,9 +47,41 @@ export default class KYCForm extends Form {
         data: props.data,
         middleware: [ isRequired, isPhone ],
       }),
-      birthday: new InputData({
+      birthdate: new InputData({
         name: 'kyc.birthdate',
         data: props.data,
+        middleware: [ isRequired ],
+      }),
+      gender: new InputData({
+        name: 'kyc.gender',
+        data: props.data,
+        value: 'unspecified',
+        middleware: [ isRequired ],
+        options: genderOpts,
+      }),
+      addressLine1: new InputData({
+        name: 'kyc.address.line1',
+        data: props.data,
+        middleware: [ isRequired ],
+      }),
+      addressLine2: new InputData({
+        name: 'kyc.address.line2',
+        data: props.data,
+      }),
+      city: new InputData({
+        name: 'kyc.address.city',
+        data: props.data,
+        middleware: [ isRequired ],
+      }),
+      postalCode: new InputData({
+        name: 'kyc.address.postalCode',
+        data: props.data,
+        middleware: [ isRequired ],
+      }),
+      country: new InputData({
+        name: 'kyc.address.country',
+        data: props.data,
+        value: 'us',
         middleware: [ isRequired ],
       }),
     }
@@ -52,7 +93,7 @@ export default class KYCForm extends Form {
     let { classes } = this.props
 
     return pug`
-      form(
+      form.form(
         autoComplete=this.props.autoComplete
         onSubmit=this.submit
         className=classnames({
@@ -66,7 +107,7 @@ export default class KYCForm extends Form {
         br
         p PERSONAL DETAILS
         Card
-          CardContent
+          CardContent.form-content
             .form-group.columns
               MuiText.flex2(
                 ...this.inputs.firstName
@@ -94,7 +135,51 @@ export default class KYCForm extends Form {
                 label='Birthday'
                 variant='outlined'
               )
-
+              MuiText(
+                ...this.inputs.gender
+                label='Gender'
+                variant='outlined'
+              )
+        br
+        p PRIMARY ADDRESS
+        Card
+          CardContent.form-content
+            .form-group.columns
+              MuiText(
+                ...this.inputs.addressLine1
+                label='Street Address'
+                variant='outlined'
+              )
+            .form-group.columns
+              MuiText(
+                ...this.inputs.addressLine2
+                label='Apartment/Suite Number'
+                variant='outlined'
+              )
+            .form-group.columns
+              MuiText.flex3(
+                ...this.inputs.city
+                label='City'
+                variant='outlined'
+              )
+              MuiText.flex2(
+                ...this.inputs.postalCode
+                label='Postal Code'
+                variant='outlined'
+              )
+            .form-group.columns
+              MuiCountry(
+                ...this.inputs.country
+                label='Country'
+                variant='outlined'
+              )
+              MuiState(
+                ...this.inputs.state
+                label='State'
+                variant='outlined'
+                country=this.inputs.country.val()
+              )
+        br
         if this.getErrorMessage()
           .error
             = this.getErrorMessage()

@@ -11,7 +11,7 @@ export class InputData {
     showControlErrors: false,
   }
 
-  constructor({ type, name, value, defaultValue, data, scrollToError, middleware }) {
+  constructor({ type, name, value, defaultValue, data, scrollToError, middleware, options }) {
     // Data context for storing control values outside of the state
     this.type = type || undefined
     // Name of field in data context
@@ -30,6 +30,8 @@ export class InputData {
     if (this.value != this.data.get(this.name)) {
       this.data.set(this.name, this.value)
     }
+    this.options = options
+    this.select = options != null ? true : undefined
 
     // Should the page scroll to an error in the middleware?
     this.scrollToError = scrollToError || true

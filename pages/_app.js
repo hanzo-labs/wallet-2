@@ -6,14 +6,18 @@ import RefProvider from '../src/referential/provider'
 import Header from '../components/layout/header'
 import Footer from '../components/layout/footer'
 import Loader, { startLoading, stopLoading } from '../components/app/loader'
-import 'reeeset/src/reeeset.css'
-import '../styles.styl'
 
 import ERC20 from '../src/token-erc20'
+import MomentUtils from '@date-io/moment'
+import { loadLibrary } from '../src/library'
+import Api from '../src/hanzo/api'
+import { HANZO_KEY, HANZO_ENDPOINT } from '../src/settings.js'
 
 import blue from '@material-ui/core/colors/blue'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import MomentUtils from '@date-io/moment'
+
+import 'reeeset/src/reeeset.css'
+import '../styles.styl'
 
 new ERC20()
 
@@ -44,7 +48,20 @@ export default class MyApp extends App {
   }
 
   componentDidMount() {
-    stopLoading()
+    if (typeof window != 'undefined') {
+      startLoading()
+
+      let api = new Api( HANZO_KEY, HANZO_ENDPOINT )
+
+      loadLibrary(api.client).then(() => {
+        stopLoading()
+      }).catch((err) => {
+        console.log('library loading error', err)
+        stopLoading()
+      })
+    } else {
+      stopLoading()
+    }
   }
 
   render () {

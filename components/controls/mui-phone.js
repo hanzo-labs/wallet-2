@@ -1,7 +1,7 @@
 import React from 'react'
 
 import control from './control'
-import MuiText from './mui-text'
+import { BaseMUIText } from './mui-text'
 import TextField from '@material-ui/core/TextField'
 import MaskedInput from 'react-text-mask'
 
@@ -19,11 +19,7 @@ function TextMaskCustom(props) {
 }
 
 @control
-export default class MUIPhone extends MuiText{
-  static defaultProps = {
-    showErrors: true,
-  }
-
+export default class MUIPhone extends BaseMUIText{
   change = (e) => {
     if (e && e.target && e.target.value) {
       e = parseInt(e.target.value.replace(/[^0-9]+/g, ''), 10)

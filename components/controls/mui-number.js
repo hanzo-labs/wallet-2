@@ -1,7 +1,7 @@
 import React from 'react'
 
 import control from './control'
-import MuiText from './mui-text'
+import { BaseMUIText } from './mui-text'
 import TextField from '@material-ui/core/TextField'
 import NumberFormat from 'react-number-format'
 
@@ -25,7 +25,7 @@ function NumberFormatCustom(props) {
 }
 
 @control
-export default class MUINumber extends MuiText{
+export default class MUINumber extends BaseMUIText{
   change = (e) => {
     if (e && e.target && e.target.value) {
       e = parseFloat(e.target.value.replace(/[^0-9\.]+/g, ''))

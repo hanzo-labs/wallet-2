@@ -117,9 +117,13 @@ export default function control(ControlComponent) {
       }
 
       let oldValue = this.state.value
-      let name = this.name
+      let name = this.props.name
 
-      p = p(value, oldValue, name)
+      p = p.call(this.props, value, oldValue, name).then((v) => {
+        return v
+      }).catch((err) => {
+        throw err
+      })
 
       for(let k in middleware) {
         let m = middleware[k]
@@ -157,7 +161,11 @@ export default function control(ControlComponent) {
 
       return this.runMiddleware(valueTrimmed)
         .then((newValue) => {
-          this.changed(newValue)
+          if (newValue == valueTrimmed) {
+            this.changed(value)
+          } else {
+            this.changed(newValue)
+          }
         }).catch((err) => {
           this.error(value, err.message)
           if (rethrow) {

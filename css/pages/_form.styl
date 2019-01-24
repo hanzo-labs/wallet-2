@@ -168,15 +168,21 @@
   & > *
     width: 100%
 
-.form-group.form-group.form-group
-  align-items: flex-start
+.form
+  .button
+    text-align: center
 
-  &:not(:last-child)
+  .form-group
+    align-items: flex-start
+
     .control
       margin-bottom: 1rem
 
-  +mobile()
-    &.columns
+  .form-content.form-content.form-content
+    padding-bottom: .5rem
+
+  +tablet()
+    .columns
       flex-direction: column
 
       & > *

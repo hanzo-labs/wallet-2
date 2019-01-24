@@ -2,9 +2,9 @@ import React from 'react'
 
 import control from './control'
 import TextField from '@material-ui/core/TextField'
+import MenuItem from '@material-ui/core/MenuItem'
 
-@control
-export default class MUIText extends React.Component{
+export class BaseMUIText extends React.Component{
   static defaultProps = {
     type: 'text',
     autoComplete: 'new-password',
@@ -20,6 +20,7 @@ export default class MUIText extends React.Component{
     rows: undefined,
     cols: undefined,
     showErrors: true,
+    options: undefined,
   }
 
   render() {
@@ -34,8 +35,18 @@ export default class MUIText extends React.Component{
       errorMessage,
       middleware,
       instructions,
+      options,
+      disabled,
       ...props
     } = this.props
+
+    if (!options) {
+      options = this.options
+    }
+
+    if (!disabled) {
+      disabled = this.disabled
+    }
 
     value = value || defaultValue || ""
 
@@ -45,11 +56,44 @@ export default class MUIText extends React.Component{
       helper = errorMessage
     }
 
-    return pug`TextField(
-      ...props
-      value=value
-      helperText=helper
-      error=!!errorMessage
-    )`
+    let isSelect = props.select != null && !!options
+    let selectOptions = []
+    if (isSelect) {
+      if (props.SelectProps && props.SelectProps.native) {
+        for (let k in options) {
+          ((key) => {
+            let opt = options[key]
+            selectOptions.push(pug`
+              option(key=key value=key)
+                =opt
+            `)
+          })(k)
+        }
+      } else {
+        for (let k in options) {
+          ((key) => {
+            let opt = options[key]
+            selectOptions.push(pug`
+              MenuItem(key=key value=key)
+                =opt
+            `)
+          })(k)
+        }
+      }
+    }
+
+    return pug`
+      TextField(
+        ...props
+        disabled=disabled
+        value=value
+        helperText=helper
+        error=!!errorMessage
+      )
+        =selectOptions
+      `
   }
 }
+
+@control
+export default class MUIText extends BaseMUIText {}
