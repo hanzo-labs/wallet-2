@@ -33,7 +33,7 @@ export default class MUIState extends BaseMUIText{
 
       if (!this.options) {
         this.disabled = true
-      } else {
+      } else if(!this.options[this.props.value]) {
         this.props.onChange(Object.keys(this.options)[0])
       }
     }

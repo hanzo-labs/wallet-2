@@ -84,6 +84,12 @@ export default class KYCForm extends Form {
         value: 'us',
         middleware: [ isRequired ],
       }),
+      state: new InputData({
+        name: 'kyc.address.state',
+        data: props.data,
+        value: 'ca',
+        middleware: [ isRequired ],
+      }),
     }
 
     this.emitter = props.emitter
