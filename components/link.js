@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 class MyLink extends React.Component {
   render() {
-    const { style, classes, href, hrefAs, children, prefetch, ...props } = this.props
+    const { style, className, classes, href, hrefAs, children, prefetch, ...props } = this.props
     return pug`
       Link(
         href=href
@@ -16,7 +16,7 @@ class MyLink extends React.Component {
       )
         MuiLink(
           ...props
-          className=classes.root
+          className=classes.root + ' ' + className
         )
           =children
     `

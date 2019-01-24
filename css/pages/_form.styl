@@ -164,3 +164,23 @@
 .list-picker-wrapper.list-picker-wrapper.list-picker-wrapper
   text-align: center
 
+.control
+  & > *
+    width: 100%
+
+.form-group.form-group.form-group
+  align-items: flex-start
+
+  &:not(:last-child)
+    .control
+      margin-bottom: 1rem
+
+  +mobile()
+    &.columns
+      flex-direction: column
+
+      & > *
+        flex: 1
+        width: 100%
+        margin-left: 0
+        margin-right: 0

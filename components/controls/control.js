@@ -99,7 +99,7 @@ export default function control(ControlComponent) {
         value: value,
         valid: false
       }, () => {
-        if (this.props.scrollToError) {
+        if (this.props.scrollToError && this.inputRef.current) {
           this.inputRef.current.scrollIntoView()
           this.inputRef.current.focus()
         }
@@ -126,7 +126,7 @@ export default function control(ControlComponent) {
 
         p = p.then((v) => {
           return new Promise((resolve, reject)=> {
-            m(v, oldValue, name).then((v) => {
+            m.call(this.props, v, oldValue, name).then((v) => {
               resolve(v)
             }).catch((err) => {
               reject(err)
@@ -198,6 +198,7 @@ export default function control(ControlComponent) {
       })
 
       delete props.value
+      delete props.className
 
       return pug`
         .control(
@@ -205,7 +206,7 @@ export default function control(ControlComponent) {
           className=classnames({
             valid: valid,
             invalid: !!errorMessage,
-          })
+          }) + (this.props.className ? ' ' + this.props.className : '')
         )
           ControlComponent(
             ...props

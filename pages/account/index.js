@@ -3,6 +3,7 @@ import Router from 'next/router'
 import Emitter from '../../src/emitter'
 import MuiText from '../../components/controls/mui-text'
 import TokenCard from '../../components/token-card'
+import Link from '../../components/link'
 
 import { watch } from '../../src/referential/provider'
 import { loadable } from '../../components/app/loader'
@@ -104,7 +105,8 @@ class Account extends React.Component {
           h5
             ='Hello, ' + props.rootData.get('account.firstName')
           h5 Here’s what your tokens have been doing.
-          h5 Check your identify verification status.
+          Link(href='/account/kyc')
+            | Check your identify verification status.
           br
           small PORTFOLIO BALANCE:
           h1 2,825.40

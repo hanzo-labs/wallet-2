@@ -3,32 +3,30 @@ import React from 'react'
 import control from './control'
 import MuiText from './mui-text'
 import TextField from '@material-ui/core/TextField'
-import NumberFormat from 'react-number-format'
+import MaskedInput from 'react-text-mask'
 
-function NumberFormatCustom(props) {
-  const { inputRef, onChange, ...other } = props;
+function TextMaskCustom(props) {
+  const { inputRef, ...other } = props;
 
   return (
-    <NumberFormat
+    <MaskedInput
       {...other}
-      getInputRef={inputRef}
-      onValueChange={values => {
-        onChange({
-          target: {
-            value: values.value,
-          },
-        });
-      }}
-      prefix='$'
+      mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+      placeholderChar={'\u2000'}
+      showMask
     />
   );
 }
 
 @control
-export default class MUINumber extends MuiText{
+export default class MUIPhone extends MuiText{
+  static defaultProps = {
+    showErrors: true,
+  }
+
   change = (e) => {
     if (e && e.target && e.target.value) {
-      e = parseFloat(e.target.value.replace(/[^0-9\.]+/g, ''))
+      e = parseInt(e.target.value.replace(/[^0-9]+/g, ''), 10)
     }
 
     if (this.props.onChange) {
@@ -62,7 +60,10 @@ export default class MUINumber extends MuiText{
       helper = errorMessage
     }
 
-    InputProps.inputComponent = NumberFormatCustom
+    if (!InputProps) {
+      InputProps = { onChange: this.change }
+    }
+    InputProps.inputComponent = TextMaskCustom
 
     return pug`TextField(
       ...props
@@ -70,6 +71,7 @@ export default class MUINumber extends MuiText{
       helperText=helper
       error=!!errorMessage
       InputProps=InputProps
+      InputLabelProps={ shrink: true }
     )`
   }
 }

@@ -24,6 +24,7 @@ class Footer extends React.Component {
             Toolbar(className=classes.noPadding)
               div(className=classes.flex1)
                 Link(
+                  className=classes.blockLink
                   href='/account/deposit'
                   color= Router.route == '/account/deposit' ? 'secondary' : 'textPrimary'
                   underline='none'
@@ -32,6 +33,7 @@ class Footer extends React.Component {
                   .command Purchase
               div(className=classes.flex1)
                 Link(
+                  className=classes.blockLink
                   href='/account/send'
                   color= Router.route == '/account/send' ? 'secondary' : 'textPrimary'
                   underline='none'
@@ -40,6 +42,7 @@ class Footer extends React.Component {
                   .command Send
               div(className=classes.flex1)
                 Link(
+                  className=classes.blockLink
                   href='/account/redeem'
                   color= Router.route == '/account/redeem' ? 'secondary' : 'textPrimary'
                   underline='none'
@@ -64,6 +67,9 @@ const styles = (theme) => {
       transform: 'rotate(-45deg)',
       position: 'relative',
       left: '3px',
+    },
+    blockLink: {
+      display: 'block',
     },
   }
 }

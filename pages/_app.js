@@ -1,6 +1,7 @@
 import React from 'react'
 import App, { Container } from 'next/app'
 import Router from 'next/router'
+import { MuiPickersUtilsProvider } from 'material-ui-pickers'
 import RefProvider from '../src/referential/provider'
 import Header from '../components/layout/header'
 import Footer from '../components/layout/footer'
@@ -12,6 +13,7 @@ import ERC20 from '../src/token-erc20'
 
 import blue from '@material-ui/core/colors/blue'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import MomentUtils from '@date-io/moment'
 
 new ERC20()
 
@@ -52,11 +54,12 @@ export default class MyApp extends App {
     return pug`
       Container
         MuiThemeProvider(theme=theme)
-          RefProvider
-            Header
-            Component
-            Footer
-            Loader
+          MuiPickersUtilsProvider(utils=MomentUtils)
+            RefProvider
+              Header
+              Component
+              Footer
+              Loader
     `
   }
 

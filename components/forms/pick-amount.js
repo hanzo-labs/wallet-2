@@ -1,6 +1,6 @@
 import Form, { InputData } from './form'
 import Emitter from '../../src/emitter'
-import MuiText from '../../components/controls/mui-text'
+import MuiNumber from '../../components/controls/mui-number'
 import TokenCard from '../../components/token-card'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Card from '@material-ui/core/Card'
@@ -37,9 +37,9 @@ class PickAmount extends Form {
         data: props.data,
         value: '$1.00',
         middleware: [(v) => {
-          let val = v.replace(/[^0-9\.]+/g, '')
-          if (!isNaN(parseFloat(val)) && val > 0) {
-            return '$' + val
+          let val = parseFloat(v)
+          if (!isNaN(val) && val > 0) {
+            return val
           }
 
           throw Error('Invalid amount.')
@@ -87,7 +87,7 @@ class PickAmount extends Form {
             h2 Select an Amount
             br
           Card.list-picker-wrapper
-            MuiText(
+            MuiNumber(
               ...this.inputs.amount
               className=classes.fullWidth
               showErrors=false

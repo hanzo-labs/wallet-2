@@ -53,4 +53,3 @@ export default class MUIText extends React.Component{
     )`
   }
 }
-
