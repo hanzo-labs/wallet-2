@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import { watch } from '../../src/referential/provider'
 import classnames from 'classnames'
+import isRequired from '../../src/control-middlewares/isRequired'
 
 const styles = theme => ({
   fullWidth: {
@@ -21,8 +22,8 @@ const styles = theme => ({
   },
 })
 
-@watch('pickAmount')
-class PickAmount extends Form {
+@watch('pickReceiver')
+class PickReceiver extends Form {
   static defaultProps = {
     showErrors: true,
     navMultiplier: 1,
@@ -32,18 +33,11 @@ class PickAmount extends Form {
     super(props)
 
     this.inputs = {
-      amount: new InputData({
-        name: 'amount',
+      receiver: new InputData({
+        name: 'receiver',
         data: props.data,
-        value: '$1.00',
-        middleware: [(v) => {
-          let val = v.replace(/[^0-9\.]+/g, '')
-          if (!isNaN(parseFloat(val)) && val > 0) {
-            return '$' + val
-          }
-
-          throw Error('Invalid amount.')
-        }],
+        value: '',
+        middleware: [isRequired],
       }),
     }
 
@@ -51,26 +45,16 @@ class PickAmount extends Form {
   }
 
   back = () => {
-    this.emitter.trigger('pick-amount:back')
+    this.emitter.trigger('pick-receiver:back')
   }
 
   _submit() {
-    this.emitter.trigger('pick-amount:submit', this.inputs.amount.val())
+    this.emitter.trigger('pick-receiver:submit', this.inputs.receiver.val())
     console.log('lol?')
   }
 
   render() {
     let { classes } = this.props
-
-    let val = this.inputs.amount.val() || 0
-    if (typeof val == 'string') {
-      val = val.replace(/[^0-9\.]+/g, '')
-    }
-    val = parseFloat(val)
-
-    let nav = pug`
-      InputAdornment.adornment(position='end') NAV
-    `
 
     return pug`
       form(
@@ -84,19 +68,14 @@ class PickAmount extends Form {
       )
         .picker
           .picker-header
-            h2 Select an Amount
+            h2 Select a Destination
             br
           Card.list-picker-wrapper
             MuiText(
-              ...this.inputs.amount
+              ...this.inputs.receiver
               className=classes.fullWidth
               showErrors=false
-              InputProps={
-                endAdornment: nav
-              }
             )
-          p.right
-            = '' + (val * this.props.navMultiplier) + ' Hanzo UST based on Net Asset Value'
           br
           if this.getErrorMessage()
             .error
@@ -105,10 +84,10 @@ class PickAmount extends Form {
             .button.columns(onClick=this.back)
               ArrowBack
             .button(onClick=this.submit)
-              | CONFIRM AMOUNT
+              | CONFIRM
       `
   }
 }
 
-export default withStyles(styles)(PickAmount)
+export default withStyles(styles)(PickReceiver)
 

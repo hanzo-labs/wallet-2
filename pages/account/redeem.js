@@ -14,7 +14,7 @@ import {
   canDecodePrivateKey,
 } from '../../src/wallet'
 
-@watch('depositPage')
+@watch('redeemPage')
 @loadable
 export default class Account extends React.Component {
   constructor(props) {
