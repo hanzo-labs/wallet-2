@@ -35,6 +35,7 @@ export default class KYCForm extends Form {
       firstName: new InputData({
         name: 'firstName',
         data: props.data,
+        value: this.props.rootData.get('account.firstName'),
         middleware: [ isRequired ],
       }),
       middleName: new InputData({
@@ -44,6 +45,7 @@ export default class KYCForm extends Form {
       lastName: new InputData({
         name: 'lastName',
         data: props.data,
+        value: this.props.rootData.get('account.lastName'),
         middleware: [ isRequired ],
       }),
       phone: new InputData({
