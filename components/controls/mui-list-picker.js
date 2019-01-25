@@ -9,22 +9,6 @@ import control from './control'
 
 import { withStyles } from '@material-ui/core/styles'
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-  },
-  selected: {
-    backgroundColor: theme.palette.secondary.main  + ' !important',
-  },
-  listItemText: {
-    flexGrow: 1,
-  },
-  noMargin: {
-    margin: 0,
-  },
-})
-
 @control
 class MuiListPicker extends React.Component {
   constructor(props) {
@@ -79,5 +63,21 @@ class MuiListPicker extends React.Component {
     `
   }
 }
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+  },
+  selected: {
+    backgroundColor: theme.palette.secondary.main  + ' !important',
+  },
+  listItemText: {
+    flexGrow: 1,
+  },
+  noMargin: {
+    margin: 0,
+  },
+})
 
 export default withStyles(styles)(MuiListPicker)

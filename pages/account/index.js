@@ -109,7 +109,7 @@ class Account extends React.Component {
             | Check your identify verification status.
           br
           small PORTFOLIO BALANCE:
-          h1 2,825.40
+          h1 1,600.75
           .simple-balances.columns.justify-flex-start
             .simple-balance
               .columns
@@ -122,13 +122,17 @@ class Account extends React.Component {
                   img(src='/static/img/eos-logo-blue.png')
                 p $600.75
           br
-          .columns.justify-flex-start
-            TokenCard(
-              symbol='UST'
-              count='1600.75'
-              name='US Treasuries Token'
-              value='$1600.75'
+          .token-cards.columns.justify-flex-start
+            Link(
+              href='/account/transactions'
+              underline='none'
             )
+              TokenCard(
+                symbol='UST'
+                count='1600.75'
+                name='US Treasuries Token'
+                value='$1600.75'
+              )
       `
   }
 }

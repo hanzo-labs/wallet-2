@@ -16,7 +16,7 @@ import classnames from 'classnames'
 let tokenOptions = {
   '0': {
     label: 'US Treasuries Token (UST)',
-    secondary: '2,825.40 ($2,825.40)',
+    secondary: '1,600.75 ($1,600.75)',
     icon: MonetizationOnOutlined,
   },
 }
