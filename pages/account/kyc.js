@@ -24,11 +24,33 @@ class KYC extends React.Component {
       this.generateMnemonic()
       return
     }
+
+    this.emitter = new Emitter()
+
+    this.emitter.on('kyc:success', res => {
+      this.props.rootData.set('account', res)
+
+      this.setState({
+        confirmed: true,
+      })
+    })
+
+    this.state = {
+      confirmed: false,
+    }
+  }
+
+  componentWillUnmount() {
+    this.emitter.off('kyc:success')
   }
 
   logout() {
     this.props.rootData.ref('account').clear()
     removeIdentity()
+    Router.push('/')
+  }
+
+  done = () => {
     Router.push('/')
   }
 
@@ -38,9 +60,20 @@ class KYC extends React.Component {
     return pug`
       main#account-index.account
         .content
-          KYCForm(
-            data=props.data
-          )
+          if this.state.confirmed
+            .confirmation
+              img(src='/static/img/big-check.svg')
+              br
+              h3.action-instruction Your identity is being verified.
+              br
+              .button(onClick=this.done)
+                | CONTINUE
+          else
+            KYCForm(
+              data=props.data
+              emitter=this.emitter
+            )
+
       `
   }
 }

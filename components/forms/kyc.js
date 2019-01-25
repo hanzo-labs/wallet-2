@@ -1,17 +1,19 @@
 import Form, { InputData } from './form'
-import Emitter from '../../src/emitter'
 import MuiText from '../../components/controls/mui-text'
 import MuiPhone from '../../components/controls/mui-phone'
 import MuiTaxId from '../../components/controls/mui-taxid'
 import MuiDatePicker from '../../components/controls/mui-date-picker'
 import MuiCountry from '../../components/controls/mui-country'
 import MuiState from '../../components/controls/mui-state'
-import Webcam from '../../components/controls/webcam'
+import WebcamCapture from '../../components/controls/webcam-capture'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
+import Api from '../../src/hanzo/api'
+import Emitter from '../../src/emitter'
 
 import { watch } from '../../src/referential/provider'
+import { HANZO_KEY, HANZO_ENDPOINT } from '../../src/settings.js'
 import classnames from 'classnames'
 
 import isRequired from '../../src/control-middlewares/isRequired'
@@ -97,9 +99,36 @@ export default class KYCForm extends Form {
         value: 'ca',
         middleware: [ isRequired ],
       }),
+      kycFace: new InputData({
+        name: 'kyc.documents.0',
+        data: props.data,
+        middleware: [ isRequired ],
+      }),
+      kycIdFront: new InputData({
+        name: 'kyc.documents.1',
+        data: props.data,
+        middleware: [ isRequired ],
+      }),
+      kycIdBack: new InputData({
+        name: 'kyc.documents.2',
+        data: props.data,
+        middleware: [ isRequired ],
+      }),
     }
 
-    this.emitter = props.emitter
+    this.emitter = props.emitter || new Emitter()
+  }
+
+  _submit() {
+    let api = new Api( HANZO_KEY, HANZO_ENDPOINT )
+
+    let opts = this.props.data.get()
+    opts.kyc.taxId = '' + opts.kyc.taxId
+    opts.kyc.phone = '' + opts.kyc.phone
+
+    return api.client.account.update(opts).then((res) => {
+      this.emitter.trigger('kyc:success', res)
+    })
   }
 
   render() {
@@ -199,11 +228,30 @@ export default class KYCForm extends Form {
                 country=this.inputs.country.val()
               )
 
+        br
         p PHOTO IDS
-        Card
+        Card.photos
           CardContent.form-content
             .form-group.columns
-              Webcam
+              .photo
+                WebcamCapture(...this.inputs.kycFace)
+                div Face
+              .photo
+                WebcamCapture(
+                  ...this.inputs.kycIdFront
+                  videoConstraints={
+                    facingMode: { exact: 'environment' }
+                  }
+                )
+                div ID Front
+              .photo
+                WebcamCapture(
+                  ...this.inputs.kycIdBack
+                  videoConstraints={
+                    facingMode: { exact: 'environment' }
+                  }
+                )
+                div ID Back
         br
         if this.getErrorMessage()
           .error

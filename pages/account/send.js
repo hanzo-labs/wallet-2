@@ -103,7 +103,7 @@ export default class Account extends React.Component {
     Router.push('/')
   }
 
-  purchase = () => {
+  done = () => {
     Router.push('/')
   }
 
@@ -131,7 +131,7 @@ export default class Account extends React.Component {
               br
               h3.action-instruction Your transaction is being processed.
               br
-              .button(onClick=this.purchase)
+              .button(onClick=this.done)
                 | CONTINUE
       `
   }
