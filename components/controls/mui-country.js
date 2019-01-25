@@ -47,7 +47,7 @@ export default class MUICountry extends BaseMUIText{
     for (let k in countries) {
       let country = countries[k]
 
-      this.options[country.code.toLowerCase()] = country.name
+      this.options[country.code.toUpperCase()] = country.name
     }
 
     countryOpts = this.options

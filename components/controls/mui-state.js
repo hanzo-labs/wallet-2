@@ -53,7 +53,7 @@ export default class MUIState extends BaseMUIText{
 
     for (let k in countries) {
       let country = countries[k]
-      let cCode = country.code.toLowerCase()
+      let cCode = country.code.toUpperCase()
 
       let c = stateOpts[cCode]
       if (!c) {
@@ -69,7 +69,7 @@ export default class MUIState extends BaseMUIText{
       for (let k2 in subdivisions) {
         let subdivision = country.subdivisions[k2]
 
-        c[subdivision.code.toLowerCase()] = subdivision.name
+        c[subdivision.code.toUpperCase()] = subdivision.name
       }
     }
   }
