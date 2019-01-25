@@ -19,23 +19,25 @@
   .token-cards > *
     flex: 0
     flex-basis: 50%
-    background: linear-gradient(to bottom, $tokenCardGradient1Color 0%, $tokenCardGradient2Color 100%)
 
-    .token-symbol
-      color: $textDarkColor
-      background-color: $backgroundDarkColor
-      padding: .5rem
-      display: inline-block
-      margin-bottom: .5rem
+    & > *
+      background: linear-gradient(to bottom, $tokenCardGradient1Color 0%, $tokenCardGradient2Color 100%)
 
-    .token-count
-      margin-bottom: .5rem
-      color: $ustColor
+      .token-symbol
+        color: $textDarkColor
+        background-color: $backgroundDarkColor
+        padding: .5rem
+        display: inline-block
+        margin-bottom: .5rem
 
-    .token-name
-      padding-bottom: 2rem
-      border-bottom: 1px solid $backgroundDarkColor
+      .token-count
+        margin-bottom: .5rem
+        color: $ustColor
 
-    .token-value
-      color: $textDarkColor
+      .token-name
+        padding-bottom: 2rem
+        border-bottom: 1px solid $backgroundDarkColor
+
+      .token-value
+        color: $textDarkColor
 
