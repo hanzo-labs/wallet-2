@@ -26,6 +26,7 @@ class WebcamCapture extends React.Component {
     height: 'auto',
     width: 'auto',
     instructions: 'Take a photo',
+    showErrors: true,
   }
 
   constructor(props) {
