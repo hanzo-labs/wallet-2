@@ -34,7 +34,7 @@ export class InputData {
     this.select = options != null ? true : undefined
 
     // Should the page scroll to an error in the middleware?
-    this.scrollToError = scrollToError || true
+    this.scrollToError = false //scrollToError || false
 
     // List of middleware
     // in the form of (newValue, oldValue, name) => {}
