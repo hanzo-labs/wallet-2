@@ -2,9 +2,11 @@ import Form, { InputData } from './form'
 import Emitter from '../../src/emitter'
 import MuiText from '../../components/controls/mui-text'
 import MuiPhone from '../../components/controls/mui-phone'
+import MuiTaxId from '../../components/controls/mui-taxid'
 import MuiDatePicker from '../../components/controls/mui-date-picker'
 import MuiCountry from '../../components/controls/mui-country'
 import MuiState from '../../components/controls/mui-state'
+import Webcam from '../../components/controls/webcam'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
@@ -46,6 +48,11 @@ export default class KYCForm extends Form {
         name: 'kyc.phone',
         data: props.data,
         middleware: [ isRequired, isPhone ],
+      }),
+      taxId: new InputData({
+        name: 'kyc.taxId',
+        data: props.data,
+        middleware: [ isRequired ],
       }),
       birthdate: new InputData({
         name: 'kyc.birthdate',
@@ -136,6 +143,12 @@ export default class KYCForm extends Form {
                 label='Phone'
                 variant='outlined'
               )
+              MuiTaxId(
+                ...this.inputs.taxId
+                label='SSN'
+                variant='outlined'
+              )
+            .form-group.columns
               MuiDatePicker(
                 ...this.inputs.birthdate
                 label='Birthday'
@@ -185,6 +198,12 @@ export default class KYCForm extends Form {
                 variant='outlined'
                 country=this.inputs.country.val()
               )
+
+        p PHOTO IDS
+        Card
+          CardContent.form-content
+            .form-group.columns
+              Webcam
         br
         if this.getErrorMessage()
           .error

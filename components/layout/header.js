@@ -14,21 +14,11 @@ import { withStyles } from '@material-ui/core/styles'
 import { watch } from '../../src/referential/provider'
 import { removeIdentity } from '../../src/wallet'
 
-let currencies = [
-  {
-    value: 'usd',
-    label: 'USD',
-  },
-  {
-    value: 'eur',
-    label: 'EUR',
-  },
-  {
-    value: 'jpy',
-    label: 'JPY',
-  },
-]
-
+let currencies = {
+  usd: 'USD',
+  eur: 'EUR',
+  jpy: 'JPY',
+}
 
 @watch('header')
 class Header extends React.Component {
@@ -66,13 +56,6 @@ class Header extends React.Component {
     let { classes, ...props } = this.props
     let accountLoaded = !!this.props.rootData.get('account.id')
 
-    let options = currencies.map((option) => {
-        return pug`
-          MenuItem(key=option.value value=option.value)
-            =option.label
-        `
-      })
-
     let open = !!this.state.anchorEl
 
     return pug`
@@ -96,8 +79,8 @@ class Header extends React.Component {
                   },
                 }
                 margin="normal"
+                options=currencies
               )
-                = options
               IconButton(
                 aria-owns=(open ? 'menu-appbar' : undefined)
                 aria-haspopup='true'
