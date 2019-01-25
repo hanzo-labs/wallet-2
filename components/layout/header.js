@@ -120,7 +120,7 @@ const styles = (theme) => {
       flexGrow: 1,
     },
     logoImg: {
-      maxHeight: 48,
+      maxHeight: 36,
     },
     textField: {
       marginLeft: theme.spacing.unit,
