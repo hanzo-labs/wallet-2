@@ -11,7 +11,7 @@ export default class RefProvider extends React.Component {
     super(props)
 
     let data = props.data
-    if (!data && typeof window != undefined) {
+    if (!data && typeof window != 'undefined') {
       data = akasha.get('_data')
     }
 
