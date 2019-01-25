@@ -92,13 +92,13 @@ export default class KYCForm extends Form {
       country: new InputData({
         name: 'kyc.address.country',
         data: props.data,
-        value: 'us',
+        value: 'US',
         middleware: [ isRequired ],
       }),
       state: new InputData({
         name: 'kyc.address.state',
         data: props.data,
-        value: 'ca',
+        value: 'CA',
         middleware: [ isRequired ],
       }),
       kycFace: new InputData({
