@@ -59,6 +59,8 @@ class Account extends React.Component {
     api.client.account.get()
       .then((res) => {
         this.props.rootData.set('account', res)
+        this.props.rootData.set('kycPage.kycForm.kyc', res.kyc)
+
         if (this.loading) {
           this.props.stopLoading()
         }
