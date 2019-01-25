@@ -20,11 +20,6 @@ class KYC extends React.Component {
     this.state = {
     }
 
-    if (!getEncodedPrivateKey() || !canDecodePrivateKey()) {
-      this.generateMnemonic()
-      return
-    }
-
     this.emitter = new Emitter()
 
     this.emitter.on('kyc:success', res => {

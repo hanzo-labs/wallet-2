@@ -61,6 +61,7 @@ class WebcamCapture extends React.Component {
       onChange,
       value,
       errorMessage,
+      showErrors,
       ...props
     } = this.props
 

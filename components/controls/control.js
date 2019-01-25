@@ -59,12 +59,25 @@ export default function control(ControlComponent) {
       requestAnimationFrame(() => {
         this.setState({ appIsMounted: true })
       });
+
+      if (this.props.data) {
+        this._onSet = (k, v) => {
+          if (k==this.props.name && v != this.state.value) {
+            this.change(v)
+          }
+        }
+        this.props.data.on('set', this._onSet)
+      }
     }
 
     componentWillUnmount() {
       // These are unbound on the form level
       // this.props.emitter.off('control:submit')
       // this.props.emitter.off('control:value')
+      //
+      if (this.props.data) {
+        this.props.data.off('set', this._onSet)
+      }
     }
 
     getId() {
