@@ -12,7 +12,7 @@ export default class RefProvider extends React.Component {
 
     let data = props.data
     if (!data && typeof window != 'undefined') {
-      data = akasha.get('_data')
+      data = akasha.get('data')
     }
 
     this.state = {
@@ -24,7 +24,7 @@ export default class RefProvider extends React.Component {
 
     this.state.value.data.on('set', () => {
       if (typeof window != undefined) {
-        akasha.set('_data', this.state.value.data.get())
+        akasha.set('data', this.state.value.data.get())
       }
 
       if (lock) {

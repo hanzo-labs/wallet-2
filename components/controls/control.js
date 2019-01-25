@@ -36,7 +36,15 @@ export default function control(ControlComponent) {
         })
       }
 
-      let value = props.value
+      let value
+      if (this.props.data) {
+        value = this.props.data.get(this.props.name)
+      }
+
+      if (value == null) {
+        value = props.value
+      }
+
       if (value == null) {
         value == props.defaultValue
       }
