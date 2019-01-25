@@ -27,12 +27,17 @@ function NumberFormatCustom(props) {
 @control
 export default class MUINumber extends BaseMUIText{
   change = (e) => {
+    let v = e
     if (e && e.target && e.target.value) {
-      e = parseFloat(e.target.value.replace(/[^0-9\.]+/g, ''))
+      v = parseFloat(e.target.value.replace(/[^0-9\.]+/g, ''))
+    }
+
+    if (v.replace) {
+      v = v.replace(/[^0-9\.]+/g, '')
     }
 
     if (this.props.onChange) {
-      this.props.onChange(e)
+      this.props.onChange(v)
     }
   }
 

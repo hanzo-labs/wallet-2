@@ -35,7 +35,7 @@ class PickAmount extends Form {
       amount: new InputData({
         name: 'amount',
         data: props.data,
-        value: '$1.00',
+        value: 1,
         middleware: [(v) => {
           let val = parseFloat(v)
           if (!isNaN(val) && val > 0) {
