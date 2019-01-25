@@ -117,6 +117,7 @@ export default class Account extends React.Component {
           if step != 5
             .icon
               ArrowUpward(style={ fontSize: 100 })
+              br
           if step == 1
             PickBank(data=this.props.data emitter=this.emitter)
           if step == 2

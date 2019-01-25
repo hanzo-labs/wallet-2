@@ -4,9 +4,10 @@ import PickReceiver from '../../components/forms/pick-receiver'
 import PickToken from '../../components/forms/pick-token'
 import PickAddress from '../../components/forms/pick-address'
 import PickAmount from '../../components/forms/pick-amount'
-import ArrowDownward from '@material-ui/icons/ArrowDownward'
+import Send from '@material-ui/icons/Send'
 import Emitter from '../../src/emitter'
 
+import { withStyles } from '@material-ui/core/styles'
 import { watch } from '../../src/referential/provider'
 import { loadable } from '../../components/app/loader'
 import {
@@ -16,7 +17,7 @@ import {
 
 @watch('sendPage')
 @loadable
-export default class Account extends React.Component {
+class Account extends React.Component {
   constructor(props) {
     super(props)
 
@@ -116,7 +117,8 @@ export default class Account extends React.Component {
         .content
           if step != 5
             .icon
-              ArrowDownward(style={ fontSize: 100 })
+              Send(className=classes.rotated style={ fontSize: 100 })
+            br
           if step == 1
             PickToken(data=this.props.data emitter=this.emitter)
           if step == 2
@@ -136,3 +138,17 @@ export default class Account extends React.Component {
       `
   }
 }
+
+const styles = (theme) => {
+  return {
+    rotated: {
+      transform: 'rotate(-45deg)',
+      position: 'relative',
+      left: '3px',
+    },
+  }
+}
+
+export default withStyles(styles)(Account)
+
+
