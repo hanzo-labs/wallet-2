@@ -31,6 +31,8 @@ export default class KYCForm extends Form {
   constructor(props) {
     super(props)
 
+    this.props.data.set('kyc', this.props.rootData.get('kyc'))
+
     this.inputs = {
       firstName: new InputData({
         name: 'firstName',
