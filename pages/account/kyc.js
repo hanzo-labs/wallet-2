@@ -20,6 +20,8 @@ class KYC extends React.Component {
     this.state = {
     }
 
+    this.mainRef = React.createRef()
+
     this.emitter = new Emitter()
 
     this.emitter.on('kyc:success', res => {
@@ -27,6 +29,10 @@ class KYC extends React.Component {
 
       this.setState({
         confirmed: true,
+      })
+
+      requestAnimationFrame(() => {
+        this.mainRef.current.scrollIntoView()
       })
     })
 
@@ -53,7 +59,7 @@ class KYC extends React.Component {
     let props = this.props
 
     return pug`
-      main#account-index.account
+      main#account-index.account(ref=this.mainRef)
         .content
           if this.state.confirmed
             .confirmation

@@ -89,6 +89,9 @@ export default class MyApp extends App {
 
 Router.events.on('routeChangeStart', () => {
   startLoading(' ')
+  setTimeout(() => {
+    stopLoading()
+  }, 3000)
 })
 
 Router.events.on('routeChangeComplete', () => {
