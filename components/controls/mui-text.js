@@ -23,6 +23,20 @@ export class BaseMUIText extends React.Component{
     options: undefined,
   }
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      shrink: false,
+    }
+  }
+
+  manualShrink = (e) => {
+    this.setState({
+      shrink: !!e.target.value,
+    })
+  }
+
   render() {
     let {
       data,
@@ -37,6 +51,7 @@ export class BaseMUIText extends React.Component{
       instructions,
       options,
       disabled,
+      onChange,
       ...props
     } = this.props
 
@@ -56,8 +71,12 @@ export class BaseMUIText extends React.Component{
       helper = errorMessage
     }
 
-    let isSelect = props.select != null && !!options
+    let isSelect = props.select != null
     let selectOptions = []
+    if (!options) {
+      options = []
+    }
+
     if (isSelect) {
       if (props.SelectProps && props.SelectProps.native) {
         for (let k in options) {
@@ -85,10 +104,14 @@ export class BaseMUIText extends React.Component{
     return pug`
       TextField(
         ...props
+        InputLabelProps={ shrink: this.state.shrink || isSelect || !!value}
         disabled=disabled
-        value=value
+        defaultValue=isSelect ? undefined : value
+        value=isSelect ? value : undefined
         helperText=helper
         error=!!errorMessage
+        onBlur=isSelect ? undefined : onChange
+        onChange=isSelect ? onChange : this.manualShrink
       )
         =selectOptions
       `

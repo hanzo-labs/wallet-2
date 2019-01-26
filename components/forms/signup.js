@@ -96,39 +96,37 @@ export default class LoginForm extends Form {
           submitted: this.state.submitted,
         })
       )
-        Card
-          CardContent
-            .form-group.columns
-              MuiText(
-                ...this.inputs.firstName
-                placeholder='First Name'
-                variant='outlined'
-              )
-              MuiText(
-                ...this.inputs.lastName
-                placeholder='Last Name'
-                variant='outlined'
-              )
-            .form-group.columns
-              MuiText(
-                ...this.inputs.email
-                placeholder='Email'
-                variant='outlined'
-              )
-            .form-group.columns
-              MuiText(
-                ...this.inputs.password
-                placeholder='Password'
-                type='password'
-                variant='outlined'
-              )
-            .form-group.columns
-              MuiText(
-                ...this.inputs.passwordConfirm
-                placeholder='Confirm Password'
-                type='password'
-                variant='outlined'
-              )
+        .form-group.columns
+          MuiText(
+            ...this.inputs.firstName
+            label='First Name'
+            variant='outlined'
+          )
+          MuiText(
+            ...this.inputs.lastName
+            label='Last Name'
+            variant='outlined'
+          )
+        .form-group.columns
+          MuiText(
+            ...this.inputs.email
+            label='Email'
+            variant='outlined'
+          )
+        .form-group.columns
+          MuiText(
+            ...this.inputs.password
+            label='Password'
+            type='password'
+            variant='outlined'
+          )
+        .form-group.columns
+          MuiText(
+            ...this.inputs.passwordConfirm
+            label='Confirm Password'
+            type='password'
+            variant='outlined'
+          )
         Checkbox(
           ...this.inputs.over18
           label='I am over 18.'
@@ -136,7 +134,6 @@ export default class LoginForm extends Form {
         if this.getErrorMessage()
           .error
             = this.getErrorMessage()
-        br
         button.button(type='submit')
           | Register
         if this.state.loading || this.state.validating

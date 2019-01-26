@@ -73,26 +73,23 @@ export default class LoginForm extends Form {
           submitted: this.state.submitted,
         })
       )
-        Card
-          CardContent
-            .form-group
-              MuiText(
-                ...this.inputs.email
-                label='Email'
-                variant='outlined'
-              )
-            .form-group
-              MuiText(
-                ...this.inputs.password
-                label='Password'
-                variant='outlined'
-                type='password'
-              )
+        .form-group
+          MuiText(
+            ...this.inputs.email
+            label='Email'
+            variant='outlined'
+          )
+        .form-group
+          MuiText(
+            ...this.inputs.password
+            label='Password'
+            variant='outlined'
+            type='password'
+          )
         Checkbox(
           ...this.inputs.rememberMe
           label='Remember me on this device.'
         )
-        br
         if this.getErrorMessage()
           .error
             = this.getErrorMessage()
