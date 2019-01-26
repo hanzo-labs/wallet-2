@@ -12,7 +12,10 @@ import Router from 'next/router'
 
 import { withStyles } from '@material-ui/core/styles'
 import { watch } from '../../src/referential/provider'
-import { removeIdentity } from '../../src/wallet'
+import {
+  getIdentity,
+  removeIdentity,
+} from '../../src/wallet'
 
 let currencies = {
   usd: 'USD',
@@ -54,7 +57,8 @@ class Header extends React.Component {
 
   render() {
     let { classes, ...props } = this.props
-    let accountLoaded = !!this.props.rootData.get('account.id')
+    let identity = getIdentity()
+    let accountLoaded = !!this.props.rootData.get('account.id') && identity
 
     let open = !!this.state.anchorEl
 

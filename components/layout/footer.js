@@ -10,13 +10,15 @@ import { watch } from '../../src/referential/provider'
 import Send from '@material-ui/icons/Send'
 import ArrowUpward from '@material-ui/icons/ArrowUpward'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
+import { getIdentity } from '../../src/wallet'
 
 @watch('footer')
 class Footer extends React.Component {
   render() {
     let { classes, ...props } = this.props
+    let identity = getIdentity()
 
-    let accountLoaded = !!this.props.rootData.get('account.id')
+    let accountLoaded = !!this.props.rootData.get('account.id') && identity
 
     return pug`
         if accountLoaded
