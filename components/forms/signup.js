@@ -1,6 +1,8 @@
 import Form, { InputData } from './form'
-import Input from '../controls/input'
+import MuiText from '../../components/controls/mui-text'
 import Checkbox from '../controls/checkbox'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
 
 import ref from 'referential'
 import classnames from 'classnames'
@@ -94,28 +96,39 @@ export default class LoginForm extends Form {
           submitted: this.state.submitted,
         })
       )
-        Input(
-          ...this.inputs.email
-          placeholder='Email'
-        )
-        Input(
-          ...this.inputs.firstName
-          placeholder='First Name'
-        )
-        Input(
-          ...this.inputs.lastName
-          placeholder='Last Name'
-        )
-        Input(
-          ...this.inputs.password
-          placeholder='Password'
-          type='password'
-        )
-        Input(
-          ...this.inputs.passwordConfirm
-          placeholder='Confirm Password'
-          type='password'
-        )
+        Card
+          CardContent
+            .form-group.columns
+              MuiText(
+                ...this.inputs.firstName
+                placeholder='First Name'
+                variant='outlined'
+              )
+              MuiText(
+                ...this.inputs.lastName
+                placeholder='Last Name'
+                variant='outlined'
+              )
+            .form-group.columns
+              MuiText(
+                ...this.inputs.email
+                placeholder='Email'
+                variant='outlined'
+              )
+            .form-group.columns
+              MuiText(
+                ...this.inputs.password
+                placeholder='Password'
+                type='password'
+                variant='outlined'
+              )
+            .form-group.columns
+              MuiText(
+                ...this.inputs.passwordConfirm
+                placeholder='Confirm Password'
+                type='password'
+                variant='outlined'
+              )
         Checkbox(
           ...this.inputs.over18
           label='I am over 18.'
@@ -123,6 +136,7 @@ export default class LoginForm extends Form {
         if this.getErrorMessage()
           .error
             = this.getErrorMessage()
+        br
         button.button(type='submit')
           | Register
         if this.state.loading || this.state.validating

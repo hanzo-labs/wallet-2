@@ -1,6 +1,8 @@
 import Form, { InputData } from './form'
-import Input from '../controls/input'
+import MuiText from '../../components/controls/mui-text'
 import Checkbox from '../controls/checkbox'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
 
 import ref from 'referential'
 import classnames from 'classnames'
@@ -71,19 +73,26 @@ export default class LoginForm extends Form {
           submitted: this.state.submitted,
         })
       )
-        Input(
-          ...this.inputs.email
-          placeholder='Email'
-        )
-        Input(
-          ...this.inputs.password
-          placeholder='Password'
-          type='password'
-        )
+        Card
+          CardContent
+            .form-group
+              MuiText(
+                ...this.inputs.email
+                label='Email'
+                variant='outlined'
+              )
+            .form-group
+              MuiText(
+                ...this.inputs.password
+                label='Password'
+                variant='outlined'
+                type='password'
+              )
         Checkbox(
           ...this.inputs.rememberMe
           label='Remember me on this device.'
         )
+        br
         if this.getErrorMessage()
           .error
             = this.getErrorMessage()
