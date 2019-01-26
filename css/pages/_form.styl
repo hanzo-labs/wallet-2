@@ -175,7 +175,6 @@
   .form-group.form-group.form-group
     align-items: flex-start
 
-  .form-group.form-group.form-group:not(:last-child)
     .control
       margin-bottom: 1rem
 
@@ -184,7 +183,7 @@
 
   +tablet()
     .columns
-      flex-direction: column
+      flex-direction: column !important
 
       & > *
         flex: 1
