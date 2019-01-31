@@ -29,6 +29,7 @@
     "bip39": "2.5.0",
     "classnames": "2.2.6",
     "coin.js": "1.0.26",
+    "eosjs": "20.0.0-beta3",
     "eosjs-ecc": "4.0.4",
     "es6-event-emitter": "1.10.2",
     "ethers": "4.0.21",
@@ -46,6 +47,7 @@
     "react-webcam": "1.1.0",
     "reeeset": "0.0.8",
     "referential": "0.5.25",
+    "text-encoding": "0.7.0",
     "wif": "2.0.6"
   },
   "devDependencies": {

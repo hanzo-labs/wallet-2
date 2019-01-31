@@ -8,6 +8,8 @@ import Link from '../../components/link'
 import { watch } from '../../src/referential/provider'
 import { loadable } from '../../components/app/loader'
 import Api from '../../src/hanzo/api'
+import EOSApi from '../../src/eos/api'
+
 import {
   getIdentity,
   removeIdentity,
@@ -16,7 +18,13 @@ import {
   generateNthEthereumKeys,
   generateNthEOSKeys,
 } from '../../src/wallet'
-import { HANZO_KEY, HANZO_ENDPOINT } from '../../src/settings.js'
+import {
+  HANZO_KEY,
+  HANZO_ENDPOINT,
+  TOKEN_SYMBOL,
+  EOS_TOKEN_ACCOUNT,
+  EOS_TEST_ACCOUNT,
+} from '../../src/settings.js'
 
 @watch('accountPage')
 @loadable
@@ -27,6 +35,8 @@ class Account extends React.Component {
     this.state = {
       ethKey: '',
       eosKey: '',
+      ethBalance: '0.0000',
+      eosBalance: '0.0000',
     }
 
     if (!getEncodedPrivateKey() || !canDecodePrivateKey()) {
@@ -53,10 +63,44 @@ class Account extends React.Component {
   }
 
   loadAccount() {
+    let identity = getIdentity()
+    // logout and clear sensitive data if identity is missing
+    if (!identity) {
+      this.logout()
+    }
+
+    let ethKey, eosKey
+
+    try {
+      [ethKey] = generateNthEthereumKeys(1)
+      [eosKey] = generateNthEOSKeys(1)
+
+      this.setState({
+        ethKey: ethKey,
+        eosKey: eosKey,
+      })
+    } catch (e) {
+      this.logout()
+    }
+
+    // Load EOS Balance
+    let eosApi = new EOSApi(eosKey)
+
+    let pEos = eosApi.getCurrencyBalance(EOS_TOKEN_ACCOUNT, EOS_TEST_ACCOUNT, TOKEN_SYMBOL)
+      .then(([res]) => {
+        let amount = res.split(' ')[0]
+        this.setState({
+          eosBalance: amount,
+        })
+        console.log(res)
+      }).catch((err) => {
+        console.log('Error on getCurrencyBalance', err)
+      })
+
     // Load profile from Hanzo
     let api = new Api( HANZO_KEY, HANZO_ENDPOINT )
 
-    api.client.account.get()
+    let pHanzo = api.client.account.get()
       .then((res) => {
         this.props.rootData.set('account', res)
         this.props.rootData.set('kycPage.kycForm.kyc', res.kyc)
@@ -69,37 +113,12 @@ class Account extends React.Component {
         console.log('Error on account.get', err)
         this.logout()
       })
+
+    return Promise.all[pEos, pHanzo]
   }
 
   render() {
     let props = this.props
-    let id = props.rootData.get('account.id')
-    let identity = getIdentity()
-
-    if (!id) {
-      this.loadAccount()
-    }
-
-    // logout and clear sensitive data if identity is missing
-    if (!identity) {
-      this.logout()
-      return <div />
-    }
-
-    // Make Sure Keys are Loaded
-    if (!this.state.ethKey || !this.state.eosKey) {
-      try {
-        let [ethKey] = generateNthEthereumKeys(1)
-        let [eosKey] = generateNthEOSKeys(1)
-        requestAnimationFrame(() => {
-          this.setState({
-            ethKey: ethKey,
-            eosKey: eosKey,
-          })
-        })
-      } catch (e) {
-      }
-    }
 
     return pug`
       main#account-index.account
@@ -117,12 +136,12 @@ class Account extends React.Component {
               .columns
                 .simple-balance-logo
                   img(src='/static/img/eth-logo-blue.svg')
-                p $1,000
+                p=this.state.ethBalance
             .simple-balance
               .columns
                 .simple-balance-logo
                   img(src='/static/img/eos-logo-blue.png')
-                p $600.75
+                p=this.state.eosBalance
           br
           .token-cards.columns.justify-flex-start
             Link(
