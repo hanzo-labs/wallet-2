@@ -5,56 +5,48 @@ import TokenCard from '../../components/token-card'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActionArea from '@material-ui/core/CardActionArea'
+import AccountBalance from '@material-ui/icons/AccountBalance'
 import ArrowBack from '@material-ui/icons/ArrowBack'
+import AddCircleOutlined from '@material-ui/icons/AddCircleOutlined'
 import Button from '@material-ui/core/Button'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
 
 import { withStyles } from '@material-ui/core/styles'
-import { withBalance } from '../../src/balances'
 import { watch } from '../../src/referential/provider'
-import BigNumber from 'bignumber.js'
-import {
-  generateNthEthereumKeys,
-  generateNthEOSKeys,
-} from '../../src/wallet'
 import classnames from 'classnames'
 
-let addressOptions = {}
+const styles = theme => ({
+  noMargin: {
+    margin: 0,
+  },
+})
 
-@watch('pickAddress')
-@withBalance
-export default class PickAddress extends Form {
+let bankOptions = {
+  '0': {
+    label: 'First Demo Bank',
+    secondary: 'Account ending in 1234',
+    icon: AccountBalance,
+  },
+}
+
+@watch('pickBank')
+class PickBank extends Form {
   constructor(props) {
     super(props)
 
-    let { ethBalance, eosBalance } = props
-
-    ethBalance = new BigNumber(ethBalance)
-    eosBalance = new BigNumber(eosBalance)
-
-    let [ethAddress] = generateNthEthereumKeys(1)
-    let [eosAddress] = generateNthEOSKeys(1)
-
-    addressOptions[ethAddress.publicKey] = {
-      label: ethAddress.publicKey,
-      secondary: `${ethBalance.toFormat(4)} ($${ethBalance.toFormat(2)})`,
-    }
-
-    addressOptions[eosAddress.publicKey] = {
-      label: eosAddress.publicKey,
-      secondary: `${eosBalance.toFormat(4)} ($${eosBalance.toFormat(2)})`,
-    }
-
     this.inputs = {
-      address: new InputData({
-        name: 'address',
+      bank: new InputData({
+        name: 'bank',
         data: props.data,
-        value: ethAddress.publicKey,
+        value: '0',
         middleware: [(v) => {
-          if (addressOptions[v]) {
+          if (bankOptions[v]) {
             return v
           }
 
-          throw Error('No address selected.')
+          throw Error('No bank selected.')
         }],
       }),
     }
@@ -63,14 +55,16 @@ export default class PickAddress extends Form {
   }
 
   back = () => {
-    this.emitter.trigger('pick-address:back')
+    this.emitter.trigger('pick-bank:back')
   }
 
   _submit() {
-    this.emitter.trigger('pick-address:submit', this.inputs.address.val())
+    this.emitter.trigger('pick-bank:submit', this.inputs.bank.val())
   }
 
   render() {
+    let { classes } = this.props
+
     return pug`
       form(
         autoComplete=this.props.autoComplete
@@ -83,13 +77,20 @@ export default class PickAddress extends Form {
       )
         .picker
           .picker-header
-            h2 Select an Address
+            h2 Select a Bank
             br
           Card.list-picker-wrapper
             MuiListPicker(
-              ...this.inputs.address
-              options=addressOptions
+              ...this.inputs.bank
+              options=bankOptions
             )
+              ListItem(
+                button
+              )
+                ListItemIcon(className=classes.noMargin)
+                  AddCircleOutlined(style={ fontSize: 36 })
+                ListItemText
+                  | Add a Bank Account
           br
           if this.getErrorMessage()
             .error
@@ -98,7 +99,9 @@ export default class PickAddress extends Form {
             .button.columns(onClick=this.back)
               ArrowBack
             .button(onClick=this.submit)
-              | CONFIRM ADDRESS
+              | CONFIRM BANK
       `
   }
 }
+
+export default withStyles(styles)(PickBank)

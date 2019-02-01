@@ -5,56 +5,38 @@ import TokenCard from '../../components/token-card'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActionArea from '@material-ui/core/CardActionArea'
+import MonetizationOnOutlined from '@material-ui/icons/MonetizationOnOutlined'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import Button from '@material-ui/core/Button'
 
 import { withStyles } from '@material-ui/core/styles'
-import { withBalance } from '../../src/balances'
 import { watch } from '../../src/referential/provider'
-import BigNumber from 'bignumber.js'
-import {
-  generateNthEthereumKeys,
-  generateNthEOSKeys,
-} from '../../src/wallet'
 import classnames from 'classnames'
 
-let addressOptions = {}
+let tokenOptions = {
+  '0': {
+    label: 'US Treasuries Token (UST)',
+    secondary: '1,600.75 ($1,600.75)',
+    icon: MonetizationOnOutlined,
+  },
+}
 
-@watch('pickAddress')
-@withBalance
-export default class PickAddress extends Form {
+@watch('pickToken')
+export default class PickToken extends Form {
   constructor(props) {
     super(props)
 
-    let { ethBalance, eosBalance } = props
-
-    ethBalance = new BigNumber(ethBalance)
-    eosBalance = new BigNumber(eosBalance)
-
-    let [ethAddress] = generateNthEthereumKeys(1)
-    let [eosAddress] = generateNthEOSKeys(1)
-
-    addressOptions[ethAddress.publicKey] = {
-      label: ethAddress.publicKey,
-      secondary: `${ethBalance.toFormat(4)} ($${ethBalance.toFormat(2)})`,
-    }
-
-    addressOptions[eosAddress.publicKey] = {
-      label: eosAddress.publicKey,
-      secondary: `${eosBalance.toFormat(4)} ($${eosBalance.toFormat(2)})`,
-    }
-
     this.inputs = {
-      address: new InputData({
-        name: 'address',
+      token: new InputData({
+        name: 'token',
         data: props.data,
-        value: ethAddress.publicKey,
+        value: '0',
         middleware: [(v) => {
-          if (addressOptions[v]) {
+          if (tokenOptions[v]) {
             return v
           }
 
-          throw Error('No address selected.')
+          throw Error('No token selected.')
         }],
       }),
     }
@@ -63,11 +45,11 @@ export default class PickAddress extends Form {
   }
 
   back = () => {
-    this.emitter.trigger('pick-address:back')
+    this.emitter.trigger('pick-token:back')
   }
 
   _submit() {
-    this.emitter.trigger('pick-address:submit', this.inputs.address.val())
+    this.emitter.trigger('pick-token:submit', this.inputs.token.val())
   }
 
   render() {
@@ -83,12 +65,12 @@ export default class PickAddress extends Form {
       )
         .picker
           .picker-header
-            h2 Select an Address
+            h2 Select a Token
             br
           Card.list-picker-wrapper
             MuiListPicker(
-              ...this.inputs.address
-              options=addressOptions
+              ...this.inputs.token
+              options=tokenOptions
             )
           br
           if this.getErrorMessage()
@@ -98,7 +80,7 @@ export default class PickAddress extends Form {
             .button.columns(onClick=this.back)
               ArrowBack
             .button(onClick=this.submit)
-              | CONFIRM ADDRESS
+              | CONFIRM TOKEN
       `
   }
 }

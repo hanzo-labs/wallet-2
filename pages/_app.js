@@ -3,11 +3,11 @@ import App, { Container } from 'next/app'
 import Router from 'next/router'
 import { MuiPickersUtilsProvider } from 'material-ui-pickers'
 import RefProvider from '../src/referential/provider'
+import BalanceProvider from '../src/balances'
 import Header from '../components/layout/header'
 import Footer from '../components/layout/footer'
 import Loader, { startLoading, stopLoading } from '../components/app/loader'
 
-import ERC20 from '../src/token-erc20'
 import MomentUtils from '@date-io/moment'
 import { loadLibrary } from '../src/library'
 import Api from '../src/hanzo/api'
@@ -18,8 +18,6 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
 import 'reeeset/src/reeeset.css'
 import '../styles.styl'
-
-new ERC20()
 
 const theme = createMuiTheme({
   palette: {
@@ -73,10 +71,11 @@ export default class MyApp extends App {
         MuiThemeProvider(theme=theme)
           MuiPickersUtilsProvider(utils=MomentUtils)
             RefProvider
-              Header
-              Component
-              Footer
-              Loader
+              BalanceProvider
+                Header
+                Component
+                Footer
+                Loader
     `
   }
 

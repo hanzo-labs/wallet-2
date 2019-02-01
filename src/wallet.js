@@ -140,9 +140,9 @@ export let generateNthEthereumKeys = (ns) => {
 
     let hdNode = ethers.utils.HDNode.fromMnemonic(pk)
 
-    let { publicKey, privateKey } = hdNode.derivePath("m/44'/60'/0'/0/" + n)
+    let { publicKey, privateKey, address } = hdNode.derivePath("m/44'/60'/0'/0/" + n)
 
-    return { publicKey, privateKey }
+    return { publicKey, privateKey, address }
   })
 
   return ethKeys

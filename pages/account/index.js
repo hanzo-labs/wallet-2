@@ -6,38 +6,30 @@ import TokenCard from '../../components/token-card'
 import Link from '../../components/link'
 
 import { watch } from '../../src/referential/provider'
+import { withBalance } from '../../src/balances'
 import { loadable } from '../../components/app/loader'
 import Api from '../../src/hanzo/api'
 import EOSApi from '../../src/eos/api'
+import BigNumber from 'bignumber.js'
 
 import {
   getIdentity,
   removeIdentity,
   getEncodedPrivateKey,
   canDecodePrivateKey,
-  generateNthEthereumKeys,
-  generateNthEOSKeys,
 } from '../../src/wallet'
 import {
   HANZO_KEY,
   HANZO_ENDPOINT,
   TOKEN_SYMBOL,
-  EOS_TOKEN_ACCOUNT,
-  EOS_TEST_ACCOUNT,
 } from '../../src/settings.js'
 
 @watch('accountPage')
+@withBalance
 @loadable
 class Account extends React.Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      ethKey: '',
-      eosKey: '',
-      ethBalance: '0.0000',
-      eosBalance: '0.0000',
-    }
 
     if (!getEncodedPrivateKey() || !canDecodePrivateKey()) {
       this.generateMnemonic()
@@ -63,40 +55,6 @@ class Account extends React.Component {
   }
 
   loadAccount() {
-    let identity = getIdentity()
-    // logout and clear sensitive data if identity is missing
-    if (!identity) {
-      this.logout()
-    }
-
-    let ethKey, eosKey
-
-    try {
-      [ethKey] = generateNthEthereumKeys(1)
-      [eosKey] = generateNthEOSKeys(1)
-
-      this.setState({
-        ethKey: ethKey,
-        eosKey: eosKey,
-      })
-    } catch (e) {
-      this.logout()
-    }
-
-    // Load EOS Balance
-    let eosApi = new EOSApi(eosKey)
-
-    let pEos = eosApi.getCurrencyBalance(EOS_TOKEN_ACCOUNT, EOS_TEST_ACCOUNT, TOKEN_SYMBOL)
-      .then(([res]) => {
-        let amount = res.split(' ')[0]
-        this.setState({
-          eosBalance: amount,
-        })
-        console.log(res)
-      }).catch((err) => {
-        console.log('Error on getCurrencyBalance', err)
-      })
-
     // Load profile from Hanzo
     let api = new Api( HANZO_KEY, HANZO_ENDPOINT )
 
@@ -114,7 +72,7 @@ class Account extends React.Component {
         this.logout()
       })
 
-    return Promise.all[pEos, pHanzo]
+    return pHanzo
   }
 
   render() {
@@ -130,18 +88,18 @@ class Account extends React.Component {
             | Check your identify verification status.
           br
           small PORTFOLIO BALANCE:
-          h1 1,600.75
+          h1='$' + new BigNumber(props.totalBalance).toFormat(2)
           .simple-balances.columns.justify-flex-start
             .simple-balance
               .columns
                 .simple-balance-logo
                   img(src='/static/img/eth-logo-blue.svg')
-                p=this.state.ethBalance
+                p='$' + new BigNumber(props.ethBalance).toFormat(2)
             .simple-balance
               .columns
                 .simple-balance-logo
                   img(src='/static/img/eos-logo-blue.png')
-                p=this.state.eosBalance
+                p='$' + new BigNumber(props.eosBalance).toFormat(2)
           br
           .token-cards.columns.justify-flex-start
             Link(
@@ -149,10 +107,10 @@ class Account extends React.Component {
               underline='none'
             )
               TokenCard(
-                symbol='UST'
-                count='1600.75'
+                symbol=TOKEN_SYMBOL
+                count=new BigNumber(props.totalBalance).toFormat(4)
                 name='US Treasuries Token'
-                value='$1600.75'
+                value='$' + new BigNumber(props.totalBalance).toFormat(2)
               )
       `
   }

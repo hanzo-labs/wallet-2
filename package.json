@@ -26,6 +26,7 @@
     "@material-ui/styles": "3.0.0-alpha.8",
     "@zeit/next-css": "1.0.1",
     "akasha": "0.1.13",
+    "bignumber.js": "8.0.2",
     "bip39": "2.5.0",
     "classnames": "2.2.6",
     "coin.js": "1.0.26",
@@ -48,6 +49,7 @@
     "reeeset": "0.0.8",
     "referential": "0.5.25",
     "text-encoding": "0.7.0",
+    "web3": "1.0.0-beta.33",
     "wif": "2.0.6"
   },
   "devDependencies": {

@@ -45,7 +45,7 @@ export default class RefProvider extends React.Component {
   }
 
   componentDidMount() {
-    console.log('Provider Mounted')
+    console.log('Ref Provider Mounted')
     this.setState({ appIsMounted: true });
   }
 

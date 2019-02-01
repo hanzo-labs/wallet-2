@@ -1,46 +1,43 @@
 import Form, { InputData } from './form'
 import Emitter from '../../src/emitter'
-import MuiListPicker from '../../components/controls/mui-list-picker'
+import MuiText from '../../components/controls/mui-text'
 import TokenCard from '../../components/token-card'
+import InputAdornment from '@material-ui/core/InputAdornment'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActionArea from '@material-ui/core/CardActionArea'
-import MonetizationOnOutlined from '@material-ui/icons/MonetizationOnOutlined'
+import AccountBalance from '@material-ui/icons/AccountBalance'
 import ArrowBack from '@material-ui/icons/ArrowBack'
+import AddCircleOutlined from '@material-ui/icons/AddCircleOutlined'
 import Button from '@material-ui/core/Button'
 
 import { withStyles } from '@material-ui/core/styles'
 import { watch } from '../../src/referential/provider'
-import { withBalance } from '../../src/balances'
-import BigNumber from 'bignumber.js'
 import classnames from 'classnames'
+import isRequired from '../../src/control-middlewares/isRequired'
 
-let tokenOptions = {
-  '0': {
-    label: 'US Treasuries Token (UST)',
-    secondary: '1,600.75 ($1,600.75)',
-    icon: MonetizationOnOutlined,
+const styles = theme => ({
+  fullWidth: {
+    width: '100%',
   },
-}
+})
 
-@watch('pickToken')
-@withBalance
-export default class PickToken extends Form {
+@watch('pickReceiver')
+class PickReceiver extends Form {
+  static defaultProps = {
+    showErrors: true,
+    navMultiplier: 1,
+  }
+
   constructor(props) {
     super(props)
 
     this.inputs = {
-      token: new InputData({
-        name: 'token',
+      receiver: new InputData({
+        name: 'receiver',
         data: props.data,
-        value: '0',
-        middleware: [(v) => {
-          if (tokenOptions[v]) {
-            return v
-          }
-
-          throw Error('No token selected.')
-        }],
+        value: '',
+        middleware: [isRequired],
       }),
     }
 
@@ -48,17 +45,16 @@ export default class PickToken extends Form {
   }
 
   back = () => {
-    this.emitter.trigger('pick-token:back')
+    this.emitter.trigger('pick-receiver:back')
   }
 
   _submit() {
-    this.emitter.trigger('pick-token:submit', this.inputs.token.val())
+    this.emitter.trigger('pick-receiver:submit', this.inputs.receiver.val())
+    console.log('lol?')
   }
 
   render() {
-    let totalBalance = new BigNumber(this.props.totalBalance)
-
-    tokenOptions['0'].secondary = `${totalBalance.toFormat(4)} ($${totalBalance.toFormat(2)})`
+    let { classes } = this.props
 
     return pug`
       form(
@@ -72,12 +68,13 @@ export default class PickToken extends Form {
       )
         .picker
           .picker-header
-            h2 Select a Token
+            h2 Select a Destination
             br
           Card.list-picker-wrapper
-            MuiListPicker(
-              ...this.inputs.token
-              options=tokenOptions
+            MuiText(
+              ...this.inputs.receiver
+              className=classes.fullWidth
+              showErrors=false
             )
           br
           if this.getErrorMessage()
@@ -87,7 +84,10 @@ export default class PickToken extends Form {
             .button.columns(onClick=this.back)
               ArrowBack
             .button(onClick=this.submit)
-              | CONFIRM TOKEN
+              | CONFIRM
       `
   }
 }
+
+export default withStyles(styles)(PickReceiver)
+

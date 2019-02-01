@@ -9,9 +9,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack'
 import Button from '@material-ui/core/Button'
 
 import { withStyles } from '@material-ui/core/styles'
-import { withBalance } from '../../src/balances'
 import { watch } from '../../src/referential/provider'
-import BigNumber from 'bignumber.js'
 import {
   generateNthEthereumKeys,
   generateNthEOSKeys,
@@ -21,27 +19,21 @@ import classnames from 'classnames'
 let addressOptions = {}
 
 @watch('pickAddress')
-@withBalance
 export default class PickAddress extends Form {
   constructor(props) {
     super(props)
-
-    let { ethBalance, eosBalance } = props
-
-    ethBalance = new BigNumber(ethBalance)
-    eosBalance = new BigNumber(eosBalance)
 
     let [ethAddress] = generateNthEthereumKeys(1)
     let [eosAddress] = generateNthEOSKeys(1)
 
     addressOptions[ethAddress.publicKey] = {
       label: ethAddress.publicKey,
-      secondary: `${ethBalance.toFormat(4)} ($${ethBalance.toFormat(2)})`,
+      secondary: '10000.00 ($10000.00)',
     }
 
     addressOptions[eosAddress.publicKey] = {
       label: eosAddress.publicKey,
-      secondary: `${eosBalance.toFormat(4)} ($${eosBalance.toFormat(2)})`,
+      secondary: '10000.00 ($10000.00)',
     }
 
     this.inputs = {

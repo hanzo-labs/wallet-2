@@ -1,16 +1,22 @@
 import { Api, JsonRpc, RpcError } from 'eosjs'
 import JsSignatureProvider from 'eosjs/dist/eosjs-jssig'
 import { TextEncoder, TextDecoder } from 'text-encoding'
-
+import {
+  TOKEN_SYMBOL,
+  EOS_NODE,
+  EOS_TEST_ACCOUNT
+} from '../settings'
 
 export default class EosApi {
-  constructor(pksOrStr = [], endpoint = 'http://jungle2.cryptolions.io:80') {
+  constructor(contract, pksOrStr = [], defaultAccount = EOS_TEST_ACCOUNT, endpoint = EOS_NODE) {
     let pks = pksOrStr
 
     if (!(pks instanceof Array)) {
       pks = [pks]
     }
 
+    this.contract = contract
+    this.defaultAccount = defaultAccount
     this.endpoint = endpoint
     this.signatureProvider = new JsSignatureProvider(pks)
     this.rpc = new JsonRpc(endpoint, { fetch })
@@ -22,10 +28,10 @@ export default class EosApi {
     })
   }
 
-  transact(contract, action, account, permission = 'active', data= {}) {
+  transact(action, account, permission = 'active', data= {}) {
     return this.client.transact({
       actions: [{
-        account: contract,
+        account: this.contract,
         name: action,
         authorization: [{
           actor: account,
@@ -39,11 +45,15 @@ export default class EosApi {
     });
   }
 
-  getTableRows(contract, scope, table, key) {
-    return this.client.getTableRows(true, contract, scope, table, key)
+  getTableRows(scope, table, key) {
+    return this.client.getTableRows(true, this.contract, scope, table, key)
   }
 
-  getCurrencyBalance(contract, account, symbol) {
-    return this.rpc.get_currency_balance(contract, account, symbol)
+  getCurrencyBalance(account = this.defaultAccount, symbol = TOKEN_SYMBOL) {
+    return this.rpc.get_currency_balance(this.contract, account, symbol)
+  }
+
+  balanceOf(account = this.defaultAccount, symbol = TOKEN_SYMBOL) {
+    return this.getCurrencyBalance(account, symbol)
   }
 }
