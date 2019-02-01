@@ -4,7 +4,6 @@ import Emitter from '../../src/emitter'
 import KYCForm from '../../components/forms/kyc'
 
 import { watch } from '../../src/referential/provider'
-import { loadable } from '../../components/app/loader'
 import {
   getEncodedPrivateKey,
   canDecodePrivateKey,
@@ -12,7 +11,6 @@ import {
 import { HANZO_KEY, HANZO_ENDPOINT } from '../../src/settings.js'
 
 @watch('kycPage')
-@loadable
 class KYC extends React.Component {
   constructor(props) {
     super(props)

@@ -4,7 +4,8 @@ import { TextEncoder, TextDecoder } from 'text-encoding'
 import {
   TOKEN_SYMBOL,
   EOS_NODE,
-  EOS_TEST_ACCOUNT
+  EOS_TEST_ACCOUNT,
+
 } from '../settings'
 
 export default class EosApi {
@@ -54,6 +55,6 @@ export default class EosApi {
   }
 
   balanceOf(account = this.defaultAccount, symbol = TOKEN_SYMBOL) {
-    return this.getCurrencyBalance(account, symbol)
+    return this.getCurrencyBalance(account, symbol).then(v => v[0].split(' ')[0])
   }
 }

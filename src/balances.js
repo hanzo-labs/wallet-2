@@ -55,23 +55,6 @@ export default class BalanceProvider extends React.Component {
           eosKey: eosKey,
         })
 
-        // Load EOS Balance
-        let eosApi = new EosApi(EOS_TOKEN_ACCOUNT, eosKey.privateKey, EOS_TEST_ACCOUNT)
-
-        let eosP = eosApi.balanceOf()
-          .then(([res]) => {
-            let amount = new BigNumber(res.split(' ')[0])
-            this.setState({
-              eosBalance:   amount.toFormat(4),
-              totalBalance: new BigNumber(this.state.ethBalance).plus(amount).toFormat(4),
-            })
-            console.log(res)
-
-            return amount
-          }).catch((err) => {
-            console.log('Error on balanceOf', err)
-          })
-
         // Load ETH Balance
         let ethApi = new EthApi(ETH_TOKEN_ADDRESS, ETH_REGISTRY_ADDRESS, ethKey.privateKey, ethKey.address)
 
@@ -87,6 +70,24 @@ export default class BalanceProvider extends React.Component {
           }).catch((err) => {
             console.log('Error on balanceOf', err)
           })
+
+        // Load EOS Balance
+        let eosApi = new EosApi(EOS_TOKEN_ACCOUNT, eosKey.privateKey, EOS_TEST_ACCOUNT)
+
+        let eosP = eosApi.balanceOf()
+          .then((res) => {
+            let amount = new BigNumber(res)
+            this.setState({
+              eosBalance:   amount.toFormat(4),
+              totalBalance: new BigNumber(this.state.ethBalance).plus(amount).toFormat(4),
+            })
+            console.log(res)
+
+            return amount
+          }).catch((err) => {
+            console.log('Error on balanceOf', err)
+          })
+
       } catch (err) {
         console.log('Error on getCurrencyBalance', err)
       }

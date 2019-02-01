@@ -13,7 +13,9 @@ import Api from '../../src/hanzo/api'
 import Emitter from '../../src/emitter'
 
 import { watch } from '../../src/referential/provider'
+import { withBalance } from '../../src/balances'
 import { HANZO_KEY, HANZO_ENDPOINT } from '../../src/settings.js'
+import BigNumber from 'bignumber.js'
 import classnames from 'classnames'
 
 import isRequired from '../../src/control-middlewares/isRequired'
@@ -27,6 +29,7 @@ let genderOpts = {
 }
 
 @watch('kycForm')
+@withBalance
 export default class KYCForm extends Form {
   constructor(props) {
     super(props)
@@ -131,6 +134,8 @@ export default class KYCForm extends Form {
     let opts = this.props.data.get()
     opts.kyc.taxId = '' + opts.kyc.taxId
     opts.kyc.phone = '' + opts.kyc.phone
+    opts.kyc.ethereumAddress = this.props.ethKey.address
+    opts.kyc.eosPublicKey = this.props.eosKey.publicKey
 
     return api.client.account.update(opts).then((res) => {
       this.emitter.trigger('kyc:success', res)
