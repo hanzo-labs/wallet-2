@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button'
 import Api from '../../src/hanzo/api'
 import Emitter from '../../src/emitter'
 
-import { watch } from '../../src/referential/provider'
+import { watch } from 'react-referential'
 import { withBalance } from '../../src/balances'
 import { HANZO_KEY, HANZO_ENDPOINT } from '../../src/settings.js'
 import BigNumber from 'bignumber.js'

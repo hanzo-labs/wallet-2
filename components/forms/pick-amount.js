@@ -12,7 +12,7 @@ import AddCircleOutlined from '@material-ui/icons/AddCircleOutlined'
 import Button from '@material-ui/core/Button'
 
 import { withStyles } from '@material-ui/core/styles'
-import { watch } from '../../src/referential/provider'
+import { watch } from 'react-referential'
 import classnames from 'classnames'
 
 const styles = theme => ({

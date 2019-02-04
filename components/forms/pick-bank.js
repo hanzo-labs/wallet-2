@@ -14,7 +14,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 
 import { withStyles } from '@material-ui/core/styles'
-import { watch } from '../../src/referential/provider'
+import { watch } from 'react-referential'
 import classnames from 'classnames'
 
 const styles = theme => ({

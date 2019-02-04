@@ -5,7 +5,7 @@ import MuiText from '../../components/controls/mui-text'
 import TokenCard from '../../components/token-card'
 import Link from '../../components/link'
 
-import { watch } from '../../src/referential/provider'
+import { watch } from 'react-referential'
 import { withBalance } from '../../src/balances'
 import { loadable } from '../../components/app/loader'
 import Api from '../../src/hanzo/api'

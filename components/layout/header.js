@@ -11,7 +11,7 @@ import MuiText from '../controls/mui-text'
 import Router from 'next/router'
 
 import { withStyles } from '@material-ui/core/styles'
-import { watch } from '../../src/referential/provider'
+import { watch } from 'react-referential'
 import {
   getIdentity,
   removeIdentity,

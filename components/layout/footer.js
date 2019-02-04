@@ -6,7 +6,7 @@ import Router from 'next/router'
 import Link from '../link'
 
 import { withStyles } from '@material-ui/core/styles'
-import { watch } from '../../src/referential/provider'
+import { watch } from 'react-referential'
 import Send from '@material-ui/icons/Send'
 import ArrowUpward from '@material-ui/icons/ArrowUpward'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'

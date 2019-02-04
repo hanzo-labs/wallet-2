@@ -10,7 +10,7 @@ import * as ethers from 'ethers'
 import Api from '../../src/hanzo/api'
 import Emitter from '../../src/emitter'
 
-import { watch } from '../../src/referential/provider'
+import { watch } from 'react-referential'
 import { HANZO_KEY, HANZO_ENDPOINT } from '../../src/settings.js'
 
 import isRequired from '../../src/control-middlewares/isRequired'

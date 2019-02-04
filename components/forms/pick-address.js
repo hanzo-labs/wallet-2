@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button'
 
 import { withStyles } from '@material-ui/core/styles'
 import { withBalance } from '../../src/balances'
-import { watch } from '../../src/referential/provider'
+import { watch } from 'react-referential'
 import BigNumber from 'bignumber.js'
 import {
   generateNthEthereumKeys,

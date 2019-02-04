@@ -15,7 +15,7 @@ import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import moment from 'moment-timezone'
 
 import { withStyles } from '@material-ui/core/styles'
-import { watch } from '../../src/referential/provider'
+import { watch } from 'react-referential'
 import {
   getEncodedPrivateKey,
   canDecodePrivateKey,

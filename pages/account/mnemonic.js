@@ -1,7 +1,7 @@
 import React from 'react'
 import Router from 'next/router'
 import Emitter from '../../src/emitter'
-import { watch } from '../../src/referential/provider'
+import { watch } from 'react-referential'
 import { loadable } from '../../components/app/loader'
 import MnemonicForm from '../../components/forms/mnemonic'
 import {

@@ -7,7 +7,7 @@ import PickAmount from '../../components/forms/pick-amount'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import Emitter from '../../src/emitter'
 
-import { watch } from '../../src/referential/provider'
+import { watch } from 'react-referential'
 import { loadable } from '../../components/app/loader'
 import {
   getEncodedPrivateKey,

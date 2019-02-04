@@ -10,7 +10,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack'
 import Button from '@material-ui/core/Button'
 
 import { withStyles } from '@material-ui/core/styles'
-import { watch } from '../../src/referential/provider'
+import { watch } from 'react-referential'
 import { withBalance } from '../../src/balances'
 import BigNumber from 'bignumber.js'
 import classnames from 'classnames'
