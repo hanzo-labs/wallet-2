@@ -1,8 +1,11 @@
-import Form, { InputData } from './form'
-import MuiText from '../../components/controls/mui-text'
-import Checkbox from '../controls/checkbox'
+import Form, {
+  InputData,
+  MuiText,
+  MuiCheckbox,
+} from 'react-referential-forms'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
+import Button from '@material-ui/core/Button'
 
 import ref from 'referential'
 import classnames from 'classnames'
@@ -127,15 +130,15 @@ export default class LoginForm extends Form {
             type='password'
             variant='outlined'
           )
-        Checkbox(
+        MuiCheckbox(
           ...this.inputs.over18
           label='I am over 18.'
         )
         if this.getErrorMessage()
           .error
             = this.getErrorMessage()
-        button.button(type='submit')
-          | Register
+        Button.button(type='submit')
+          | REGISTER
         if this.state.loading || this.state.validating
           .progress
             .indeterminate

@@ -1,4 +1,4 @@
-import Form, { InputData } from './form'
+import Form, { InputData } from 'react-referential-forms'
 import Input from '../controls/input'
 import Copy from '../controls/copy'
 import Emitter from '../../src/emitter'

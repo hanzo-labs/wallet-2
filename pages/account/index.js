@@ -1,7 +1,7 @@
 import React from 'react'
 import Router from 'next/router'
 import Emitter from '../../src/emitter'
-import MuiText from '../../components/controls/mui-text'
+import { MuiText } from 'react-referential-forms'
 import TokenCard from '../../components/token-card'
 import Link from '../../components/link'
 

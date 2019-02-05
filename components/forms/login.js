@@ -1,14 +1,17 @@
-import Form, { InputData } from './form'
-import MuiText from '../../components/controls/mui-text'
-import Checkbox from '../controls/checkbox'
+import Form, {
+  InputData,
+  MuiText,
+  MuiCheckbox,
+  Emitter,
+} from 'react-referential-forms'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
+import Button from '@material-ui/core/Button'
 
 import ref from 'referential'
 import classnames from 'classnames'
 import * as ethers from 'ethers'
 import Api from '../../src/hanzo/api'
-import Emitter from '../../src/emitter'
 
 import { watch } from 'react-referential'
 import { HANZO_KEY, HANZO_ENDPOINT } from '../../src/settings.js'
@@ -86,14 +89,14 @@ export default class LoginForm extends Form {
             variant='outlined'
             type='password'
           )
-        Checkbox(
+        MuiCheckbox(
           ...this.inputs.rememberMe
           label='Remember me on this device.'
         )
         if this.getErrorMessage()
           .error
             = this.getErrorMessage()
-        button.button(type='submit')
+        Button.button(type='submit')
           | LOGIN
         if this.state.loading || this.state.validating
           .progress

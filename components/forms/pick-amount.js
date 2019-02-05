@@ -1,6 +1,8 @@
-import Form, { InputData } from './form'
-import Emitter from '../../src/emitter'
-import MuiNumber from '../../components/controls/mui-number'
+import Form, {
+  Emitter,
+  InputData,
+  MuiNumber
+} from 'react-referential-forms'
 import TokenCard from '../../components/token-card'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Card from '@material-ui/core/Card'

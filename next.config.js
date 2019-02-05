@@ -27,6 +27,16 @@ module.exports = withCSS(withStylus({
     config.plugins.push(
       wbf
     )
+
+    if (!config.module.rules) {
+      config.module.rules = []
+    }
+
+    config.module.rules.push({
+      test: /\.mjs$/,
+      type: 'javascript/auto',
+    })
+
     return config
   }
 }))

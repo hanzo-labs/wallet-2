@@ -1,6 +1,6 @@
 import React from 'react'
 
-import control from './control'
+import { control } from 'react-referential-forms'
 import classnames from 'classnames'
 
 @control

@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Form, { MuiText } from 'react-referential-forms'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
@@ -7,7 +8,6 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import Link from '../link'
-import MuiText from '../controls/mui-text'
 import Router from 'next/router'
 
 import { withStyles } from '@material-ui/core/styles'

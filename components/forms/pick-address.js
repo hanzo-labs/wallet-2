@@ -1,6 +1,8 @@
-import Form, { InputData } from './form'
+import Form, {
+  InputData,
+  MuiListPicker,
+} from 'react-referential-forms'
 import Emitter from '../../src/emitter'
-import MuiListPicker from '../../components/controls/mui-list-picker'
 import TokenCard from '../../components/token-card'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'

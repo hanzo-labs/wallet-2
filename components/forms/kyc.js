@@ -1,11 +1,14 @@
-import Form, { InputData } from './form'
-import MuiText from '../../components/controls/mui-text'
-import MuiPhone from '../../components/controls/mui-phone'
-import MuiTaxId from '../../components/controls/mui-taxid'
-import MuiDatePicker from '../../components/controls/mui-date-picker'
-import MuiCountry from '../../components/controls/mui-country'
-import MuiState from '../../components/controls/mui-state'
-import WebcamCapture from '../../components/controls/webcam-capture'
+import Form,
+  {
+    InputData,
+    MuiText,
+    MuiPhone,
+    MuiTaxId,
+    MuiDatePicker,
+    MuiCountry,
+    MuiState,
+    WebcamCapture,
+  } from 'react-referential-forms'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
