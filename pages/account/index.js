@@ -107,7 +107,7 @@ class Account extends React.Component {
               underline='none'
             )
               TokenCard(
-                symbol=TOKEN_SYMBOL
+                symbol='UST'
                 count=new BigNumber(props.totalBalance).toFormat(4)
                 name='US Treasuries Token'
                 value='$' + new BigNumber(props.totalBalance).toFormat(2)
